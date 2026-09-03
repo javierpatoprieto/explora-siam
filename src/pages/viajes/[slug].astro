@@ -1,0 +1,89 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Wa from '../../components/Wa.astro';
+import Incluye from '../../components/Incluye.astro';
+import Cta from '../../components/Cta.astro';
+import Footer from '../../components/Footer.astro';
+import Flotante from '../../components/Flotante.astro';
+import { precio } from '../../lib/wa';
+
+export async function getStaticPaths() {
+  const salidas = await getCollection('salidas');
+  return salidas.map((s) => ({ params: { slug: s.data.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const d = s.data;
+const site = (await getEntry('site', 'site'))!.data;
+const home = (await getEntry('home', 'home'))!.data;
+const completa = d.estado === 'completa';
+const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name: d.nombre, description: d.descripcion, offers: { '@type': 'Offer', price: d.precio, priceCurrency: 'EUR', availability: completa ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' } }];
+---
+<Base title={`${d.nombre} · ${d.fechas} · ${site.marca}`} description={d.descripcion} jsonLd={jsonLd}>
+  <Nav site={site} />
+  <main>
+    <section class="vh">
+      <Image src={d.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" />
+      <div class="vh__shade"></div>
+      <div class="wrap vh__in">
+        {d.estado === 'ultimas' && <span class="badge">Últimas plazas</span>}
+        {completa && <span class="badge badge--tinta">Grupo completo</span>}
+        <h1>{d.nombre}</h1>
+        <p class="label vh__meta">{d.fechas} · {d.duracion} · máx. {d.plazas}{!completa && ` · quedan ${d.disponibles}`}</p>
+      </div>
+    </section>
+    <section class="wrap vb">
+      <div class="vb__main">
+        <p class="vb__lead">{d.descripcion}</p>
+        {d.highlights.length > 0 && <ul class="vb__hl">{d.highlights.map((h) => <li>{h}</li>)}</ul>}
+        {d.itinerario.length > 0 ? (
+          <div class="itin">
+            <h2 class="vb__h">Día a día</h2>
+            {d.itinerario.map((i) => (<div class="itin__dia"><span class="itin__n">Día {i.dia}</span><div><h3 class="itin__t">{i.titulo}</h3><p>{i.texto}</p></div></div>))}
+          </div>
+        ) : (
+          <p class="vb__note">El itinerario detallado día a día está en preparación. Pídemelo por WhatsApp y te lo mando.</p>
+        )}
+      </div>
+      <aside class="vb__side">
+        {!completa && <p class="vb__precio"><span class="display">desde {precio(d.precio)}</span>{d.notaPrecio && <span class="nota"> · {d.notaPrecio}</span>}</p>}
+        {completa ? (
+          <Wa site={site} origen="avisame" vars={{ nombre: d.nombre }} salida={d.slug} class="btn btn--line" icon={false}>Avísame de la próxima</Wa>
+        ) : (
+          <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug}>Quiero este viaje</Wa>
+        )}
+        <p class="vb__micro">Sin compromiso. Te cuento y decides.</p>
+        <a href="/#salidas" class="link">Ver otras salidas →</a>
+      </aside>
+    </section>
+    <Incluye site={site} inc={home.incluye} />
+    <div style="height: clamp(80px, 10vw, 152px)"></div>
+    <Cta site={site} cta={home.cta} />
+  </main>
+  <Footer site={site} frase={home.footer.frase} />
+  <Flotante site={site} proxima={completa ? undefined : d} soloBarra={true} />
+</Base>
+<style>
+  .vh { position: relative; min-height: min(70vh, 900px); background: var(--tinta); color: var(--crema); display: flex; align-items: flex-end; overflow: hidden; }
+  .vh__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,14,20,.35), rgba(42,14,20,.85)); }
+  .vh__in { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 160px; padding-bottom: 48px; }
+  .vh h1 { font-size: clamp(40px, 6vw, 88px); max-width: 16ch; }
+  .badge { background: var(--vino); color: var(--crema); padding: 6px 10px; border-radius: 2px; font-size: 12px; font-weight: 700; }
+  .badge--tinta { background: var(--tinta); }
+  .vh__meta { color: rgba(251,243,230,.85); }
+  .vb { display: grid; grid-template-columns: 7fr 4fr; gap: 64px; padding-top: clamp(56px, 6vw, 96px); align-items: start; }
+  .vb__lead { font-size: 20px; line-height: 1.55; color: var(--texto-2); }
+  .vb__hl { margin: 24px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-weight: 600; }
+  .vb__h { font-size: 40px; margin: 48px 0 24px; }
+  .itin__dia { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--linea); }
+  .itin__n { font-weight: 700; color: var(--vino); }
+  .itin__t { font-family: var(--texto); text-transform: none; font-size: 18px; font-weight: 700; letter-spacing: 0; margin-bottom: 6px; }
+  .vb__note { margin-top: 32px; color: var(--gris); }
+  .vb__side { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 16px; border: 1px solid var(--linea); border-radius: 4px; padding: 28px; }
+  .vb__precio .display { font-family: var(--display); text-transform: uppercase; font-size: 30px; }
+  .nota { color: var(--gris); font-size: 14px; }
+  .vb__micro { color: var(--gris); font-size: 14px; }
+  @media (max-width: 900px) { .vb { grid-template-columns: 1fr; gap: 32px; } .vb__side { position: static; } }
+</style>

@@ -1,0 +1,34 @@
+---
+import Wa from './Wa.astro';
+const { site, inc } = Astro.props;
+const CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5C36A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>';
+---
+<section class="inc section wrap" id="incluye" data-reveal>
+  <div class="inc__intro">
+    <h2 class="inc__h">{inc.titulo}</h2>
+    {inc.microcopy && <p class="inc__micro">{inc.microcopy}</p>}
+    {inc.enlace && <Wa site={site} origen="precio" class="link" icon={false}>{inc.enlace} →</Wa>}
+  </div>
+  <div class="inc__col inc__col--si">
+    <span class="label vino">Incluido</span>
+    <ul>{inc.incluido.map((i: string) => <li><Fragment set:html={CHECK} />{i}</li>)}</ul>
+  </div>
+  <div class="inc__col">
+    <span class="label gris">No incluido</span>
+    <ul>{inc.noIncluido.map((i: string) => <li><span class="dash">–</span>{i}</li>)}</ul>
+  </div>
+</section>
+<style>
+  .inc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .inc__intro { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .inc__h { font-size: clamp(40px, 4vw, 56px); }
+  .inc__micro { color: var(--texto-2); }
+  .inc__col { border-top: 1px solid var(--tinta); padding-top: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .inc__col:not(.inc__col--si) { border-color: rgba(42,14,20,.3); }
+  .vino { color: var(--vino); } .gris { color: var(--gris); }
+  .inc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+  .inc li { display: flex; gap: 12px; align-items: flex-start; }
+  .inc li svg { flex: 0 0 auto; margin-top: 5px; }
+  .dash { color: var(--gris); }
+  @media (max-width: 900px) { .inc { grid-template-columns: 1fr; gap: 28px; } }
+</style>

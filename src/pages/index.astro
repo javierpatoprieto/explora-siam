@@ -1,0 +1,70 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Hechos from '../components/Hechos.astro';
+import Manifiesto from '../components/Manifiesto.astro';
+import Salidas from '../components/Salidas.astro';
+import VideoBand from '../components/VideoBand.astro';
+import Dia from '../components/Dia.astro';
+import Fundador from '../components/Fundador.astro';
+import Galeria from '../components/Galeria.astro';
+import Testimonios from '../components/Testimonios.astro';
+import Incluye from '../components/Incluye.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import Footer from '../components/Footer.astro';
+import Flotante from '../components/Flotante.astro';
+
+const site = (await getEntry('site', 'site'))!.data;
+const home = (await getEntry('home', 'home'))!.data;
+const salidas = (await getCollection('salidas', (s) => s.data.destacada)).sort((a, b) => a.data.orden - b.data.orden);
+const abiertas = salidas.filter((s) => s.data.estado !== 'completa').sort((a, b) => a.data.inicio.localeCompare(b.data.inicio));
+const proxima = abiertas[0]?.data;
+const testimonios = (await getCollection('testimonios')).sort((a, b) => a.data.orden - b.data.orden);
+const faqs = (await getCollection('faqs', (f) => f.data.enHome)).sort((a, b) => a.data.orden - b.data.orden);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: site.marca,
+    url: Astro.site?.toString(),
+    telephone: `+${site.whatsapp}`,
+    email: site.email,
+    founder: { '@type': 'Person', name: site.fundador },
+    areaServed: 'Tailandia',
+    sameAs: [site.instagram],
+    address: { '@type': 'PostalAddress', addressLocality: 'Santander', addressCountry: 'ES' },
+  },
+  ...abiertas.map((s) => ({
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: s.data.nombre,
+    description: s.data.descripcion,
+    url: new URL(`/viajes/${s.data.slug}`, Astro.site).toString(),
+    touristType: 'Grupo reducido',
+    offers: { '@type': 'Offer', price: s.data.precio, priceCurrency: 'EUR', availability: s.data.disponibles > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut' },
+  })),
+];
+---
+<Base jsonLd={jsonLd}>
+  <Nav site={site} />
+  <main>
+    <Hero site={site} hero={home.hero} proxima={proxima} />
+    <Hechos hechos={home.hechos} />
+    <Manifiesto m={home.manifiesto} />
+    <Salidas site={site} cab={home.salidas} salidas={salidas} />
+    <VideoBand v={home.video} />
+    <Dia site={site} dia={home.dia} />
+    <Fundador site={site} f={home.fundador} />
+    <Galeria site={site} g={home.galeria} />
+    <Testimonios t={home.testimonios} items={testimonios} />
+    <Incluye site={site} inc={home.incluye} />
+    <Faq site={site} faq={home.faq} items={faqs} />
+    <Cta site={site} cta={home.cta} />
+  </main>
+  <Footer site={site} frase={home.footer.frase} />
+  <Flotante site={site} proxima={proxima} />
+</Base>

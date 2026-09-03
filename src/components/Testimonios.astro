@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+const { t, items } = Astro.props;
+const destacado = items.find((i: any) => i.data.destacado) ?? items[0];
+const resto = items.filter((i: any) => i !== destacado).slice(0, 3);
+---
+<section class="testi section" id="testimonios">
+  <div class="wrap" data-reveal>
+    <h2 class="testi__h">{t.titulo}</h2>
+    {destacado && (
+      <figure class="feat">
+        <Image src={t.fondo} alt="" class="cover" widths={[800, 1200, 1600]} sizes="100vw" style="filter: grayscale(1)" />
+        <div class="feat__shade"></div>
+        <blockquote><p>“{destacado.data.cita}”</p></blockquote>
+        <figcaption class="label ambar">{destacado.data.nombre}{destacado.data.ciudad && ` · ${destacado.data.ciudad}`}{destacado.data.viaje && ` · ${destacado.data.viaje}`}{destacado.data.fecha && `, ${destacado.data.fecha}`}</figcaption>
+      </figure>
+    )}
+    <div class="testi__grid">
+      {resto.map((r: any) => (
+        <figure class="t">
+          {r.data.foto && <div class="t__img"><Image src={r.data.foto} alt="" class="cover" widths={[500, 800]} sizes="(max-width: 760px) 100vw, 30vw" /></div>}
+          <blockquote><p>“{r.data.cita}”</p></blockquote>
+          <figcaption class="label">{r.data.nombre}{r.data.ciudad && ` · ${r.data.ciudad}`}{r.data.fecha && ` · ${r.data.fecha}`}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .testi__h { margin-bottom: 40px; }
+  .feat { position: relative; margin: 0; min-height: 460px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; text-align: center; padding: 64px clamp(24px, 10vw, 160px); color: var(--crema); overflow: hidden; }
+  .feat__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(122,37,69,.92), rgba(42,14,20,.92)); }
+  .feat blockquote, .feat figcaption { position: relative; margin: 0; }
+  .feat blockquote p { font-size: clamp(24px, 3vw, 42px); line-height: 1.3; font-weight: 500; max-width: 900px; text-wrap: balance; }
+  .ambar { color: var(--ambar); }
+  .testi__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+  .t { margin: 0; display: flex; flex-direction: column; gap: 18px; border-top: 1px solid var(--tinta); padding-top: 24px; }
+  .t__img { position: relative; height: 200px; overflow: hidden; }
+  .t blockquote { margin: 0; } .t blockquote p { font-size: 17px; }
+  .t figcaption { color: var(--gris); font-size: 13px; }
+  @media (max-width: 900px) { .testi__grid { grid-template-columns: 1fr; } .feat { min-height: 0; padding: 40px 24px; margin: 0 calc(-1 * var(--gutter)); } }
+</style>

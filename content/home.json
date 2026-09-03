@@ -1,0 +1,92 @@
+{
+  "hero": {
+    "badge": "Viajes de autor a Tailandia · grupos de 8 a 12",
+    "titulo": "Tailandia como no te la va a enseñar",
+    "destacado": "ninguna agencia.",
+    "subtitulo": "Salidas en grupo reducido diseñadas y acompañadas por mí, con las rutas que llevo años recorriendo.",
+    "botonPrimario": "Cuéntame tu viaje por WhatsApp",
+    "microcopy": "Te contesta Daniel, no un bot.",
+    "botonSecundario": "Ver próximas salidas",
+    "poster": "../src/assets/img/sukhothai-atardecer.jpg",
+    "posterMovil": "../src/assets/img/sukhothai-atardecer.jpg",
+    "videoMp4": "",
+    "videoWebm": "",
+    "mostrarProximaSalida": true
+  },
+  "hechos": ["Grupos de 12 como máximo", "Seis viajes desde 2021", "Agencia de viajes registrada", "Daniel va en cada viaje"],
+  "manifiesto": {
+    "titulo": "No es un circuito. Es",
+    "destacado": "un viaje de verdad",
+    "cierre": "con alguien que sabe dónde parar.",
+    "bloques": [
+      { "titulo": "Sin autobús de cincuenta", "texto": "Vamos en grupos de 8 a 12 en furgonetas y trenes. Cabemos en una mesa de un restaurante de barrio." },
+      { "titulo": "Lo que no sale en el paquete", "texto": "Amanecer en Doi Inthanon, las ruinas de Sukhothai sin nadie, un pueblo del norte donde me conocen. Y sí, también Bangkok, pero como se vive." },
+      { "titulo": "Tiempo para ti", "texto": "Cada día tiene una parte cerrada y una parte libre. Un viaje no es una lista de tareas." }
+    ],
+    "imagen": "../src/assets/img/budas-dorados.jpg",
+    "pie": "Bangkok",
+    "enlace": "Así fue el último viaje"
+  },
+  "salidas": { "etiqueta": "Próximas salidas, 2026 y 2027", "titulo": "Elige cuándo.", "subtitulo": "Dos o tres salidas al año. Cuando un grupo se llena, se llena." },
+  "video": { "etiqueta": "Vídeo · 40 segundos · con sonido al pulsar", "titulo": "Cuarenta segundos de un martes en el norte.", "poster": "../src/assets/img/niebla-169.jpg", "mp4": "" },
+  "dia": {
+    "etiqueta": "Cómo es viajar con Explora Siam",
+    "titulo": "Un martes cualquiera en el norte.",
+    "paradas": [
+      { "hora": "06:30", "titulo": "Niebla en Doi Inthanon.", "texto": "Subimos antes de que llegue nadie. Hace frío. Sí, en Tailandia.", "imagen": "../src/assets/img/niebla-169.jpg" },
+      { "hora": "08:15", "titulo": "Desayuno en el mercado.", "texto": "Khao soi en un puesto que lleva 30 años. Yo pido, tú pruebas.", "imagen": "../src/assets/img/khaosoi-169.jpg" },
+      { "hora": "11:00", "titulo": "Un templo sin autobuses.", "texto": "El monje que nos abre lleva viéndome años.", "imagen": "../src/assets/img/budas-dorados.jpg" },
+      { "hora": "14:00", "titulo": "Tiempo libre.", "texto": "Siesta, masaje, o perderte. Nos vemos a las seis.", "imagen": "../src/assets/img/templo-chiang-mai.jpg" },
+      { "hora": "18:00", "titulo": "La hora del río.", "texto": "Cerveza, sobremesa larga y planes para mañana.", "imagen": "../src/assets/img/viajeros-rio-32.jpg" },
+      { "hora": "21:30", "titulo": "Mercado nocturno.", "texto": "Y esto sin guía. Ya sabes moverte.", "imagen": "../src/assets/img/mercado-45.jpg" }
+    ],
+    "cierre": "¿Te lo imaginas? Cuéntamelo.",
+    "cierreBoton": "Hablemos por WhatsApp"
+  },
+  "fundador": {
+    "etiqueta": "Quién te acompaña",
+    "titulo": "Hola, soy Daniel.",
+    "parrafos": [
+      "La primera vez que fui a Tailandia iba a quedarme tres semanas. Me quedé mucho más. Desde entonces vuelvo cada año, y cada año descubro un sitio nuevo que no sale en ninguna guía.",
+      "Explora Siam nació de una idea sencilla: enseñar el país como me lo enseñaron a mí, despacio y con gente de allí. Sin cola en el templo de moda, sin autobús de cincuenta, sin prisa.",
+      "En cada viaje voy yo. No delego el grupo en nadie."
+    ],
+    "retrato": "../src/assets/img/daniel-45.jpg",
+    "retratoPie": "Foto de muestra. Se sustituye por el retrato real.",
+    "archivo": "../src/assets/img/archivo-32.jpg",
+    "archivoPie": "Chiang Rai, 2014",
+    "datos": ["Santander / Chiang Mai", "Agencia de viajes combinados registrada"],
+    "boton": "Escríbeme",
+    "microcopy": "Respondo yo, normalmente en menos de 24 h."
+  },
+  "galeria": {
+    "etiqueta": "Del último viaje",
+    "piezas": [
+      { "imagen": "../src/assets/img/templo-chiang-mai.jpg", "pie": "Chiang Mai", "tamano": "alto", "video": false },
+      { "imagen": "../src/assets/img/budas-dorados.jpg", "pie": "Bangkok", "tamano": "medio", "video": false },
+      { "imagen": "../src/assets/img/tren-34.jpg", "pie": "Tren nocturno a Chiang Mai", "tamano": "pequeno", "video": true },
+      { "imagen": "../src/assets/img/sukhothai-atardecer.jpg", "pie": "Wat Mahathat, Sukhothai", "tamano": "sangre", "video": false },
+      { "imagen": "../src/assets/img/mercado-45.jpg", "pie": "Mercado de Warorot, Chiang Mai", "tamano": "tercio", "video": false },
+      { "imagen": "../src/assets/img/viajera-sukhothai-32.jpg", "pie": "Sukhothai, al amanecer", "tamano": "tercio", "video": false },
+      { "imagen": "../src/assets/img/niebla-45.jpg", "pie": "Niebla en Doi Inthanon", "tamano": "tercio", "video": true }
+    ],
+    "enlaceInstagram": "Más en Instagram"
+  },
+  "testimonios": { "titulo": "Vuelven, y eso lo dice todo.", "fondo": "../src/assets/img/sukhothai-atardecer.jpg" },
+  "incluye": {
+    "titulo": "Sin letra pequeña.",
+    "microcopy": "El precio que ves es el precio. Sin suplementos sorpresa.",
+    "incluido": ["Alojamiento en hoteles pequeños con carácter", "Todos los traslados internos y vuelos internos", "Comidas señaladas y todas las entradas", "Daniel como anfitrión todo el viaje", "Seguro de viaje y grupo de WhatsApp pre-viaje"],
+    "noIncluido": ["Vuelos internacionales (te ayudo a elegirlos)", "Comidas libres y propinas", "Visado, si aplica"],
+    "enlace": "¿Dudas del precio? Pregúntame"
+  },
+  "faq": { "titulo": "Lo que me preguntáis por WhatsApp.", "intro": "Respuestas de verdad, tal cual las mando. Si la tuya no está, escríbeme y te contesto igual.", "enlace": "Hacer otra pregunta", "verTodas": "Ver todas las preguntas" },
+  "cta": {
+    "titulo": "Cuéntame qué viaje tienes en la cabeza.",
+    "subtitulo": "Te contesto yo, normalmente en menos de 24 horas. Sin formularios, sin llamadas comerciales.",
+    "boton": "Abrir WhatsApp",
+    "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
+    "imagen": "../src/assets/img/sukhothai-atardecer.jpg"
+  },
+  "footer": { "frase": "Vive Tailandia de una forma diferente." }
+}

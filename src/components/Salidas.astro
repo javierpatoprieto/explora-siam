@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import Wa from './Wa.astro';
+import { precio } from '../lib/wa';
+const { site, cab, salidas } = Astro.props;
+---
+<section class="salidas section" id="salidas">
+  <div class="wrap salidas__head" data-reveal>
+    <div><span class="label vino">{cab.etiqueta}</span><h2>{cab.titulo}</h2></div>
+    <p class="salidas__sub">{cab.subtitulo}</p>
+  </div>
+  <div class="salidas__track" data-reveal>
+    {salidas.map((s: any) => {
+      const d = s.data; const completa = d.estado === 'completa';
+      return (
+        <article class:list={['card', { 'card--full': completa }]}>
+          <a href={`/viajes/${d.slug}`} class="card__img" aria-label={d.nombre}>
+            <Image src={d.imagen} alt="" class="cover" widths={[500, 800, 1000]} sizes="(max-width: 760px) 85vw, 30vw" style={completa ? 'filter: grayscale(.35)' : ''} />
+            {d.estado === 'ultimas' && <span class="badge badge--vino">Últimas plazas</span>}
+            {completa && <span class="badge badge--tinta">Grupo completo</span>}
+            {d.estado === 'proximamente' && <span class="badge badge--tinta">Próximamente</span>}
+          </a>
+          <div class="card__body">
+            <h3 class:list={{ tachado: completa }}>{d.nombre}</h3>
+            <p class="card__meta label">
+              <span>{d.fechas}</span><span class="sep">·</span><span>{d.duracion}</span><span class="sep">·</span>
+              {completa ? <span>{d.plazas} de {d.plazas}</span> : <><span>máx. {d.plazas}</span><span class="sep">·</span><span class:list={{ coral: d.disponibles <= 3 }}>quedan {d.disponibles}</span></>}
+            </p>
+            {!completa && <p class="card__precio"><span class="display">desde {precio(d.precio)}</span>{d.notaPrecio && <span class="nota"> · {d.notaPrecio}</span>}</p>}
+            {completa ? <p class="card__desc">{d.descripcion}</p> : <ul class="card__hl">{d.highlights.map((h: string) => <li>{h}</li>)}</ul>}
+            {completa ? (
+              <Wa site={site} origen="avisame" vars={{ nombre: d.nombre }} salida={d.slug} class="btn btn--line" icon={false}>Avísame de la próxima</Wa>
+            ) : (
+              <>
+                <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug} icon={false}>Quiero este viaje</Wa>
+                <a href={`/viajes/${d.slug}`} class="card__link">Ver itinerario día a día →</a>
+              </>
+            )}
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>
+<style>
+  .salidas__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 48px; }
+  .salidas__head .label { display: block; margin-bottom: 14px; }
+  .vino { color: var(--vino); }
+  .salidas__sub { max-width: 380px; font-size: 18px; color: var(--texto-2); }
+  .salidas__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+  .card { display: flex; flex-direction: column; border: 1px solid var(--linea); border-radius: 4px; background: var(--crema); overflow: hidden; transition: border-color .3s; }
+  .card:hover { border-color: var(--vino); }
+  .card__img { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
+  .card__img :global(img) { transition: transform .6s var(--ease); }
+  .card:hover .card__img :global(img) { transform: scale(1.03); }
+  .badge { position: absolute; top: 16px; left: 16px; padding: 6px 10px; border-radius: 2px; font-size: 12px; font-weight: 700; color: var(--crema); }
+  .badge--vino { background: var(--vino); } .badge--tinta { background: var(--tinta); }
+  .card__body { display: flex; flex-direction: column; gap: 14px; padding: 24px 24px 28px; }
+  .tachado { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--gris); }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--gris); font-size: 13px; }
+  .coral { color: var(--vino); font-weight: 700; }
+  .card__precio .display { font-family: var(--display); text-transform: uppercase; font-size: 26px; }
+  .nota { color: var(--gris); font-size: 14px; }
+  .card__hl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; color: var(--texto-2); font-size: 15px; }
+  .card__desc { color: var(--texto-2); font-size: 15px; }
+  .card :global(.btn) { margin-top: 8px; }
+  .card__link { font-size: 15px; font-weight: 700; }
+  @media (max-width: 1000px) { .salidas__track { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) {
+    .salidas__head { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
+    .salidas__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 0 var(--gutter) 8px; scrollbar-width: none; }
+    .salidas__track::-webkit-scrollbar { display: none; }
+    .card { flex: 0 0 85%; scroll-snap-align: start; }
+  }
+</style>

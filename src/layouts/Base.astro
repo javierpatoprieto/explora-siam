@@ -1,0 +1,67 @@
+---
+import '@fontsource/anton';
+import '@fontsource-variable/archivo';
+import '@fontsource/sacramento';
+import '../styles/global.css';
+import { getEntry } from 'astro:content';
+
+interface Props { title?: string; description?: string; ogImage?: string; noindex?: boolean; jsonLd?: unknown[] }
+const site = (await getEntry('site', 'site'))!.data;
+const { title = site.seoTitulo, description = site.seoDescripcion, ogImage = '/og.jpg', noindex = false, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const robots = site.indexar && !noindex ? 'index, follow' : 'noindex, nofollow';
+const ga = import.meta.env.PUBLIC_GA_ID;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <meta name="theme-color" content="#2A0E14" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.marca} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {jsonLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {ga && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
+        <script is:inline define:vars={{ ga }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', ga, { anonymize_ip: true });
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <slot />
+    <script>
+      // Revelado suave al hacer scroll
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+        { rootMargin: '0px 0px -10% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+      // Medición de clics a WhatsApp
+      document.addEventListener('click', (ev) => {
+        const a = (ev.target as HTMLElement).closest('a[data-wa]') as HTMLAnchorElement | null;
+        if (!a) return;
+        const g = (window as any).gtag;
+        if (typeof g === 'function') g('event', 'whatsapp_click', { origen: a.dataset.wa, salida: a.dataset.salida || '' });
+      });
+    </script>
+  </body>
+</html>

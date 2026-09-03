@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import Wa from './Wa.astro';
+const { site, cta } = Astro.props;
+---
+<section class="cta" id="contacto">
+  <Image src={cta.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" style="opacity:.55" />
+  <div class="cta__grad"></div>
+  <div class="cta__shade"></div>
+  <div class="wrap cta__in" data-reveal>
+    <h2>{cta.titulo}</h2>
+    <p class="cta__sub">{cta.subtitulo}</p>
+    <div class="cta__row">
+      <span class="cta__avatar"><img src="/logo.png" alt="" width="64" height="64" /><span class="cta__on" title="Disponible"></span></span>
+      <Wa site={site} origen="final" class="btn btn--crema btn--lg">{cta.boton}</Wa>
+    </div>
+    <p class="cta__contact label"><a href={`tel:+${site.whatsapp}`}>+{site.whatsapp.replace(/^(\d{2})(\d{3})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5')}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    {cta.microcopy && <p class="cta__micro">{cta.microcopy}</p>}
+  </div>
+</section>
+<style>
+  .cta { position: relative; min-height: clamp(560px, 70vh, 760px); background: var(--tinta); color: var(--crema); display: flex; align-items: center; overflow: hidden; }
+  .cta__grad { position: absolute; inset: 0; background: var(--grad); opacity: .86; mix-blend-mode: multiply; }
+  .cta__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,14,20,0) 40%, rgba(42,14,20,.6) 100%); }
+  .cta__in { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; padding-top: 80px; padding-bottom: 80px; }
+  .cta h2 { font-size: clamp(46px, 6vw, 88px); max-width: 14ch; text-wrap: balance; }
+  .cta__sub { max-width: 560px; font-size: 19px; color: rgba(251,243,230,.85); }
+  .cta__row { display: flex; align-items: center; gap: 20px; }
+  .cta__avatar { position: relative; width: 64px; height: 64px; }
+  .cta__on { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; border-radius: 999px; background: #3FBF7F; border: 2px solid var(--tinta); }
+  
+  .cta__contact, .cta__contact a { color: rgba(251,243,230,.75); }
+  .cta__micro { font-size: 14px; color: rgba(251,243,230,.6); }
+  @media (max-width: 760px) { .cta__row { flex-direction: column; width: 100%; } .cta__row :global(.btn) { width: 100%; } }
+</style>

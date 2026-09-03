@@ -1,0 +1,77 @@
+:root {
+  --crema: #fbf3e6;
+  --crema-2: #f3e7d3;
+  --tinta: #2a0e14;
+  --tinta-2: #3a1a22;
+  --vino: #7a2545;
+  --coral: #f07060;
+  --coral-hover: #f48b7d;
+  --ambar: #f5c36a;
+  --gris: #6e5a58;
+  --texto-2: #3d2a2c;
+  --linea: rgba(42, 14, 20, 0.14);
+  --grad: linear-gradient(180deg, #f5c36a 0%, #f07060 48%, #7a2545 100%);
+  --display: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+  --texto: 'Archivo Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --firma: 'Sacramento', cursive;
+  --gutter: clamp(20px, 5vw, 72px);
+  --max: 1440px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+a { color: var(--vino); text-decoration: none; }
+a:hover { color: var(--tinta); }
+:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.01em; line-height: 0.95; }
+h1 { font-size: clamp(52px, 7.8vw, 112px); line-height: 0.92; }
+h2 { font-size: clamp(44px, 5.3vw, 76px); }
+h3 { font-size: clamp(26px, 2.1vw, 30px); line-height: 1.05; }
+p { margin: 0; }
+.wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+.label { font-size: 14px; font-weight: 600; letter-spacing: 0.02em; }
+.cap { position: absolute; left: 16px; bottom: 14px; font-size: 12px; font-weight: 600; color: var(--crema); opacity: 0.95; letter-spacing: 0.02em; }
+.ph { border-bottom: 1px dashed var(--coral); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 56px; padding: 0 28px; border-radius: 999px; background: var(--coral); color: var(--tinta); font-family: var(--texto); font-size: 15px; font-weight: 700; border: 0; cursor: pointer; transition: background 0.25s var(--ease), transform 0.25s var(--ease); }
+.btn:hover { background: var(--coral-hover); color: var(--tinta); }
+.btn:hover svg { transform: translateY(-3px); }
+.btn svg { transition: transform 0.3s var(--ease); flex: 0 0 auto; }
+.btn--ghost { background: transparent; color: var(--crema); border: 1px solid rgba(251, 243, 230, 0.7); }
+.btn--ghost:hover { background: rgba(251, 243, 230, 0.12); color: var(--crema); }
+.btn--line { background: transparent; color: var(--tinta); border: 1px solid var(--tinta); }
+.btn--line:hover { background: var(--tinta); color: var(--crema); }
+.btn--crema { background: var(--crema); color: var(--tinta); }
+.btn--crema:hover { background: #fff; }
+.link { font-weight: 700; color: var(--tinta); border-bottom: 2px solid var(--coral); padding-bottom: 2px; }
+.link:hover { border-color: var(--tinta); }
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.06) saturate(1.2) sepia(0.06); }
+.section { padding-top: clamp(80px, 10vw, 152px); }
+.oscuro { background: var(--tinta); color: var(--crema); }
+.oscuro .link { color: var(--crema); }
+.oscuro .link:hover { border-color: var(--crema); }
+
+/* reveal */
+html.js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+html.js [data-reveal].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { html.js [data-reveal] { opacity: 1; transform: none; transition: none; } }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* variantes de botón usadas dentro de componentes hijos */
+.btn--sm { min-height: 48px; padding: 0 22px; font-size: 14px; }
+.btn--lg { min-height: 64px; padding: 0 36px; font-size: 17px; }
+.flot__btn { display: inline-flex; align-items: center; gap: 0; height: 56px; padding: 0 18px; border-radius: 999px; background: var(--coral); color: var(--tinta); box-shadow: 0 8px 24px rgba(42,14,20,.25); font-weight: 700; font-size: 15px; transition: gap .3s var(--ease), padding .3s var(--ease); }
+.flot__txt { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width .4s var(--ease); }
+.flot__btn:hover, .flot.open .flot__btn { gap: 10px; padding: 0 22px 0 18px; color: var(--tinta); }
+.flot__btn:hover .flot__txt, .flot.open .flot__txt { max-width: 120px; }

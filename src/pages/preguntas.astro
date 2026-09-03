@@ -1,0 +1,27 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import Footer from '../components/Footer.astro';
+import Flotante from '../components/Flotante.astro';
+const site = (await getEntry('site', 'site'))!.data;
+const home = (await getEntry('home', 'home'))!.data;
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.orden - b.data.orden);
+const jsonLd = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.data.pregunta, acceptedAnswer: { '@type': 'Answer', text: f.data.respuesta } })) }];
+---
+<Base title={`Preguntas · ${site.marca}`} description="Lo que me preguntáis por WhatsApp antes de viajar a Tailandia con Explora Siam: viajar en solitario, nivel físico, reserva y pago, cancelaciones y más." jsonLd={jsonLd}>
+  <Nav site={site} />
+  <main class="page">
+    <Faq site={site} faq={{ ...home.faq, titulo: 'Lo que me preguntáis por WhatsApp.' }} items={faqs} todas={true} />
+    <div style="height: clamp(80px, 10vw, 152px)"></div>
+    <Cta site={site} cta={home.cta} />
+  </main>
+  <Footer site={site} frase={home.footer.frase} />
+  <Flotante site={site} />
+</Base>
+<style is:global>
+  .page { padding-top: 40px; }
+  .page .faq { padding-top: 120px; }
+</style>

@@ -1,0 +1,28 @@
+---
+const { site, frase } = Astro.props;
+---
+<footer class="foot wrap">
+  <div class="foot__top">
+    <div class="foot__brand"><img src="/logo.png" alt="" width="88" height="88" /><div><strong>{site.marca}</strong><span class="label">{frase}</span></div></div>
+    <nav class="foot__links" aria-label="Contacto"><a href={site.instagram} target="_blank" rel="noopener">Instagram</a><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:+${site.whatsapp}`}>+{site.whatsapp}</a></nav>
+  </div>
+  <div class="foot__rule"></div>
+  <div class="foot__bottom">
+    <nav class="foot__legal" aria-label="Legal"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones de contratación</a></nav>
+    <p class="label">{site.ubicacion}{site.licencia && ` · ${site.licencia}`}</p>
+  </div>
+</footer>
+<style>
+  .foot { padding-top: 56px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 32px; }
+  .foot__top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .foot__brand { display: flex; align-items: center; gap: 16px; }
+  .foot__brand div { display: flex; flex-direction: column; gap: 6px; }
+  .foot__brand strong { font-size: 20px; }
+  .foot__brand .label { color: var(--texto-2); }
+  .foot__links, .foot__legal { display: flex; gap: 28px; flex-wrap: wrap; font-size: 14px; font-weight: 500; }
+  .foot__links a, .foot__legal a { color: var(--tinta); }
+  .foot__rule { height: 1px; background: var(--linea); }
+  .foot__bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--gris); font-size: 13px; }
+  .foot__legal { font-size: 13px; }
+  @media (min-width: 761px) { .foot { padding-bottom: 48px; } }
+</style>

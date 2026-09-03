@@ -1,0 +1,14 @@
+---
+const { hechos } = Astro.props;
+---
+<section class="hechos" aria-label="Hechos">
+  <div class="wrap hechos__in">
+    {hechos.map((h: string, i: number) => (<>{i > 0 && <span class="hechos__dot" aria-hidden="true"></span>}<span>{h}</span></>))}
+  </div>
+</section>
+<style>
+  .hechos { background: var(--vino); color: var(--crema); }
+  .hechos__in { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 26px; padding-bottom: 26px; font-weight: 700; font-size: 17px; flex-wrap: wrap; }
+  .hechos__dot { width: 6px; height: 6px; border-radius: 999px; background: var(--ambar); flex: 0 0 auto; }
+  @media (max-width: 760px) { .hechos__in { flex-direction: column; align-items: flex-start; gap: 8px; font-size: 15px; padding-top: 20px; padding-bottom: 20px; } .hechos__dot { display: none; } }
+</style>

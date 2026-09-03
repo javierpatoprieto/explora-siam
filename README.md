@@ -1,17 +1,40 @@
 # Explora Siam · nueva web
 
-Viajes de autor a Tailandia en grupo reducido. Este repositorio arranca con la **vista previa de la home** para validar con el cliente y con la propuesta de rediseño completa.
+Viajes de autor a Tailandia en grupo reducido. Web en **Astro** con contenido editable desde **Keystatic** y despliegue en **Vercel**.
 
-## Qué hay
+## Estructura
 
-- `index.html` + `img/`: vista previa estática de la home (escritorio y móvil, a escala). Se despliega tal cual en Vercel, sin build.
-- `docs/2026-09-01-rediseno-web-propuesta.md`: estrategia, concepto, estructura de la landing, dirección de arte, motion, conversión por WhatsApp, arquitectura (Astro + Keystatic + Vercel), mapa de contenidos editable y prompt de diseño.
-- `design/`: artboards de la home (formato `.dc.html`) y su disposición en el lienzo.
+- `src/` componentes, páginas y estilos de la web.
+- `content/` todo lo que edita el cliente: `site.json` (datos de contacto, SEO, mensajes de WhatsApp), `home.json` (todos los bloques de la home), `salidas/`, `testimonios/`, `faqs/` y `legal/`.
+- `src/assets/img/` imágenes (Astro las optimiza en el build: AVIF/WebP y varios tamaños).
+- `public/video/` vídeos del hero y de la banda.
+- `public/preview/` la vista previa estática anterior (se puede borrar cuando la web esté validada).
+- `docs/` propuesta de rediseño completa. `design/` artboards de diseño.
 
-## Desplegar la vista previa
+## Desarrollo
 
-En [vercel.com/new](https://vercel.com/new) importa este repositorio, framework **Other**, directorio raíz, sin comando de build. `vercel.json` marca la vista previa como `noindex`.
+```bash
+npm install
+npm run dev        # http://localhost:4321  ·  panel de edición en http://localhost:4321/keystatic
+npm run build      # genera dist/
+```
 
-## Siguiente fase
+En local, el panel de edición escribe directamente en los archivos de `content/` e `src/assets/img/`. Cada cambio se sube con un commit normal.
 
-Proyecto Astro 5 con Keystatic como panel de edición, según `docs/`. Las fotos marcadas como "de muestra" en la vista previa son provisionales y se sustituyen por material real del cliente.
+## Panel de edición en producción (opcional)
+
+Para que el cliente edite desde `explorasiam.com/keystatic` sin usar Git:
+
+1. En local, abre `/keystatic` y sigue el asistente "Set up GitHub App": crea la app en la cuenta de GitHub y obtén las tres claves.
+2. Añade en Vercel las variables `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` y `KEYSTATIC_SECRET` (ver `.env.example`).
+3. Redespliega. Cada guardado desde el panel es un commit en `main` y Vercel publica la web en uno o dos minutos.
+
+Sin esas variables, la web se publica igual (solo desaparece la ruta `/keystatic`).
+
+## Otras variables
+
+- `PUBLIC_GA_ID`: ID de Google Analytics 4. Si está vacío no se carga ningún script. Los clics a WhatsApp se envían como evento `whatsapp_click` con el origen (hero, salida, fundador…).
+
+## Indexación
+
+`content/site.json` → `"indexar": false` mantiene la web fuera de Google mientras se valida. Cambiar a `true` en el lanzamiento.
