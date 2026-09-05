@@ -71,6 +71,7 @@ const home = defineCollection({
       }),
       galeria: z.object({
         etiqueta: z.string(),
+        intro: z.string().optional().default(''),
         piezas: z.array(
           z.object({
             imagen: image(),

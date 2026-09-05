@@ -2,10 +2,10 @@
 import { Image } from 'astro:assets';
 import Wa from './Wa.astro';
 const { site, g } = Astro.props;
-const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#d97f70"></circle><path d="M26 21v22l18-11z" fill="#2b171b"></path></svg></span>';
+const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#bf7c6f"></circle><path d="M26 21v22l18-11z" fill="#2a2124"></path></svg></span>';
 ---
 <section class="gal section" id="galeria">
-  <div class="wrap" data-reveal><span class="label vino">{g.etiqueta}</span></div>
+  <div class="wrap gal__head" data-reveal><span class="label vino">{g.etiqueta}</span>{g.intro && <p class="gal__intro">{g.intro}</p>}</div>
   <div class="gal__grid" data-reveal>
     {g.piezas.map((p: any, i: number) => (
       <figure class:list={['gal__item', `gal__item--${p.tamano}`]}>
@@ -24,7 +24,8 @@ const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" 
   <dialog class="lb" id="lb"><button class="lb__close" id="lbClose" aria-label="Cerrar">×</button><img id="lbImg" alt="" /><p class="lb__pie" id="lbPie"></p></dialog>
 </section>
 <style>
-  .gal .label { display: block; margin-bottom: 28px; }
+  .gal__head { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+  .gal__intro { max-width: 62ch; font-size: 19px; line-height: 1.55; color: var(--texto-2); }
   .vino { color: var(--vino); }
   .gal__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 150px; gap: 20px; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); grid-auto-flow: dense; }
   .gal__item { position: relative; margin: 0; overflow: hidden; }
@@ -40,7 +41,7 @@ const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" 
   .gal__item--sangre .cap { left: var(--gutter); }
   .gal__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
   .lb { border: 0; padding: 0; background: transparent; max-width: min(96vw, 1400px); max-height: 96vh; }
-  .lb::backdrop { background: rgba(43,23,27,.96); }
+  .lb::backdrop { background: rgba(42,33,36,.96); }
   .lb img { max-height: 86vh; width: auto; margin: 0 auto; }
   .lb__pie { color: var(--crema); text-align: center; margin-top: 12px; font-size: 14px; font-weight: 600; }
   .lb__close { position: fixed; top: 16px; right: 16px; width: 48px; height: 48px; border-radius: 999px; border: 0; background: var(--coral); color: var(--tinta); font-size: 28px; cursor: pointer; }

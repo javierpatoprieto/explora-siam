@@ -125,6 +125,7 @@ export default config({
         galeria: fields.object(
           {
             etiqueta: fields.text({ label: 'Etiqueta' }),
+            intro: fields.text({ label: 'Texto de introducción (opcional)', multiline: true }),
             piezas: fields.array(
               fields.object({
                 imagen: img(IMG_HOME, 'Imagen'),

@@ -3,7 +3,7 @@
     "badge": "Ruta en moto por el norte de Tailandia · grupo de 6 a 8",
     "titulo": "Descubre en moto la Tailandia que",
     "destacado": "pocos llegan a conocer.",
-    "subtitulo": "Mae Hong Son Loop: 650 km y más de 1.800 curvas junto a la frontera birmana. Grupo reducido, guía local, furgoneta de apoyo y todo lo demás resuelto.",
+    "subtitulo": "¿Te gustaría rodar por el Mae Hong Son Loop con un grupo reducido de amigos, rodeado de naturaleza, mientras conoces la cultura tailandesa? 650 km y más de 1.800 curvas junto a la frontera birmana.",
     "botonPrimario": "Cuéntame tu viaje por WhatsApp",
     "microcopy": "Te contesta Dani, no un bot.",
     "botonSecundario": "Ver la ruta",
@@ -20,21 +20,21 @@
     "Dani va en cada viaje"
   ],
   "manifiesto": {
-    "titulo": "No es un tour. Es",
-    "destacado": "una ruta en moto",
-    "cierre": "con alguien que sabe dónde parar.",
+    "titulo": "¿Y si esta vez",
+    "destacado": "Tailandia",
+    "cierre": "fuera diferente?",
     "bloques": [
       {
-        "titulo": "Sin autobús: en moto",
-        "texto": "Honda NX500 y etapas de menos de 150 km al día, a ritmo lento y por la izquierda. No hace falta ser piloto: carnet A2, algo de experiencia y muchas ganas."
+        "titulo": "No hace falta ser piloto de MotoGP",
+        "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. Honda NX500, etapas de menos de 150 km y ritmo lento, disfrutando del entorno."
       },
       {
-        "titulo": "Lo que no sale en el paquete",
-        "texto": "Amanecer sobre un mar de nubes en Phu Chi Fa, el lago de Ban Rak Thai en barca china, puentes de bambú, cuevas, arrozales y los girasoles de montaña de Mae Hong Son."
+        "titulo": "Para gente que no se queda sentada",
+        "texto": "Trabajas duro en tu día a día y eres responsable con lo tuyo. Pero sabes que desconectar de la rutina y descubrir cosas nuevas te motiva. El mundo tiene mucho que ofrecerte y no eres de ver pasar la vida."
       },
       {
         "titulo": "Sabai sabai",
-        "texto": "Cada momento tiene su lugar y cada lugar su momento. Actividad y descanso, y siempre un hueco para la improvisación que pida el grupo."
+        "texto": "El ritmo del viaje está pensado para que cada momento tenga su lugar y cada lugar su momento. Actividad y descanso, momentos de convivencia para conocernos, y espacio para la improvisación."
       }
     ],
     "imagen": "../src/assets/img/riders-mirador-32.jpg",
@@ -48,7 +48,7 @@
   },
   "video": {
     "etiqueta": "Vídeo · 40 segundos · con sonido al pulsar",
-    "titulo": "Seis días de curvas, en cuarenta segundos.",
+    "titulo": "Vivir una película en la que cada escena te sorprende.",
     "poster": "../src/assets/img/moto-pov-219.jpg",
     "mp4": ""
   },
@@ -100,9 +100,9 @@
     "etiqueta": "Quién te acompaña",
     "titulo": "Hola, soy Dani.",
     "parrafos": [
-      "Tengo 44 años y llevo dos yendo y viniendo a Tailandia. Me cambió tanto la vida que dejé un trabajo vocacional de casi 18 años para acompañar a otras personas a conocer este país.",
-      "Una mañana en Phuket vi a un turista resoplar porque la camarera tardaba. Ella, a su ritmo, repetía en voz baja: sabai sabai. Tranquilo, recibe cada momento como viene. Eso es lo que quiero enseñarte.",
-      "Los que me conocen me tachan de divertido, simpático y aventurero. No soy bueno contando chistes, pero me encanta reír. En cada viaje voy yo."
+      "Hola, soy Dani, tengo 44 años y quiero compartir con vosotros mi pasión por Tailandia, un país que llevo visitando dos años y que ha cambiado mi vida por completo. Tanto que dejé un trabajo vocacional de casi 18 años para dedicarme a acompañar a otras personas a conocerlo.",
+      "Una mañana, tomando un café helado en Phuket, vi a un turista enfadado porque la camarera tardaba. Él resoplaba; ella, a su ritmo, trabajaba y repetía en voz baja: sabai sabai. Más tarde entendí que significa estar tranquilo, recibir cada momento tal y como viene, evitando el conflicto y las tensiones innecesarias.",
+      "Los que me conocen me tachan de divertido, simpático y aventurero. No soy bueno contando chistes, pero lo que sí me encanta es reír. Mi objetivo es crear un espacio donde descubrir la esencia de Tailandia desde una perspectiva más auténtica y local, viajando de manera natural y sostenible en un grupo homogéneo. Y luego cada uno decidirá si es una experiencia transformadora, como lo ha sido para mí."
     ],
     "retrato": "../src/assets/img/daniel-45.jpg",
     "retratoPie": "Foto de muestra. Se sustituye por el retrato real.",
@@ -110,13 +110,14 @@
     "archivoPie": "Chiang Rai",
     "datos": [
       "Santander / Tailandia",
-      "Grupo de 6 a 8 personas"
+      "Grupo de 6 a 8 personas",
+      "Voy en cada viaje"
     ],
     "boton": "Escríbeme",
     "microcopy": "Respondo yo, normalmente en menos de 24 h."
   },
   "galeria": {
-    "etiqueta": "Así se vive la ruta",
+    "etiqueta": "Todos los sentidos a la vez",
     "piezas": [
       {
         "imagen": "../src/assets/img/linternas-45.jpg",
@@ -161,7 +162,8 @@
         "video": true
       }
     ],
-    "enlaceInstagram": "Más en Instagram"
+    "enlaceInstagram": "Más en Instagram",
+    "intro": "Cada olor a comida, flores o incienso. Cada sabor: frutas, platos típicos con su picante, o un polo de maracuyá que te devuelve a la infancia. Cada conversación con gente local. Cada imagen de un templo, un paisaje o la vida cotidiana. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok. ¿Te gustaría tener la sensación de estar viviendo todo esto a la vez?"
   },
   "testimonios": {
     "titulo": "Lo que dicen los que ya han rodado conmigo.",
@@ -192,8 +194,8 @@
     "verTodas": "Ver todas las preguntas"
   },
   "cta": {
-    "titulo": "Cuéntame qué viaje tienes en la cabeza.",
-    "subtitulo": "Te contesto yo, normalmente en menos de 24 horas. Sin formularios obligatorios, sin llamadas comerciales.",
+    "titulo": "¿Quieres descubrir esta aventura?",
+    "subtitulo": "Cuéntame qué viaje tienes en la cabeza. Te contesto yo, normalmente en menos de 24 horas.",
     "boton": "Abrir WhatsApp",
     "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
     "imagen": "../src/assets/img/moto-pov-219.jpg"
