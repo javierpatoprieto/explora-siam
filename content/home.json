@@ -1,92 +1,204 @@
 {
   "hero": {
-    "badge": "Viajes de autor a Tailandia · grupos de 8 a 12",
-    "titulo": "Tailandia como no te la va a enseñar",
-    "destacado": "ninguna agencia.",
-    "subtitulo": "Salidas en grupo reducido diseñadas y acompañadas por mí, con las rutas que llevo años recorriendo.",
+    "badge": "Ruta en moto por el norte de Tailandia · grupo de 6 a 8",
+    "titulo": "Descubre en moto la Tailandia que",
+    "destacado": "pocos llegan a conocer.",
+    "subtitulo": "Mae Hong Son Loop: 650 km y más de 1.800 curvas junto a la frontera birmana. Grupo reducido, guía local, furgoneta de apoyo y todo lo demás resuelto.",
     "botonPrimario": "Cuéntame tu viaje por WhatsApp",
-    "microcopy": "Te contesta Daniel, no un bot.",
-    "botonSecundario": "Ver próximas salidas",
-    "poster": "../src/assets/img/sukhothai-atardecer.jpg",
-    "posterMovil": "../src/assets/img/sukhothai-atardecer.jpg",
+    "microcopy": "Te contesta Dani, no un bot.",
+    "botonSecundario": "Ver la ruta",
+    "poster": "../src/assets/img/moto-curva-169.jpg",
+    "posterMovil": "../src/assets/img/moto-curva-45.jpg",
     "videoMp4": "",
     "videoWebm": "",
     "mostrarProximaSalida": true
   },
-  "hechos": ["Grupos de 12 como máximo", "Seis viajes desde 2021", "Agencia de viajes registrada", "Daniel va en cada viaje"],
+  "hechos": [
+    "Grupos de 6 a 8 personas",
+    "Carnet A2 y ganas de rodar",
+    "Guía local TAT y furgoneta de apoyo",
+    "Dani va en cada viaje"
+  ],
   "manifiesto": {
-    "titulo": "No es un circuito. Es",
-    "destacado": "un viaje de verdad",
+    "titulo": "No es un tour. Es",
+    "destacado": "una ruta en moto",
     "cierre": "con alguien que sabe dónde parar.",
     "bloques": [
-      { "titulo": "Sin autobús de cincuenta", "texto": "Vamos en grupos de 8 a 12 en furgonetas y trenes. Cabemos en una mesa de un restaurante de barrio." },
-      { "titulo": "Lo que no sale en el paquete", "texto": "Amanecer en Doi Inthanon, las ruinas de Sukhothai sin nadie, un pueblo del norte donde me conocen. Y sí, también Bangkok, pero como se vive." },
-      { "titulo": "Tiempo para ti", "texto": "Cada día tiene una parte cerrada y una parte libre. Un viaje no es una lista de tareas." }
+      {
+        "titulo": "Sin autobús: en moto",
+        "texto": "Honda NX500 y etapas de menos de 150 km al día, a ritmo lento y por la izquierda. No hace falta ser piloto: carnet A2, algo de experiencia y muchas ganas."
+      },
+      {
+        "titulo": "Lo que no sale en el paquete",
+        "texto": "Amanecer sobre un mar de nubes en Phu Chi Fa, el lago de Ban Rak Thai en barca china, puentes de bambú, cuevas, arrozales y los girasoles de montaña de Mae Hong Son."
+      },
+      {
+        "titulo": "Sabai sabai",
+        "texto": "Cada momento tiene su lugar y cada lugar su momento. Actividad y descanso, y siempre un hueco para la improvisación que pida el grupo."
+      }
     ],
-    "imagen": "../src/assets/img/budas-dorados.jpg",
-    "pie": "Bangkok",
-    "enlace": "Así fue el último viaje"
+    "imagen": "../src/assets/img/riders-mirador-32.jpg",
+    "pie": "Mirador en el Mae Hong Son Loop",
+    "enlace": "Así se vive la ruta"
   },
-  "salidas": { "etiqueta": "Próximas salidas, 2026 y 2027", "titulo": "Elige cuándo.", "subtitulo": "Dos o tres salidas al año. Cuando un grupo se llena, se llena." },
-  "video": { "etiqueta": "Vídeo · 40 segundos · con sonido al pulsar", "titulo": "Cuarenta segundos de un martes en el norte.", "poster": "../src/assets/img/niebla-169.jpg", "mp4": "" },
+  "salidas": {
+    "etiqueta": "Próxima expedición",
+    "titulo": "Elige cuándo.",
+    "subtitulo": "Una salida al año, con grupo mínimo de 6 y máximo de 8. Cuando se llena, se llena."
+  },
+  "video": {
+    "etiqueta": "Vídeo · 40 segundos · con sonido al pulsar",
+    "titulo": "Seis días de curvas, en cuarenta segundos.",
+    "poster": "../src/assets/img/moto-pov-219.jpg",
+    "mp4": ""
+  },
   "dia": {
-    "etiqueta": "Cómo es viajar con Explora Siam",
-    "titulo": "Un martes cualquiera en el norte.",
+    "etiqueta": "Cómo es un día en el loop",
+    "titulo": "Un martes cualquiera en Mae Hong Son.",
     "paradas": [
-      { "hora": "06:30", "titulo": "Niebla en Doi Inthanon.", "texto": "Subimos antes de que llegue nadie. Hace frío. Sí, en Tailandia.", "imagen": "../src/assets/img/niebla-169.jpg" },
-      { "hora": "08:15", "titulo": "Desayuno en el mercado.", "texto": "Khao soi en un puesto que lleva 30 años. Yo pido, tú pruebas.", "imagen": "../src/assets/img/khaosoi-169.jpg" },
-      { "hora": "11:00", "titulo": "Un templo sin autobuses.", "texto": "El monje que nos abre lleva viéndome años.", "imagen": "../src/assets/img/budas-dorados.jpg" },
-      { "hora": "14:00", "titulo": "Tiempo libre.", "texto": "Siesta, masaje, o perderte. Nos vemos a las seis.", "imagen": "../src/assets/img/templo-chiang-mai.jpg" },
-      { "hora": "18:00", "titulo": "La hora del río.", "texto": "Cerveza, sobremesa larga y planes para mañana.", "imagen": "../src/assets/img/viajeros-rio-32.jpg" },
-      { "hora": "21:30", "titulo": "Mercado nocturno.", "texto": "Y esto sin guía. Ya sabes moverte.", "imagen": "../src/assets/img/mercado-45.jpg" }
+      {
+        "hora": "05:45",
+        "titulo": "Mar de nubes.",
+        "texto": "Subimos a Phu Chi Fa a oscuras. Si el cielo acompaña, amanece sobre las nubes.",
+        "imagen": "../src/assets/img/phuchifa-169.jpg"
+      },
+      {
+        "hora": "08:00",
+        "titulo": "Café y motos calientes.",
+        "texto": "Desayuno de mercado, briefing de la etapa y a rodar. Hoy, 120 km.",
+        "imagen": "../src/assets/img/khaosoi-169.jpg"
+      },
+      {
+        "hora": "10:30",
+        "titulo": "Curvas hacia Mae Chaem.",
+        "texto": "Horquillas, arrozales y girasoles de montaña. Paramos donde apetece.",
+        "imagen": "../src/assets/img/moto-curva-169.jpg"
+      },
+      {
+        "hora": "14:00",
+        "titulo": "Cascada y siesta.",
+        "texto": "Trekking corto hasta la cascada. La furgoneta ya ha llevado las mochilas.",
+        "imagen": "../src/assets/img/niebla-45.jpg"
+      },
+      {
+        "hora": "17:30",
+        "titulo": "Lago de Ban Rak Thai.",
+        "texto": "Té en una casa china y barca al atardecer. Aquí no llega ningún autobús.",
+        "imagen": "../src/assets/img/banrakthai-169.jpg"
+      },
+      {
+        "hora": "20:30",
+        "titulo": "Sobremesa larga.",
+        "texto": "Mookata, risas y el plan de mañana. Sabai sabai.",
+        "imagen": "../src/assets/img/viajeros-rio-32.jpg"
+      }
     ],
     "cierre": "¿Te lo imaginas? Cuéntamelo.",
     "cierreBoton": "Hablemos por WhatsApp"
   },
   "fundador": {
     "etiqueta": "Quién te acompaña",
-    "titulo": "Hola, soy Daniel.",
+    "titulo": "Hola, soy Dani.",
     "parrafos": [
-      "La primera vez que fui a Tailandia iba a quedarme tres semanas. Me quedé mucho más. Desde entonces vuelvo cada año, y cada año descubro un sitio nuevo que no sale en ninguna guía.",
-      "Explora Siam nació de una idea sencilla: enseñar el país como me lo enseñaron a mí, despacio y con gente de allí. Sin cola en el templo de moda, sin autobús de cincuenta, sin prisa.",
-      "En cada viaje voy yo. No delego el grupo en nadie."
+      "Tengo 44 años y llevo dos yendo y viniendo a Tailandia. Me cambió tanto la vida que dejé un trabajo vocacional de casi 18 años para acompañar a otras personas a conocer este país.",
+      "Una mañana en Phuket vi a un turista resoplar porque la camarera tardaba. Ella, a su ritmo, repetía en voz baja: sabai sabai. Tranquilo, recibe cada momento como viene. Eso es lo que quiero enseñarte.",
+      "Los que me conocen me tachan de divertido, simpático y aventurero. No soy bueno contando chistes, pero me encanta reír. En cada viaje voy yo."
     ],
     "retrato": "../src/assets/img/daniel-45.jpg",
     "retratoPie": "Foto de muestra. Se sustituye por el retrato real.",
     "archivo": "../src/assets/img/archivo-32.jpg",
-    "archivoPie": "Chiang Rai, 2014",
-    "datos": ["Santander / Chiang Mai", "Agencia de viajes combinados registrada"],
+    "archivoPie": "Chiang Rai",
+    "datos": [
+      "Santander / Tailandia",
+      "Grupo de 6 a 8 personas"
+    ],
     "boton": "Escríbeme",
     "microcopy": "Respondo yo, normalmente en menos de 24 h."
   },
   "galeria": {
-    "etiqueta": "Del último viaje",
+    "etiqueta": "Así se vive la ruta",
     "piezas": [
-      { "imagen": "../src/assets/img/templo-chiang-mai.jpg", "pie": "Chiang Mai", "tamano": "alto", "video": false },
-      { "imagen": "../src/assets/img/budas-dorados.jpg", "pie": "Bangkok", "tamano": "medio", "video": false },
-      { "imagen": "../src/assets/img/tren-34.jpg", "pie": "Tren nocturno a Chiang Mai", "tamano": "pequeno", "video": true },
-      { "imagen": "../src/assets/img/sukhothai-atardecer.jpg", "pie": "Wat Mahathat, Sukhothai", "tamano": "sangre", "video": false },
-      { "imagen": "../src/assets/img/mercado-45.jpg", "pie": "Mercado de Warorot, Chiang Mai", "tamano": "tercio", "video": false },
-      { "imagen": "../src/assets/img/viajera-sukhothai-32.jpg", "pie": "Sukhothai, al amanecer", "tamano": "tercio", "video": false },
-      { "imagen": "../src/assets/img/niebla-45.jpg", "pie": "Niebla en Doi Inthanon", "tamano": "tercio", "video": true }
+      {
+        "imagen": "../src/assets/img/linternas-45.jpg",
+        "pie": "Yi Peng, Chiang Rai",
+        "tamano": "alto",
+        "video": false
+      },
+      {
+        "imagen": "../src/assets/img/riders-mirador-32.jpg",
+        "pie": "Mirador en el loop",
+        "tamano": "medio",
+        "video": false
+      },
+      {
+        "imagen": "../src/assets/img/tren-34.jpg",
+        "pie": "Ban Ja Bo",
+        "tamano": "pequeno",
+        "video": true
+      },
+      {
+        "imagen": "../src/assets/img/moto-curva-169.jpg",
+        "pie": "Carretera 1095, camino de Pai",
+        "tamano": "sangre",
+        "video": false
+      },
+      {
+        "imagen": "../src/assets/img/templo-chiang-mai.jpg",
+        "pie": "Chiang Mai",
+        "tamano": "tercio",
+        "video": false
+      },
+      {
+        "imagen": "../src/assets/img/budas-dorados.jpg",
+        "pie": "Bangkok",
+        "tamano": "tercio",
+        "video": false
+      },
+      {
+        "imagen": "../src/assets/img/niebla-45.jpg",
+        "pie": "Doi Inthanon",
+        "tamano": "tercio",
+        "video": true
+      }
     ],
     "enlaceInstagram": "Más en Instagram"
   },
-  "testimonios": { "titulo": "Vuelven, y eso lo dice todo.", "fondo": "../src/assets/img/sukhothai-atardecer.jpg" },
+  "testimonios": {
+    "titulo": "Lo que dicen los que ya han rodado conmigo.",
+    "fondo": "../src/assets/img/phuchifa-169.jpg"
+  },
   "incluye": {
     "titulo": "Sin letra pequeña.",
-    "microcopy": "El precio que ves es el precio. Sin suplementos sorpresa.",
-    "incluido": ["Alojamiento en hoteles pequeños con carácter", "Todos los traslados internos y vuelos internos", "Comidas señaladas y todas las entradas", "Daniel como anfitrión todo el viaje", "Seguro de viaje y grupo de WhatsApp pre-viaje"],
-    "noIncluido": ["Vuelos internacionales (te ayudo a elegirlos)", "Comidas libres y propinas", "Visado, si aplica"],
+    "microcopy": "2.000 € con IVA en tres pagos: 400 € al inscribirte, 450 € al formar el grupo y 1.150 € antes de salir. Los gastos de viaje no incluidos rondan los 1.500 €.",
+    "incluido": [
+      "Diseño de la aventura, acompañamiento y coordinación de Dani todo el viaje",
+      "Moto y logística del Mae Hong Son Loop, guía local con certificado TAT y furgoneta de apoyo",
+      "Alojamiento en habitación doble y desayuno todos los días",
+      "Santuario ético de elefantes y curso de cocina tailandesa",
+      "Seguro de responsabilidad civil, sesión previa por Zoom, grupo de WhatsApp y guía en PDF para preparar el viaje"
+    ],
+    "noIncluido": [
+      "Vuelos internacionales (unos 850 €) y vuelo interno (unos 60 €)",
+      "Seguro de viaje (unos 80 €) y traslados (unos 100 €)",
+      "Entradas a las actividades (unos 180 €) y comidas y bebidas no incluidas (unos 240 €)",
+      "Masajes, extras, ocio y propinas"
+    ],
     "enlace": "¿Dudas del precio? Pregúntame"
   },
-  "faq": { "titulo": "Lo que me preguntáis por WhatsApp.", "intro": "Respuestas de verdad, tal cual las mando. Si la tuya no está, escríbeme y te contesto igual.", "enlace": "Hacer otra pregunta", "verTodas": "Ver todas las preguntas" },
+  "faq": {
+    "titulo": "Lo que me preguntáis por WhatsApp.",
+    "intro": "Respuestas de verdad, tal cual las mando. Si la tuya no está, escríbeme y te contesto igual.",
+    "enlace": "Hacer otra pregunta",
+    "verTodas": "Ver todas las preguntas"
+  },
   "cta": {
     "titulo": "Cuéntame qué viaje tienes en la cabeza.",
-    "subtitulo": "Te contesto yo, normalmente en menos de 24 horas. Sin formularios, sin llamadas comerciales.",
+    "subtitulo": "Te contesto yo, normalmente en menos de 24 horas. Sin formularios obligatorios, sin llamadas comerciales.",
     "boton": "Abrir WhatsApp",
     "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
-    "imagen": "../src/assets/img/sukhothai-atardecer.jpg"
+    "imagen": "../src/assets/img/moto-pov-219.jpg"
   },
-  "footer": { "frase": "Vive Tailandia de una forma diferente." }
+  "footer": {
+    "frase": "Vive Tailandia de una forma diferente."
+  }
 }

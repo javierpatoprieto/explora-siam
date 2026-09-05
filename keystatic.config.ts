@@ -24,6 +24,7 @@ export default config({
         licencia: fields.text({ label: 'Licencia o registro de agencia' }),
         horario: fields.text({ label: 'Horario de atención' }),
         indexar: fields.checkbox({ label: 'Permitir que Google indexe la web', defaultValue: false }),
+        formulario: fields.url({ label: 'Formulario de inscripción (opcional)', description: 'Si está vacío no se muestra el enlace.' }),
         seoTitulo: fields.text({ label: 'Título SEO' }),
         seoDescripcion: fields.text({ label: 'Descripción SEO', multiline: true }),
         plantillas: fields.object(

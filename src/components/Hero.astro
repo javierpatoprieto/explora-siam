@@ -31,7 +31,7 @@ const hasVideo = Boolean(hero.videoMp4);
     {hero.mostrarProximaSalida && proxima && (
       <a href={`/viajes/${proxima.slug}`} class="hero__next label">
         <span>Próxima salida</span><span class="dot"></span><span>{proxima.nombre}</span><span class="dot"></span><span>{proxima.fechas}</span>
-        {proxima.disponibles > 0 && <><span class="dot"></span><span class="ambar">{proxima.disponibles} plazas</span></>}
+        {proxima.disponibles > 0 && <><span class="dot"></span><span class="ambar">{proxima.disponibles < proxima.plazas ? `quedan ${proxima.disponibles}` : `${proxima.plazas} plazas`}</span></>}
       </a>
     )}
     {hasVideo && <span class="hero__vid label">Vídeo en bucle · sin sonido</span>}
@@ -40,15 +40,15 @@ const hasVideo = Boolean(hero.videoMp4);
 <style>
   .hero { position: relative; min-height: min(100svh, 1080px); display: flex; flex-direction: column; justify-content: flex-end; background: var(--tinta); color: var(--crema); overflow: hidden; }
   .hero__media { z-index: 0; object-position: 50% 45%; }
-  .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,14,20,.35) 0%, rgba(42,14,20,.05) 30%, rgba(42,14,20,.85) 100%); }
+  .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(43,23,27,.35) 0%, rgba(43,23,27,.05) 30%, rgba(43,23,27,.85) 100%); }
   .hero__in { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 140px; padding-bottom: 32px; max-width: calc(var(--max)); }
   .hero__in h1 { max-width: 15ch; }
   .hero__in h1 em { font-style: normal; color: var(--coral); }
   .hero__badge { display: inline-block; background: var(--coral); color: var(--tinta); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; }
-  .hero__sub { max-width: 520px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.55; color: rgba(251,243,230,.92); }
+  .hero__sub { max-width: 520px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.55; color: rgba(246,240,230,.92); }
   .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
-  .hero__micro { color: rgba(251,243,230,.85); margin-top: -8px; }
-  .hero__foot { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 32px; padding-top: 24px; color: rgba(251,243,230,.85); flex-wrap: wrap; }
+  .hero__micro { color: rgba(246,240,230,.85); margin-top: -8px; }
+  .hero__foot { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 32px; padding-top: 24px; color: rgba(246,240,230,.85); flex-wrap: wrap; }
   .hero__next { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: inherit; }
   .hero__next:hover { color: var(--crema); }
   .dot { width: 4px; height: 4px; border-radius: 999px; background: currentColor; opacity: .6; }

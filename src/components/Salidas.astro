@@ -9,7 +9,7 @@ const { site, cab, salidas } = Astro.props;
     <div><span class="label vino">{cab.etiqueta}</span><h2>{cab.titulo}</h2></div>
     <p class="salidas__sub">{cab.subtitulo}</p>
   </div>
-  <div class="salidas__track" data-reveal>
+  <div class:list={['salidas__track', { 'salidas__track--una': salidas.length === 1 }]} data-reveal>
     {salidas.map((s: any) => {
       const d = s.data; const completa = d.estado === 'completa';
       return (
@@ -24,7 +24,7 @@ const { site, cab, salidas } = Astro.props;
             <h3 class:list={{ tachado: completa }}>{d.nombre}</h3>
             <p class="card__meta label">
               <span>{d.fechas}</span><span class="sep">·</span><span>{d.duracion}</span><span class="sep">·</span>
-              {completa ? <span>{d.plazas} de {d.plazas}</span> : <><span>máx. {d.plazas}</span><span class="sep">·</span><span class:list={{ coral: d.disponibles <= 3 }}>quedan {d.disponibles}</span></>}
+              {completa ? <span>{d.plazas} de {d.plazas}</span> : <><span>máx. {d.plazas}</span>{d.disponibles < d.plazas && <><span class="sep">·</span><span class:list={{ coral: d.disponibles <= 3 }}>quedan {d.disponibles}</span></>}</>}
             </p>
             {!completa && <p class="card__precio"><span class="display">desde {precio(d.precio)}</span>{d.notaPrecio && <span class="nota"> · {d.notaPrecio}</span>}</p>}
             {completa ? <p class="card__desc">{d.descripcion}</p> : <ul class="card__hl">{d.highlights.map((h: string) => <li>{h}</li>)}</ul>}
@@ -65,11 +65,21 @@ const { site, cab, salidas } = Astro.props;
   .card__desc { color: var(--texto-2); font-size: 15px; }
   .card :global(.btn) { margin-top: 8px; }
   .card__link { font-size: 15px; font-weight: 700; }
-  @media (max-width: 1000px) { .salidas__track { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .salidas__track--una { grid-template-columns: 1fr; }
+  .salidas__track--una .card { display: grid; grid-template-columns: 6fr 6fr; }
+  .salidas__track--una .card__img { aspect-ratio: auto; min-height: 640px; }
+  .salidas__track--una .card__body { padding: clamp(28px, 4vw, 56px); justify-content: center; gap: 18px; }
+  .salidas__track--una h3 { font-size: clamp(34px, 3.6vw, 52px); }
+  .salidas__track--una .card__hl { font-size: 17px; gap: 8px; }
+  .salidas__track--una :global(.btn) { align-self: flex-start; min-width: 280px; }
+  @media (max-width: 1000px) { .salidas__track { grid-template-columns: repeat(2, minmax(0, 1fr)); } .salidas__track--una .card { grid-template-columns: 1fr; } .salidas__track--una .card__img { min-height: 0; aspect-ratio: 4 / 5; } }
   @media (max-width: 760px) {
     .salidas__head { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
     .salidas__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 0 var(--gutter) 8px; scrollbar-width: none; }
     .salidas__track::-webkit-scrollbar { display: none; }
     .card { flex: 0 0 85%; scroll-snap-align: start; }
+    .salidas__track--una { display: grid; padding: 0 var(--gutter); }
+    .salidas__track--una .card { flex: none; }
+    .salidas__track--una :global(.btn) { align-self: stretch; }
   }
 </style>

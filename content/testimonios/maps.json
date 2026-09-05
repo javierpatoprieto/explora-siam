@@ -1,1 +1,10 @@
-{ "cita": "Daniel para en sitios que no están en Google Maps. Literalmente.", "nombre": "Nombre", "ciudad": "Ciudad", "viaje": "Templos, ríos y mercados", "fecha": "febrero 2026", "foto": "../../src/assets/img/songthaew-32.jpg", "destacado": false, "orden": 3 }
+{
+  "cita": "Dani para en sitios que no están en Google Maps. Literalmente.",
+  "nombre": "Nombre",
+  "ciudad": "Ciudad",
+  "viaje": "Mae Hong Son Loop",
+  "fecha": "2025",
+  "foto": "../../src/assets/img/songthaew-32.jpg",
+  "destacado": false,
+  "orden": 3
+}

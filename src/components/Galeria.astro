@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Wa from './Wa.astro';
 const { site, g } = Astro.props;
-const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#F07060"></circle><path d="M26 21v22l18-11z" fill="#2A0E14"></path></svg></span>';
+const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#d97f70"></circle><path d="M26 21v22l18-11z" fill="#2b171b"></path></svg></span>';
 ---
 <section class="gal section" id="galeria">
   <div class="wrap" data-reveal><span class="label vino">{g.etiqueta}</span></div>
@@ -40,7 +40,7 @@ const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" 
   .gal__item--sangre .cap { left: var(--gutter); }
   .gal__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
   .lb { border: 0; padding: 0; background: transparent; max-width: min(96vw, 1400px); max-height: 96vh; }
-  .lb::backdrop { background: rgba(42,14,20,.96); }
+  .lb::backdrop { background: rgba(43,23,27,.96); }
   .lb img { max-height: 86vh; width: auto; margin: 0 auto; }
   .lb__pie { color: var(--crema); text-align: center; margin-top: 12px; font-size: 14px; font-weight: 600; }
   .lb__close { position: fixed; top: 16px; right: 16px; width: 48px; height: 48px; border-radius: 999px; border: 0; background: var(--coral); color: var(--tinta); font-size: 28px; cursor: pointer; }

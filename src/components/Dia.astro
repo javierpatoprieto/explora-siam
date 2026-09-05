@@ -32,15 +32,15 @@ const primera = dia.paradas[0]?.hora; const ultima = dia.paradas.at(-1)?.hora;
   .dia__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
   .dia__head .label { display: block; margin-bottom: 14px; }
   .ambar { color: var(--ambar); }
-  .dia__progress { display: flex; align-items: center; gap: 16px; color: rgba(251,243,230,.6); }
-  .bar { width: 200px; height: 2px; background: rgba(251,243,230,.2); position: relative; }
+  .dia__progress { display: flex; align-items: center; gap: 16px; color: rgba(246,240,230,.6); }
+  .bar { width: 200px; height: 2px; background: rgba(246,240,230,.2); position: relative; }
   .bar__fill { position: absolute; left: 0; top: 0; height: 2px; width: 10%; background: var(--coral); transition: width .2s; }
   .dia__track { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gutter) 12px; scrollbar-width: none; }
   .dia__track::-webkit-scrollbar { display: none; }
   .stop { position: relative; flex: 0 0 640px; height: 440px; margin: 0; overflow: hidden; scroll-snap-align: start; background: var(--tinta-2); }
-  .stop__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,14,20,0) 30%, rgba(42,14,20,.88) 100%); }
+  .stop__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(43,23,27,0) 30%, rgba(43,23,27,.88) 100%); }
   .stop__text { position: absolute; left: 24px; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 6px; }
-  .stop__title { font-family: var(--display); text-transform: uppercase; font-size: 44px; line-height: .98; font-weight: 400; text-shadow: 0 2px 24px rgba(42,14,20,.6); }
+  .stop__title { font-family: var(--display); text-transform: uppercase; font-size: 44px; line-height: .98; font-weight: 400; text-shadow: 0 2px 24px rgba(43,23,27,.6); }
   .stop__desc { font-size: 16px; opacity: .95; }
   .stop--end { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 24px; padding: 32px; background: var(--vino); flex-basis: 480px; }
   .stop--end .stop__title { font-size: 40px; }
@@ -54,7 +54,7 @@ const primera = dia.paradas[0]?.hora; const ultima = dia.paradas.at(-1)?.hora;
     .stop__text { position: static; grid-column: 2; gap: 8px; }
     .stop__text .label { grid-column: 1; grid-row: 1; position: absolute; left: 0; top: 4px; }
     .stop__title { font-size: 30px; text-shadow: none; }
-    .stop__desc { color: rgba(251,243,230,.85); }
+    .stop__desc { color: rgba(246,240,230,.85); }
     .stop--end { display: flex; grid-template-columns: none; padding: 28px 24px; }
     .stop--end :global(.btn) { width: 100%; }
   }

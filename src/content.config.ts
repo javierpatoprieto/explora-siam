@@ -13,6 +13,7 @@ const site = defineCollection({
     licencia: z.string().optional().default(''),
     horario: z.string().optional().default(''),
     indexar: z.boolean().default(false),
+    formulario: z.string().optional().default(''),
     seoTitulo: z.string(),
     seoDescripcion: z.string(),
     plantillas: z.record(z.string()),

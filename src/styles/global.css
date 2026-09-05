@@ -1,16 +1,16 @@
 :root {
-  --crema: #fbf3e6;
-  --crema-2: #f3e7d3;
-  --tinta: #2a0e14;
-  --tinta-2: #3a1a22;
-  --vino: #7a2545;
-  --coral: #f07060;
-  --coral-hover: #f48b7d;
-  --ambar: #f5c36a;
+  --crema: #f6f0e6;
+  --crema-2: #ece2d2;
+  --tinta: #2b171b;
+  --tinta-2: #3b262b;
+  --vino: #6b3448;
+  --coral: #d97f70;
+  --coral-hover: #e29385;
+  --ambar: #e0c08e;
   --gris: #6e5a58;
   --texto-2: #3d2a2c;
-  --linea: rgba(42, 14, 20, 0.14);
-  --grad: linear-gradient(180deg, #f5c36a 0%, #f07060 48%, #7a2545 100%);
+  --linea: rgba(43, 23, 27, 0.14);
+  --grad: linear-gradient(180deg, #e0c08e 0%, #d97f70 48%, #6b3448 100%);
   --display: 'Anton', Impact, 'Arial Narrow Bold', sans-serif;
   --texto: 'Archivo Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --firma: 'Sacramento', cursive;
@@ -55,7 +55,7 @@ p { margin: 0; }
 .btn--crema:hover { background: #fff; }
 .link { font-weight: 700; color: var(--tinta); border-bottom: 2px solid var(--coral); padding-bottom: 2px; }
 .link:hover { border-color: var(--tinta); }
-.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.06) saturate(1.2) sepia(0.06); }
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) saturate(1.02); }
 .section { padding-top: clamp(80px, 10vw, 152px); }
 .oscuro { background: var(--tinta); color: var(--crema); }
 .oscuro .link { color: var(--crema); }

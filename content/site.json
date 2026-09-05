@@ -1,26 +1,27 @@
 {
   "marca": "Explora Siam",
-  "fundador": "Daniel",
+  "fundador": "Dani",
   "whatsapp": "34605330654",
   "email": "info@explorasiam.com",
   "instagram": "https://www.instagram.com/explora_siam/",
   "ubicacion": "Santander · Chiang Mai",
-  "licencia": "Agencia de viajes combinados",
+  "licencia": "Seguro de responsabilidad civil · Guías con certificado TAT",
   "horario": "Lunes a viernes, de 9:00 a 20:00",
   "indexar": false,
-  "seoTitulo": "Explora Siam · Viajes de autor a Tailandia en grupo reducido",
-  "seoDescripcion": "Salidas a Tailandia en grupos de 8 a 12 personas, diseñadas y acompañadas por Daniel. Norte profundo, templos sin autobuses y tiempo para ti. Habla con él por WhatsApp.",
+  "seoTitulo": "Explora Siam · Mae Hong Son Loop en moto, grupo reducido",
+  "seoDescripcion": "Ruta en moto por el norte de Tailandia con Dani: Mae Hong Son Loop, 650 km y más de 1.800 curvas, en grupo de 6 a 8 personas, con guía local y furgoneta de apoyo. Del 21 de noviembre al 7 de diciembre. Habla con él por WhatsApp.",
   "plantillas": {
-    "nav": "Hola Daniel, estoy en la web de Explora Siam y me gustaría hablar contigo.",
-    "hero": "Hola Daniel, he visto la web de Explora Siam y me gustaría saber más sobre los viajes a Tailandia.",
-    "salida": "Hola Daniel, me interesa el viaje \"{nombre}\" del {fechas}. ¿Quedan plazas? Me gustaría saber más.",
-    "avisame": "Hola Daniel, me gustaría que me avisaras cuando abras la próxima edición de \"{nombre}\".",
-    "dia": "Hola Daniel, me he imaginado ese martes cualquiera en el norte y quiero saber cómo sería el viaje completo.",
-    "daniel": "Hola Daniel, acabo de leer tu carta en la web. Me gustaría contarte el viaje que tengo en la cabeza.",
-    "galeria": "Hola Daniel, he visto las fotos del último viaje y quiero saber cuándo es el siguiente.",
-    "precio": "Hola Daniel, tengo una duda sobre el precio y lo que incluye el viaje.",
-    "faq": "Hola Daniel, tengo una pregunta que no está en la web:",
-    "final": "Hola Daniel, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
-    "flotante": "Hola Daniel, estoy en la web de Explora Siam y me gustaría hablar contigo."
-  }
+    "nav": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo.",
+    "hero": "Hola Dani, he visto la web de Explora Siam y me interesa la ruta en moto por el norte de Tailandia.",
+    "salida": "Hola Dani, me interesa el viaje \"{nombre}\" del {fechas}. ¿Quedan plazas? Me gustaría saber más.",
+    "avisame": "Hola Dani, me gustaría que me avisaras cuando abras la próxima edición de \"{nombre}\".",
+    "dia": "Hola Dani, me he imaginado ese martes cualquiera en el norte y quiero saber cómo sería el viaje completo.",
+    "daniel": "Hola Dani, acabo de leer tu carta en la web. Me gustaría contarte el viaje que tengo en la cabeza.",
+    "galeria": "Hola Dani, he visto las fotos del último viaje y quiero saber cuándo es el siguiente.",
+    "precio": "Hola Dani, tengo una duda sobre el precio y lo que incluye el viaje.",
+    "faq": "Hola Dani, tengo una pregunta que no está en la web:",
+    "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
+    "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
+  },
+  "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform"
 }

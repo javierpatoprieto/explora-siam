@@ -4,7 +4,7 @@ const { site, proxima, soloBarra = false } = Astro.props;
 ---
 <div class="flot" id="flot" hidden={true} data-solo-barra={soloBarra ? '1' : undefined}><Wa site={site} origen="flotante" class="flot__btn" label="Hablemos por WhatsApp"><span class="flot__txt">¿Hablamos?</span></Wa></div>
 <div class="bar" id="mbar" hidden>
-  {proxima && <p class="bar__ctx label">{proxima.nombre} · {proxima.fechas}{proxima.disponibles > 0 && <span class="vino"> · {proxima.disponibles} plazas</span>}</p>}
+  {proxima && <p class="bar__ctx label">{proxima.nombre} · {proxima.fechas}{proxima.disponibles > 0 && proxima.disponibles < proxima.plazas && <span class="vino"> · quedan {proxima.disponibles}</span>}</p>}
   <Wa site={site} origen="flotante">Hablemos por WhatsApp</Wa>
 </div>
 <style>
@@ -13,7 +13,7 @@ const { site, proxima, soloBarra = false } = Astro.props;
     .bar { display: none; }
   @media (max-width: 760px) {
     .flot { display: none; }
-    .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; flex-direction: column; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom)); background: rgba(251,243,230,.94); backdrop-filter: blur(12px); border-top: 1px solid var(--linea); transform: translateY(100%); transition: transform .35s var(--ease); }
+    .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; flex-direction: column; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom)); background: rgba(246,240,230,.94); backdrop-filter: blur(12px); border-top: 1px solid var(--linea); transform: translateY(100%); transition: transform .35s var(--ease); }
     .bar.show { transform: none; }
     .bar[hidden] { display: flex; }
     .bar__ctx { text-align: center; color: var(--gris); font-size: 12px; }

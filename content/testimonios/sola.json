@@ -1,1 +1,10 @@
-{ "cita": "Iba sola y con miedo a sentirme fuera. Al segundo día ya teníamos mesa fija para cenar.", "nombre": "Nombre", "ciudad": "Ciudad", "viaje": "Norte profundo", "fecha": "noviembre 2025", "foto": "../../src/assets/img/viajeros-rio-32.jpg", "destacado": false, "orden": 2 }
+{
+  "cita": "Iba sola y con miedo a no seguir el ritmo del grupo. Al segundo día ya tenía mi sitio en la mesa y en la carretera.",
+  "nombre": "Nombre",
+  "ciudad": "Ciudad",
+  "viaje": "Mae Hong Son Loop",
+  "fecha": "2025",
+  "foto": "../../src/assets/img/viajeros-rio-32.jpg",
+  "destacado": false,
+  "orden": 2
+}
