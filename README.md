@@ -21,15 +21,50 @@ npm run build      # genera dist/
 
 En local, el panel de edición escribe directamente en los archivos de `content/` e `src/assets/img/`. Cada cambio se sube con un commit normal.
 
-## Panel de edición en producción (opcional)
+## Cómo se publica
 
-Para que el cliente edite desde `explorasiam.com/keystatic` sin usar Git:
+La web se sirve **estática desde el hosting del cliente (Raiola)** y el **panel de edición vive en Vercel**, porque necesita Node y un hosting clásico no lo tiene.
 
-1. En local, abre `/keystatic` y sigue el asistente "Set up GitHub App": crea la app en la cuenta de GitHub y obtén las tres claves.
-2. Añade en Vercel las variables `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` y `KEYSTATIC_SECRET` (ver `.env.example`).
-3. Redespliega. Cada guardado desde el panel es un commit en `main` y Vercel publica la web en uno o dos minutos.
+```
+Cliente edita en el panel (Vercel /keystatic)
+        └─► commit automático en main
+                └─► GitHub Action: npm run build:static
+                        └─► sube dist/ por FTP a Raiola  →  explorasiam.com
+```
 
-Sin esas variables, la web se publica igual (solo desaparece la ruta `/keystatic`).
+Cada guardado del cliente actualiza la web en uno o dos minutos, sin tocar nada.
+
+### 1. Panel de edición (Vercel, una sola vez)
+
+1. En local, `npm run dev` y abre `/keystatic`. Sigue el asistente **Set up GitHub App**: crea la app en la cuenta de GitHub dueña del repositorio y copia las tres claves.
+2. En el proyecto de Vercel, añade las variables `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` y `KEYSTATIC_SECRET` (ver `.env.example`).
+3. Redespliega. El panel queda en `<proyecto>.vercel.app/keystatic`; se le puede poner un subdominio propio, por ejemplo `panel.explorasiam.com`.
+
+Sin esas variables la web se publica igual: solo desaparece la ruta `/keystatic`.
+
+### 2. Hosting del cliente (Raiola)
+
+`npm run build:static` genera HTML plano en `dist/` (sin adaptador, con URLs tipo `preguntas.html` que el `.htaccess` sirve como `/preguntas`). Se puede subir a mano por FTP o dejar que lo haga la acción `.github/workflows/deploy-raiola.yml` en cada cambio.
+
+En **Settings → Secrets and variables → Actions** del repositorio:
+
+| Tipo | Nombre | Valor |
+|---|---|---|
+| Secret | `FTP_HOST` | servidor FTP de Raiola (por ejemplo `ftp.explorasiam.com`) |
+| Secret | `FTP_USER` | usuario FTP |
+| Secret | `FTP_PASSWORD` | contraseña |
+| Variable | `FTP_DIR` | carpeta pública, normalmente `/public_html/` |
+| Variable | `FTP_PROTOCOL` | `ftps` (o `sftp` si Raiola lo ofrece) |
+| Variable | `SITE_URL` | `https://explorasiam.com` |
+
+`public/.htaccess` ya lleva HTTPS forzado, dominio sin `www`, URLs limpias, página 404, compresión, caché de un año para imágenes y CSS, y las redirecciones desde las URLs de la web antigua en WordPress.
+
+Para subirlo a mano: `npm run build:static` y copiar **todo el contenido** de `dist/` (incluido el `.htaccess`, que está oculto) a `public_html`.
+
+### 3. Antes de dar el dominio por bueno
+
+- Poner `"indexar": true` en `content/site.json` para permitir a Google.
+- Comprobar que el certificado SSL de Raiola cubre el dominio con y sin `www`.
 
 ## Otras variables
 

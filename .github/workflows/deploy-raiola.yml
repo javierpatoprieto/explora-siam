@@ -1,0 +1,40 @@
+name: Publicar en Raiola
+
+# Cada cambio en main (incluidos los que hace el cliente desde el panel)
+# compila la web y la sube por FTP al hosting.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-raiola
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:static
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://explorasiam.com' }}
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          port: ${{ vars.FTP_PORT || 21 }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_DIR || '/public_html/' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**

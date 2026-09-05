@@ -1,0 +1,57 @@
+# Explora Siam · hosting clásico (Apache / LiteSpeed)
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS y dominio sin www
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # /preguntas -> preguntas.html
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # quitar la barra final
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # redirecciones desde la web antigua en WordPress
+  RewriteRule ^contact/?$ /#contacto [R=301,L]
+  RewriteRule ^services/?$ / [R=301,L]
+  RewriteRule ^hello-world/?$ / [R=301,L]
+  RewriteRule ^politica-de-privacidad/?$ /privacidad [R=301,L]
+  RewriteRule ^politica-de-cookies/?$ /cookies [R=301,L]
+  RewriteRule ^condiciones-de-contratacion/?$ /condiciones [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/pdf "access plus 1 week"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|webp|avif|jpg|jpeg|png|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
