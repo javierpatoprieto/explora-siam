@@ -1,48 +1,48 @@
 {
-  "nombre": "Mae Hong Son Loop: Bangkok, Chiang Rai, Phu Chi Fa y seis días en moto",
-  "slug": "mae-hong-son-loop-nov-2026",
-  "fechas": "21 nov – 7 dic 2026",
-  "inicio": "2026-11-21",
-  "duracion": "17 días",
-  "plazas": 8,
-  "disponibles": 8,
-  "estado": "abierta",
-  "precio": 2000,
-  "notaPrecio": "IVA incluido · vuelos y gastos de viaje aparte (unos 1.500 €)",
-  "highlights": [
-    "650 km y más de 1.800 curvas en Honda NX500",
-    "Amanecer sobre un mar de nubes en Phu Chi Fa",
-    "Yi Peng y Loy Krathong en Chiang Rai"
-  ],
-  "imagen": "../../src/assets/img/moto-curva-45.jpg",
-  "descripcion": "Diecisiete días de Bangkok a Pai. Empezamos con templos, mercados y Muay Thai en la capital; seguimos con los festivales de las linternas en Chiang Rai y un trekking por las cumbres de la frontera con Laos; y cerramos con el plato fuerte: seis días en moto por el Mae Hong Son Loop con guía local y furgoneta de apoyo. Grupo mínimo de 6 y máximo de 8.",
-  "itinerario": [
-    {
-      "dia": 1,
-      "titulo": "Bangkok, 3 noches",
-      "texto": "Palacio Real, Buda Esmeralda, Buda reclinado y Wat Arun. Talat Noi, el barrio chino, Icon Siam y Asiatique. Velada de Muay Thai en el Rajadamnern, navegación por el Chao Phraya y sus canales, Wat Pak Nam y el Monte Dorado. Y una mookata, la barbacoa tailandesa."
-    },
-    {
-      "dia": 2,
-      "titulo": "Chiang Rai, 2 noches",
-      "texto": "Vuelo al norte para vivir Yi Peng (linternas en el cielo) y Loy Krathong (ofrendas en el agua). Wat Huay Pla Kang al atardecer, night market, bailes regionales y masaje tailandés. Templo Blanco, Wat Phra Kaew, Wat Phra Singh y el Templo Azul, todos engalanados por las fiestas. Mercado local y una clase de Muay Thai."
-    },
-    {
-      "dia": 3,
-      "titulo": "Frontera con Laos, 1 noche",
-      "texto": "Trekking por varias cumbres sin masificaciones: subida suave en Pha Bong hasta la Puerta de Siam, ruta circular de dos horas en Phu Chi Dao para ver el atardecer y amanecer sobre un mar de nubes en Phu Chi Fa. Parque nacional de Phu Sang con su cascada y la villa de Mae Kampong antes de llegar a Chiang Mai."
-    },
-    {
-      "dia": 4,
-      "titulo": "Chiang Mai, 2 noches",
-      "texto": "Cocinamos nosotros los platos típicos, visitamos templos, hay tiempo para masajes y otra velada de Muay Thai. A partir de aquí empieza el plato fuerte."
-    },
-    {
-      "dia": 5,
-      "titulo": "Mae Hong Son Loop, 7 noches",
-      "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía habilitado TAT y furgoneta que traslada las mochilas. Cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, girasoles de montaña, amaneceres sobre mares de nubes, puentes de bambú, cuevas, templos y lagos en barca china. El último día, elefantes en libertad en un santuario ético de Chiang Mai."
-    }
-  ],
-  "orden": 1,
-  "destacada": true
+    "nombre": "Mae Hong Son Loop: Bangkok, Chiang Rai, Phu Chi Fa y seis días en moto",
+    "slug": "mae-hong-son-loop-nov-2026",
+    "fechas": "21 nov – 7 dic 2026",
+    "inicio": "2026-11-21",
+    "duracion": "17 días",
+    "plazas": 8,
+    "disponibles": 8,
+    "estado": "abierta",
+    "precio": 2000,
+    "notaPrecio": "IVA incluido · vuelos y gastos de viaje aparte (unos 1.500 €)",
+    "highlights": [
+        "650 km y más de 1.800 curvas en Honda NX500",
+        "Amanecer sobre un mar de nubes en Phu Chi Fa",
+        "Yi Peng y Loy Krathong en Chiang Rai"
+    ],
+    "imagen": "../../src/assets/img/moto-curva-45.jpg",
+    "descripcion": "Diecisiete días de Bangkok a Pai. Empezamos con templos, mercados y Muay Thai en la capital; seguimos con el festival Yi Peng y Loy Krathong en Chiang Rai y un trekking por las cumbres de la frontera con Laos; y cerramos con el plato fuerte: Seis días en moto por el Mae Hong Son Loop con guía local y furgoneta de apoyo. Grupo mínimo de 6 y máximo de 8.",
+    "itinerario": [
+        {
+            "dia": 1,
+            "titulo": "Bangkok, 3 noches",
+            "texto": "Palacio Real, Buda Esmeralda, Buda reclinado y Wat Arun. Talat Noi, el barrio chino, Icon Siam y Asiatique. Velada de Muay Thai en el Rajadamnern, navegación por el Chao Phraya y sus canales, Wat Pak Nam y el Monte Dorado. Y una mookata, la barbacoa tailandesa."
+        },
+        {
+            "dia": 2,
+            "titulo": "Chiang Rai, 2 noches",
+            "texto": "Vuelo al norte para vivir Yi Peng (linternas en el cielo) y Loy Krathong (ofrendas en el agua). Wat Huay Pla Kang al atardecer, night market, bailes regionales y masaje tailandés. Templo Blanco, Wat Phra Kaew, Wat Phra Singh y el Templo Azul, todos engalanados por las fiestas. Mercado local y una clase de Muay Thai."
+        },
+        {
+            "dia": 3,
+            "titulo": "Frontera con Laos, 1 noche",
+            "texto": "Trekking por varias cumbres sin masificaciones: subida suave en Pha Bong hasta la Puerta de Siam, ruta circular de dos horas en Phu Chi Dao para ver el atardecer y amanecer sobre un mar de nubes en Phu Chi Fa. Parque nacional de Phu Sang con su cascada y la villa de Mae Kampong antes de llegar a Chiang Mai."
+        },
+        {
+            "dia": 4,
+            "titulo": "Chiang Mai, 2 noches",
+            "texto": "Cocinamos nosotros los platos típicos, visitamos templos, hay tiempo para masajes y otra velada de Muay Thai. A partir de aquí empieza el plato fuerte."
+        },
+        {
+            "dia": 5,
+            "titulo": "Mae Hong Son Loop, 7 noches",
+            "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía habilitado TAT y furgoneta que traslada las mochilas. Cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, girasoles de montaña, amaneceres sobre mares de nubes, puentes de bambú, cuevas, templos y lagos en barca china. El último día, elefantes en libertad en un santuario ético de Chiang Mai."
+        }
+    ],
+    "orden": 1,
+    "destacada": true
 }
