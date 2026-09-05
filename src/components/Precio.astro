@@ -9,7 +9,7 @@ const { site, p, inc } = Astro.props;
       <h2 class="pr__n">{p.titulo}</h2>
       <p class="sub">{p.nota}</p>
       <ol class="pagos">{p.pagos.map((x: any) => (<li><strong>{x.importe}</strong><span>{x.cuando}</span></li>))}</ol>
-      <Wa site={site} origen="precio" icon={false}>{inc.enlace}</Wa>
+      <div class="pr__acts"><Wa site={site} origen="precio" icon={false}>{inc.enlace}</Wa>{site.formulario && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">Rellenar el formulario</a>}</div>
     </div>
     <div class="pr__right">
       <div class="pr__col"><span class="pr__k">Incluido</span><ul>{inc.incluido.map((i: string) => <li><i class="ok"></i>{i}</li>)}</ul></div>
@@ -20,6 +20,7 @@ const { site, p, inc } = Astro.props;
 <style>
   .pr__panel { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; background: var(--bg-2); border-radius: var(--r-lg); padding: clamp(28px, 4vw, 56px); }
   .pr__left { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .pr__acts { display: flex; gap: 10px; flex-wrap: wrap; }
   .pr__n { font-size: clamp(56px, 7vw, 96px); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
   .pagos { list-style: none; margin: 8px 0 12px; padding: 0; display: flex; flex-direction: column; width: 100%; max-width: 360px; }
   .pagos li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }

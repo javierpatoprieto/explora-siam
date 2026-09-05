@@ -25,8 +25,13 @@ p { margin: 0; }
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 10pt; }
 .brand img { width: 26px; height: 26px; }
 .pill { display: inline-block; padding: 5px 11px; border-radius: 999px; font-size: 8.5pt; font-weight: 500; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.4); color: #fff; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 500; font-size: 10pt; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 500; font-size: 10pt; text-decoration: none; }
 .btn.light { background: #fff; color: var(--ink); }
+.btn.ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+a { color: inherit; text-decoration: none; }
+.cta-bar { margin-top: auto; display: flex; align-items: center; gap: 4mm; padding-top: 6mm; }
+.cta-bar .hint { font-size: 8.5pt; color: var(--muted); }
+.cta-bar + .foot { margin-top: 4mm; }
 .card { background: var(--bg2); border-radius: var(--rl); padding: 8mm; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
 .img { position: relative; overflow: hidden; border-radius: var(--rl); background: var(--bg3); }
@@ -85,7 +90,7 @@ p { margin: 0; }
 .back .in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6mm; padding: 10mm; max-width: 140mm; }
 .back h2 { font-size: 30pt; font-weight: 400; }
 .qrs { display: flex; gap: 8mm; }
-.qr { background: #fff; color: var(--ink); border-radius: 14px; padding: 4mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; width: 50mm; }
+.qr { text-decoration: none; background: #fff; color: var(--ink); border-radius: 14px; padding: 4mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; width: 50mm; }
 .qr img { width: 38mm; height: 38mm; }
 .qr span { font-size: 8pt; font-weight: 500; }
 </style>
@@ -96,12 +101,12 @@ p { margin: 0; }
 <section class="page cover-page">
   <img class="cover" src="img/moto-curva-169.jpg" alt="">
   <div class="shade"></div>
-  <div class="top"><div class="brand"><img src="img/logo.png" alt="">Explora Siam</div><span class="pill">Ruta en moto · norte de Tailandia</span></div>
+  <div class="top"><a class="brand" href="https://explora-siam.vercel.app"><img src="img/logo.png" alt="">Explora Siam</a><span class="pill">Ruta en moto · norte de Tailandia</span></div>
   <div class="bottom">
     <span class="eyebrow" style="color:rgba(255,255,255,.8)">Mae Hong Son Loop · del 21 de noviembre al 7 de diciembre de 2026</span>
     <h1>La Tailandia que pocos <span>llegan a conocer.</span></h1>
     <p style="max-width:95mm;font-size:11.5pt;color:rgba(255,255,255,.9)">Seis días en moto por el Mae Hong Son Loop con un grupo de seis a ocho personas. Guía local, furgoneta de apoyo y todo lo demás resuelto.</p>
-    <dl class="meta" style="margin:0"><div><dt>Fechas</dt><dd>21 nov – 7 dic</dd></div><div><dt>Duración</dt><dd>17 días</dd></div><div><dt>Grupo</dt><dd>6 a 8 personas</dd></div><div><dt>Precio</dt><dd>desde 2.000 €</dd></div></dl>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform" style="display:block"><dl class="meta" style="margin:0"><div><dt>Fechas</dt><dd>21 nov – 7 dic</dd></div><div><dt>Duración</dt><dd>17 días</dd></div><div><dt>Grupo</dt><dd>6 a 8 personas</dd></div><div><dt>Precio</dt><dd>desde 2.000 €</dd></div></dl></a>
   </div>
 </section>
 
@@ -129,6 +134,7 @@ p { margin: 0; }
       </div>
     </div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>2</span></div>
 </section>
 
@@ -152,6 +158,7 @@ p { margin: 0; }
       </div>
     </div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>3</span></div>
 </section>
 
@@ -166,9 +173,10 @@ p { margin: 0; }
       <p>Los que me conocen me tachan de divertido, simpático y aventurero. Y la verdad es que no soy bueno contando chistes… ¡pero hey! Lo que sí me encanta es reír.</p>
       <p>Mi objetivo con este proyecto es crear un espacio en el que las personas puedan descubrir la esencia de Tailandia desde una perspectiva más auténtica y local. Viajando de una manera natural y sostenible, disfrutando en un grupo homogéneo… y luego cada uno decidirá si es una experiencia transformadora, como lo ha sido para mí.</p>
       <p class="st" style="font-size:18pt;margin-top:2mm">Prepara tu mochila sin pensártelo demasiado ¡y al lío!</p>
-      <div style="margin-top:2mm"><span class="btn">Quiero descubrir esta aventura</span> <span class="muted" style="font-size:8.5pt;margin-left:3mm">WhatsApp +34 605 33 06 54</span></div>
+      
     </div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>4</span></div>
 </section>
 
@@ -188,6 +196,7 @@ p { margin: 0; }
     <div class="img"><img class="cover" src="img/phuchifa-169.jpg" alt=""><span class="cap">Phu Chi Fa</span></div>
     <div><span class="n">Etapa 3 · 1 noche</span><h3>Frontera con Laos</h3><p>Llegaremos a la frontera con Laos y haremos un trekking por varias cumbres, sin masificaciones. Comenzaremos con una ligera subida en Pha Bong hasta la Puerta de Siam. Seguiremos desde Phu Chi Dao con una ruta circular de unas dos horas donde veremos el atardecer. En Phu Chi Fa veremos un amanecer sobre un mar de nubes si el clima está de nuestra parte, siendo estos meses los más propicios para ello. Visitaremos el parque nacional de Phu Sang con su cascada tras la época de lluvias y la pintoresca villa de Mae Kampong antes de llegar a Chiang Mai, disfrutando de unos paisajes verdísimos durante todo el trayecto.</p></div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>5</span></div>
 </section>
 
@@ -205,6 +214,7 @@ p { margin: 0; }
     <div class="img" style="height:58mm"><img class="cover" src="img/banrakthai-169.jpg" alt=""><span class="cap">Lago de Ban Rak Thai</span></div>
     <div class="img" style="height:58mm"><img class="cover" src="img/moto-pov-219.jpg" alt=""><span class="cap">Seis días de curvas</span></div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>6</span></div>
 </section>
 
@@ -225,6 +235,7 @@ p { margin: 0; }
     <div class="bloque no"><h3>Bloque III</h3><div class="imp">± 1.500 €</div><p class="muted" style="margin-bottom:2mm">Gastos de viaje no incluidos</p>
       <ul><li>Vuelos internacionales (± 850 €).</li><li>Vuelo local (± 60 €).</li><li>Seguro de viaje (± 80 €).</li><li>Traslados durante el viaje (± 100 €).</li><li>Entradas a todas las actividades previstas (± 180 €).</li><li>Bebidas y comidas no incluidas en el bloque II (± 240 €).</li><li>Cualquier actividad extra no incluida en el bloque II. Los masajes serán a elección personal.</li><li>Ocio, propinas voluntarias y gastos extraordinarios.</li></ul></div>
   </div>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>7</span></div>
 </section>
 
@@ -242,6 +253,7 @@ p { margin: 0; }
     <div class="q"><h3>¿Y si no me gusta la comida asiática?</h3><p>Si realmente no puedes comer ninguno de los muchísimos platos que tiene la cocina tailandesa, este no va a ser tu viaje.</p></div>
   </div>
   <p class="st" style="font-size:15pt;margin-top:5mm">Muchas gracias por tu tiempo.</p>
+  <div class="cta-bar"><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a><a class="btn ghost" href="https://wa.me/34605330654?text=Hola%20Dani%2C%20he%20visto%20el%20dossier%20del%20Mae%20Hong%20Son%20Loop%20y%20me%20gustar%C3%ADa%20saber%20m%C3%A1s.">Escríbeme por WhatsApp</a><span class="hint">Reserva tu plaza o pregúntame lo que quieras · +34 605 33 06 54</span></div>
   <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>8</span></div>
 </section>
 
@@ -254,11 +266,12 @@ p { margin: 0; }
       <img src="img/logo.png" alt="" style="width:64px;height:64px">
       <h2>¿Quieres descubrir esta aventura?</h2>
       <p style="color:rgba(255,255,255,.88);font-size:11pt">Cuéntame qué viaje tienes en la cabeza. Te contesto yo, normalmente en menos de 24 horas.</p>
+      <a class="btn light" style="padding:12px 22px;font-size:11pt" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform">Quiero descubrir esta aventura</a>
       <div class="qrs">
-        <div class="qr"><img src="img/qr-wa.png" alt=""><span>Escríbeme por WhatsApp</span><span class="muted" style="font-weight:400">+34 605 33 06 54</span></div>
-        <div class="qr"><img src="img/qr-form.png" alt=""><span>Formulario de inscripción</span><span class="muted" style="font-weight:400">Quiero descubrir esta aventura</span></div>
+        <a class="qr" href="https://wa.me/34605330654"><img src="img/qr-wa.png" alt=""><span>Escríbeme por WhatsApp</span><span class="muted" style="font-weight:400">+34 605 33 06 54</span></a>
+        <a class="qr" href="https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform"><img src="img/qr-form.png" alt=""><span>Formulario de inscripción</span><span class="muted" style="font-weight:400">Quiero descubrir esta aventura</span></a>
       </div>
-      <p style="font-size:9pt;color:rgba(255,255,255,.8)">explorasiam.com · info@explorasiam.com · @explora_siam</p>
+      <p style="font-size:9pt;color:rgba(255,255,255,.8)"><a href="https://explora-siam.vercel.app">explorasiam.com</a> · <a href="mailto:info@explorasiam.com">info@explorasiam.com</a> · <a href="https://www.instagram.com/explora_siam/">@explora_siam</a></p>
     </div>
   </div>
 </section>

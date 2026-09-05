@@ -10,7 +10,7 @@ const { site, cta } = Astro.props;
     <div class="cta__in">
       <h2>{cta.titulo}</h2>
       <p>{cta.subtitulo}</p>
-      <div class="cta__row"><Wa site={site} origen="final" class="btn btn--light btn--lg">{cta.boton}</Wa>{site.formulario && <a href={site.formulario} class="cta__form" target="_blank" rel="noopener">o rellena el formulario de inscripción</a>}</div>
+      <div class="cta__row"><Wa site={site} origen="final" class="btn btn--light btn--lg">{cta.boton}</Wa>{site.formulario && <a href={site.formulario} class="btn btn--ghost cta__ghost btn--lg" target="_blank" rel="noopener">Rellenar el formulario</a>}</div>
       <span class="cta__micro">{cta.microcopy} · <a href={`mailto:${site.email}`}>{site.email}</a></span>
     </div>
   </div>
@@ -22,7 +22,8 @@ const { site, cta } = Astro.props;
   .cta__in h2 { font-weight: 400; font-size: clamp(32px, 4.4vw, 56px); }
   .cta__in p { color: rgba(255,255,255,.85); }
   .cta__row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
-  .cta__form { color: #fff; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+  .cta :global(.cta__ghost) { color: #fff; border-color: rgba(255,255,255,.6); background: transparent; }
+  .cta :global(.cta__ghost):hover { background: rgba(255,255,255,.14); color: #fff; }
   .cta__micro { font-size: 13px; color: rgba(255,255,255,.7); }
   .cta__micro a { color: inherit; text-decoration: underline; }
 </style>

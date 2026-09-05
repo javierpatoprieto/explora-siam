@@ -55,7 +55,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
           <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug}>Quiero este viaje</Wa>
         )}
         <p class="vb__micro">Sin compromiso. Te cuento y decides.</p>
-        {site.formulario && <a href={site.formulario} class="link" target="_blank" rel="noopener">Formulario de inscripción →</a>}
+        {site.formulario && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">Rellenar el formulario</a>}
         {site.dossier && <a href={site.dossier} class="link" target="_blank" rel="noopener">Descargar el dossier en PDF →</a>}
         <a href="/#salidas" class="link">Ver otras salidas →</a>
       </aside>
