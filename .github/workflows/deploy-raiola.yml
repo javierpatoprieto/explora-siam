@@ -73,6 +73,7 @@ jobs:
       - run: npm run build:static
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://explorasiam.com' }}
+          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
 
       - name: Subir por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

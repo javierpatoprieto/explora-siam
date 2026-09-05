@@ -1,0 +1,53 @@
+---
+// Aviso de cookies con consentimiento previo (RGPD/LSSI): la analítica no se
+// carga hasta que la persona acepta, y la decisión se guarda un año.
+const { ga } = Astro.props;
+---
+{ga && (
+  <>
+    <div class="ck" id="ck" hidden>
+      <p>Usamos cookies de Google Analytics para saber qué partes de la web interesan más. Solo se activan si las aceptas. Puedes leer más en la <a href="/cookies">política de cookies</a>.</p>
+      <div class="ck__btns">
+        <button class="btn btn--ghost btn--sm" id="ckNo" type="button">Rechazar</button>
+        <button class="btn btn--sm" id="ckSi" type="button">Aceptar</button>
+      </div>
+    </div>
+    <style>
+      .ck { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; max-width: 460px; margin-left: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; font-size: 14px; color: var(--ink-2); }
+      .ck[hidden] { display: none; }
+      .ck a { text-decoration: underline; text-underline-offset: 3px; }
+      .ck__btns { display: flex; gap: 8px; justify-content: flex-end; }
+      @media (max-width: 760px) { .ck { bottom: 84px; } }
+    </style>
+    <script is:inline define:vars={{ ga }}>
+      (function () {
+        var CLAVE = 'es-cookies';
+        var caja = document.getElementById('ck');
+        function cargar() {
+          if (window.__ga) return;
+          window.__ga = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', ga, { anonymize_ip: true });
+        }
+        function guardar(v) {
+          try { localStorage.setItem(CLAVE, JSON.stringify({ v: v, f: Date.now() })); } catch (e) {}
+          caja.hidden = true;
+          if (v === 'si') cargar();
+        }
+        var previo = null;
+        try { previo = JSON.parse(localStorage.getItem(CLAVE) || 'null'); } catch (e) {}
+        var vigente = previo && Date.now() - previo.f < 365 * 24 * 3600 * 1000;
+        if (vigente && previo.v === 'si') cargar();
+        else if (!vigente) caja.hidden = false;
+        document.getElementById('ckSi').addEventListener('click', function () { guardar('si'); });
+        document.getElementById('ckNo').addEventListener('click', function () { guardar('no'); });
+      })();
+    </script>
+  </>
+)}

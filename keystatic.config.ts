@@ -26,6 +26,8 @@ export default config({
         indexar: fields.checkbox({ label: 'Permitir que Google indexe la web', defaultValue: false }),
         formulario: fields.url({ label: 'Formulario de inscripción (opcional)', description: 'Si está vacío no se muestra el enlace.' }),
         dossier: fields.text({ label: 'Dossier en PDF (ruta o URL)', description: 'Ejemplo: /dossier-mae-hong-son-loop.pdf. Vacío para ocultar el enlace.' }),
+        analytics: fields.text({ label: 'Google Analytics', description: 'Identificador que empieza por G-. Vacío para no cargar analítica.' }),
+        verificacionGoogle: fields.text({ label: 'Verificación de Google Search Console', description: 'Solo el código del meta google-site-verification.' }),
         seoTitulo: fields.text({ label: 'Título SEO' }),
         seoDescripcion: fields.text({ label: 'Descripción SEO', multiline: true }),
         plantillas: fields.object(

@@ -29,7 +29,19 @@ DirectoryIndex index.html
   RewriteRule ^condiciones-de-contratacion/?$ /condiciones [R=301,L]
 </IfModule>
 
+# Restos del WordPress anterior: se bloquean y se marcan como eliminados para
+# que Google los saque del índice. Los archivos deberían borrarse del hosting.
+<IfModule mod_rewrite.c>
+  RewriteRule ^(wp-admin|wp-includes|wp-content|wp-json)(/.*)?$ - [G,L]
+  RewriteRule ^(wp-login\.php|xmlrpc\.php|wp-cron\.php|wp-config\.php.*|readme\.html|license\.txt)$ - [G,L]
+</IfModule>
+
+<FilesMatch "^(wp-config\.php|\.env|\.htpasswd|.*\.sql|.*\.zip)$">
+  Require all denied
+</FilesMatch>
+
 ErrorDocument 404 /404.html
+ErrorDocument 410 /404.html
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml

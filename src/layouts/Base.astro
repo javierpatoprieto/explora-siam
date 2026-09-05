@@ -3,13 +3,14 @@ import '@fontsource-variable/inter';
 import '@fontsource-variable/inter-tight';
 import '../styles/global.css';
 import { getEntry } from 'astro:content';
+import Cookies from '../components/Cookies.astro';
 
 interface Props { title?: string; description?: string; ogImage?: string; noindex?: boolean; jsonLd?: unknown[] }
 const site = (await getEntry('site', 'site'))!.data;
 const { title = site.seoTitulo, description = site.seoDescripcion, ogImage = '/og.jpg', noindex = false, jsonLd = [] } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const robots = site.indexar && !noindex ? 'index, follow' : 'noindex, nofollow';
-const ga = import.meta.env.PUBLIC_GA_ID;
+const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
 ---
 <!doctype html>
 <html lang="es">
@@ -31,22 +32,13 @@ const ga = import.meta.env.PUBLIC_GA_ID;
     <meta property="og:locale" content="es_ES" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {site.verificacionGoogle && <meta name="google-site-verification" content={site.verificacionGoogle} />}
     {jsonLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
     <script is:inline>document.documentElement.classList.add('js');</script>
-    {ga && (
-      <>
-        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
-        <script is:inline define:vars={{ ga }}>
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', ga, { anonymize_ip: true });
-        </script>
-      </>
-    )}
   </head>
   <body>
     <slot />
+    <Cookies ga={ga} />
     <script>
       // Revelado suave al hacer scroll
       const io = new IntersectionObserver(

@@ -7,7 +7,7 @@
   "ubicacion": "Santander · Chiang Mai",
   "licencia": "Seguro de responsabilidad civil · Guías con certificado TAT",
   "horario": "Lunes a viernes, de 9:00 a 20:00",
-  "indexar": false,
+  "indexar": true,
   "seoTitulo": "Explora Siam · Mae Hong Son Loop en moto, grupo reducido",
   "seoDescripcion": "Ruta en moto por el norte de Tailandia con Dani: Mae Hong Son Loop, 650 km y más de 1.800 curvas, en grupo de 6 a 8 personas, con guía local y furgoneta de apoyo. Del 21 de noviembre al 7 de diciembre. Habla con él por WhatsApp.",
   "plantillas": {
@@ -24,5 +24,7 @@
     "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
   },
   "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform",
-  "dossier": "/dossier-mae-hong-son-loop.pdf"
+  "dossier": "/dossier-mae-hong-son-loop.pdf",
+  "analytics": "",
+  "verificacionGoogle": ""
 }
