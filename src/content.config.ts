@@ -46,7 +46,7 @@ const home = defineCollection({
       statement: z.object({ antes: z.string(), imagen1: image(), medio: z.string(), imagen2: image(), despues: z.string(), texto: z.string().optional().default('') }),
       ventajas: z.object({ titulo: z.string(), texto: z.string().optional().default(''), items: z.array(z.object({ icono: z.string(), titulo: z.string(), texto: z.string() })) }),
       cifras: z.array(z.object({ valor: z.string(), unidad: z.string().optional().default(''), etiqueta: z.string() })).default([]),
-      ruta: z.object({ etiqueta: z.string(), titulo: z.string(), imagenes: z.array(image()), pies: z.array(z.string()).default([]) }),
+      ruta: z.object({ etiqueta: z.string(), titulo: z.string(), imagenes: z.array(image()), pies: z.array(z.string()).default([]), focos: z.array(z.string()).default([]) }),
       precio: z.object({ etiqueta: z.string(), titulo: z.string(), nota: z.string(), pagos: z.array(z.object({ importe: z.string(), cuando: z.string() })) }),
       hechos: z.array(z.string()),
       manifiesto: z.object({

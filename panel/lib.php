@@ -190,6 +190,29 @@ function fijar(array &$datos, string $camino, $valor): void
     }
 }
 
+/** Carpeta de vídeos del hosting: public_html/video */
+function carpeta_videos(): string
+{
+    $ruta = dirname(__DIR__) . '/video';
+    if (!is_dir($ruta)) {
+        @mkdir($ruta, 0755, true);
+    }
+    return $ruta;
+}
+
+/** Vídeos que ya están subidos al hosting. */
+function videos_subidos(): array
+{
+    $ruta = carpeta_videos();
+    $lista = [];
+    foreach (@scandir($ruta) ?: [] as $f) {
+        if (str_ends_with(strtolower($f), '.mp4')) {
+            $lista[] = ['nombre' => $f, 'peso' => (int) @filesize($ruta . '/' . $f)];
+        }
+    }
+    return $lista;
+}
+
 function e(?string $t): string
 {
     return htmlspecialchars((string) $t, ENT_QUOTES, 'UTF-8');

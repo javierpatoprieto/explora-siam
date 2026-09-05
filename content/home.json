@@ -252,6 +252,13 @@
       "Amanecer en Phu Chi Fa",
       "Chiang Mai",
       "Carretera 1095, camino de Pai"
+    ],
+    "focos": [
+      "50% 25%",
+      "50% 45%",
+      "50% 50%",
+      "50% 68%",
+      "50% 55%"
     ]
   },
   "precio": {

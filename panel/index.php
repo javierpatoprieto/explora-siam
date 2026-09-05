@@ -209,7 +209,7 @@ function subir_medio(string $tipo): array
     }
     $tmp = $_FILES['archivo']['tmp_name'];
     $peso = (int) $_FILES['archivo']['size'];
-    $limite = $tipo === 'foto' ? 8 * 1024 * 1024 : 25 * 1024 * 1024;
+    $limite = $tipo === 'foto' ? 8 * 1024 * 1024 : 300 * 1024 * 1024;
     if ($peso > $limite) {
         return ['mal', 'El archivo pesa ' . round($peso / 1048576, 1) . ' MB y el máximo son ' . round($limite / 1048576) . ' MB.'];
     }
@@ -232,12 +232,14 @@ function subir_medio(string $tipo): array
     if ($mime !== 'video/mp4') {
         return ['mal', 'El vídeo debe ser un MP4.'];
     }
+    // Los vídeos se guardan en el propio hosting, no en el repositorio: pesan
+    // demasiado para la API de GitHub y no tiene sentido versionarlos.
     $nombre = preg_replace('/[^a-z0-9._-]/', '-', strtolower((string) $_FILES['archivo']['name'])) ?: 'video.mp4';
-    $destino = VIDEOS . '/' . $nombre;
-    $actual = leer_archivo($destino);
-    [$ok, $err] = guardar_archivo($destino, (string) file_get_contents($tmp), $actual['sha'] ?? null, 'Panel: nuevo vídeo ' . $nombre);
-    if (!$ok) {
-        return ['mal', 'No se pudo subir: ' . $err];
+    if (!str_ends_with($nombre, '.mp4')) {
+        $nombre .= '.mp4';
+    }
+    if (!@move_uploaded_file($tmp, carpeta_videos() . '/' . $nombre)) {
+        return ['mal', 'No se pudo guardar el vídeo en el servidor. Comprueba los permisos de la carpeta video.'];
     }
     $donde = (string) ($_POST['donde'] ?? 'hero');
     $home = leer_json(HOME);
@@ -245,7 +247,7 @@ function subir_medio(string $tipo): array
         fijar($home['datos'], $donde === 'hero' ? 'hero.videoMp4' : 'video.mp4', '/video/' . $nombre);
         guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: vídeo en ' . $donde);
     }
-    return ['ok', 'Vídeo subido y colocado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.'];
+    return ['ok', 'Vídeo subido (' . round($peso / 1048576, 1) . ' MB) y colocado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.'];
 }
 
 /* --------------------------------------------------------------- datos */

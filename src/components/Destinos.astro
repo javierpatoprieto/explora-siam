@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 const { ruta, salida, video } = Astro.props;
 const d = salida?.data;
-const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '' }));
+const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '', foco: ruta.focos?.[i] || '50% 50%' }));
 const sizes = ['a', 'b', 'c', 'd', 'e'];
 ---
 <section class="dest section" id="ruta">
@@ -10,7 +10,7 @@ const sizes = ['a', 'b', 'c', 'd', 'e'];
   <div class="wrap bento" data-reveal>
     {etapas.map((e: any, i: number) => (
       <a href={`/viajes/${d.slug}#etapa-${i + 1}`} class:list={['tile', `tile--${sizes[i] ?? 'e'}`]}>
-        <Image src={e.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 40vw" />
+        <Image src={e.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 40vw" style={`object-position: ${e.foco}`} />
         <div class="tile__shade"></div>
         <div class="tile__txt"><strong>{e.titulo.split(',')[0]}</strong><span>Etapa {i + 1}{e.titulo.includes(',') ? ` · ${e.titulo.split(',')[1].trim()}` : ''}</span></div>
       </a>

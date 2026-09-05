@@ -74,7 +74,15 @@
 
 <?php elseif ($seccion === 'videos'): ?>
   <h1>Vídeos</h1>
-  <p class="guia">Sube un MP4 de hasta 25 MB. Para la portada, lo ideal son 10 segundos en bucle y sin sonido; para la banda del centro, unos 40 segundos.</p>
+  <p class="guia">Sube un MP4 de hasta 300 MB. Los vídeos se guardan en el propio servidor, así que la subida puede tardar un rato: no cierres la pestaña.</p>
+  <p class="guia"><strong>Consejo importante:</strong> el vídeo de la portada se reproduce solo nada más entrar, así que conviene que sea ligero, de unos 10 segundos y por debajo de 10 MB, o la web tardará en cargar en el móvil. El de la banda central solo se descarga cuando alguien le da al play, así que ahí sí puede ser largo y pesado.</p>
+  <?php $subidos = videos_subidos(); if ($subidos): ?>
+    <fieldset><legend>Vídeos en el servidor</legend>
+      <table class="tabla"><?php foreach ($subidos as $v): ?>
+        <tr><td><code>/video/<?= e($v['nombre']) ?></code></td><td style="text-align:right;color:var(--muted)"><?= number_format($v['peso'] / 1048576, 1, ',', '.') ?> MB</td></tr>
+      <?php endforeach; ?></table>
+    </fieldset>
+  <?php endif; ?>
   <?php foreach ([['hero', 'Vídeo de la portada', valor($home['datos'], 'hero.videoMp4')], ['banda', 'Vídeo de la banda central', valor($home['datos'], 'video.mp4')]] as [$donde, $etiqueta, $actual]): ?>
     <fieldset>
       <legend><?= e($etiqueta) ?></legend>

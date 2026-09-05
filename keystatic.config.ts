@@ -101,6 +101,7 @@ export default config({
             titulo: fields.text({ label: 'Titular' }),
             imagenes: fields.array(img(IMG_HOME, 'Imagen'), { label: 'Una imagen por etapa (en el orden del itinerario del viaje)' }),
             pies: fields.array(fields.text({ label: 'Pie' }), { label: 'Pies de foto', itemLabel: (p) => p.value }),
+            focos: fields.array(fields.text({ label: 'Encuadre' }), { label: 'Encuadre de cada foto', description: 'Qué parte de la foto se ve al recortarla. Formato "50% 30%": el primer número es horizontal y el segundo vertical. Menos porcentaje vertical enseña la parte de arriba.', itemLabel: (p) => p.value }),
           },
           { label: 'La ruta, etapa a etapa' },
         ),
