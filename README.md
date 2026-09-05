@@ -34,13 +34,19 @@ Cliente edita en el panel (Vercel /keystatic)
 
 Cada guardado del cliente actualiza la web en uno o dos minutos, sin tocar nada.
 
-### 1. Panel de edición (Vercel, una sola vez)
+### 1. Panel del cliente (PHP, en el propio hosting)
 
-1. En local, `npm run dev` y abre `/keystatic`. Sigue el asistente **Set up GitHub App**: crea la app en la cuenta de GitHub dueña del repositorio y copia las tres claves.
-2. En el proyecto de Vercel, añade las variables `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` y `KEYSTATIC_SECRET` (ver `.env.example`).
-3. Redespliega. El panel queda en `<proyecto>.vercel.app/keystatic`; se le puede poner un subdominio propio, por ejemplo `panel.explorasiam.com`.
+`panel/` es un panel en PHP que corre en Raiola sin necesidad de Node. El cliente entra en `explorasiam.com/panel` con una contraseña y edita textos, fotos, vídeos y los datos del viaje. Cada cambio se guarda como un commit en este repositorio mediante la API de GitHub, lo que dispara el despliegue y actualiza la web en un par de minutos.
 
-Sin esas variables la web se publica igual: solo desaparece la ruta `/keystatic`.
+Puesta en marcha, una sola vez:
+
+1. **Token de GitHub.** *Settings → Developer settings → Personal access tokens → Fine-grained tokens*. Acceso solo a este repositorio y permiso **Contents: Read and write**. Caducidad: la que prefieras, con recordatorio para renovarlo.
+2. **Configuración.** Copia `panel/config.example.php` como `panel/config.php` y rellena la contraseña del cliente y el token. Ese archivo no se versiona y el `.htaccess` impide leerlo desde fuera.
+3. **Subida.** La acción de despliegue sube la carpeta `panel/` junto con la web, y nunca sobrescribe `config.php`. La primera vez, si aún no hay FTP configurado, súbela a mano a `public_html/panel/`.
+
+Requisitos del hosting: PHP 8 con cURL, que es lo que trae Raiola de serie.
+
+El panel de desarrollo Keystatic sigue disponible en local con `npm run dev` y `/keystatic`, para trabajos del equipo.
 
 ### 2. Hosting del cliente (Raiola)
 

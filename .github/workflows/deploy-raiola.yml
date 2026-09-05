@@ -90,6 +90,22 @@ jobs:
             **/.git*
             **/.git*/**
 
+      - name: Subir el panel del cliente
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          port: ${{ fromJSON(vars.FTP_PORT || 21) }}
+          local-dir: ./panel/
+          server-dir: ${{ vars.FTP_DIR || '/public_html/' }}panel/
+          dangerous-clean-slate: false
+          exclude: |
+            **/config.php
+            **/.intentos
+            **/.git*
+
       - name: Comprobar que responde
         run: |
           URL="${{ vars.SITE_URL || 'https://explorasiam.com' }}"
