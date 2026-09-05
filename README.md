@@ -57,6 +57,8 @@ En **Settings → Secrets and variables → Actions** del repositorio:
 | Variable | `FTP_PROTOCOL` | `ftps` (o `sftp` si Raiola lo ofrece) |
 | Variable | `SITE_URL` | `https://explorasiam.com` |
 
+La acción tiene dos trabajos: **Copia del sitio actual** (descarga lo que haya en `public_html` y lo guarda como artefacto descargable durante 90 días, útil para conservar el WordPress antiguo del cliente) y **Compilar y subir**. Desde *Actions → Publicar en Raiola → Run workflow* se puede lanzar a mano y elegir si se hace solo la copia, solo la publicación o ambas.
+
 `public/.htaccess` ya lleva HTTPS forzado, dominio sin `www`, URLs limpias, página 404, compresión, caché de un año para imágenes y CSS, y las redirecciones desde las URLs de la web antigua en WordPress.
 
 Para subirlo a mano: `npm run build:static` y copiar **todo el contenido** de `dist/` (incluido el `.htaccess`, que está oculto) a `public_html`.

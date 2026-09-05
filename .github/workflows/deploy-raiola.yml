@@ -1,18 +1,67 @@
 name: Publicar en Raiola
 
-# Cada cambio en main (incluidos los que hace el cliente desde el panel)
-# compila la web y la sube por FTP al hosting.
+# En cada cambio de main (incluidos los que hace el cliente desde el panel):
+#   1. descarga lo que hay ahora en el hosting y lo guarda como copia de seguridad
+#   2. compila la web estática
+#   3. la sube por FTP
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      respaldo:
+        description: Guardar copia de lo que hay ahora en el hosting
+        type: boolean
+        default: true
+      publicar:
+        description: Subir la web nueva
+        type: boolean
+        default: true
 
 concurrency:
   group: deploy-raiola
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  respaldo:
+    name: Copia del sitio actual
+    if: github.event_name == 'push' || inputs.respaldo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Descargar el contenido actual de public_html
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ vars.FTP_DIR || '/public_html/' }}
+        run: |
+          mkdir -p respaldo
+          lftp -c "
+            set ssl:verify-certificate no;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
+            mirror --parallel=4 --exclude-glob .well-known/ \"$FTP_DIR\" respaldo;
+          " || echo "Aviso: no se pudo descargar todo (¿carpeta vacía o sin permisos?). Se continúa."
+          echo "Archivos descargados: $(find respaldo -type f | wc -l)"
+
+      - name: Guardar la copia como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-anterior-${{ github.run_number }}
+          path: respaldo
+          retention-days: 90
+          if-no-files-found: warn
+
   publicar:
+    name: Compilar y subir
+    needs: respaldo
+    if: always() && (github.event_name == 'push' || inputs.publicar)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +73,7 @@ jobs:
       - run: npm run build:static
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://explorasiam.com' }}
+
       - name: Subir por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -31,10 +81,21 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          port: ${{ vars.FTP_PORT || 21 }}
+          port: ${{ fromJSON(vars.FTP_PORT || 21) }}
           local-dir: ./dist/
           server-dir: ${{ vars.FTP_DIR || '/public_html/' }}
           dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
+
+      - name: Comprobar que responde
+        run: |
+          URL="${{ vars.SITE_URL || 'https://explorasiam.com' }}"
+          for i in 1 2 3; do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' -L "$URL" || echo 000)
+            echo "Intento $i · $URL → $CODE"
+            [ "$CODE" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "La web todavía no responde con 200. Puede que el dominio aún no apunte a Raiola."
