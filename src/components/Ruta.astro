@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import Wa from './Wa.astro';
+import { precio } from '../lib/wa';
+const { site, ruta, salida } = Astro.props;
+const d = salida?.data;
+const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[ruta.imagenes.length - 1], pie: ruta.pies[i] ?? '' }));
+---
+<section class="ruta section" id="salidas">
+  <div class="wrap ruta__head" data-reveal>
+    <div><span class="label vino">{ruta.etiqueta}</span><h2>{ruta.titulo}</h2></div>
+    {d && (
+      <div class="ficha">
+        <p class="ficha__row label"><span>{d.fechas}</span><i></i><span>{d.duracion}</span><i></i><span>grupo de 6 a {d.plazas}</span></p>
+        <p class="ficha__precio"><span class="display">desde {precio(d.precio)}</span>{d.notaPrecio && <span class="nota"> · {d.notaPrecio}</span>}</p>
+        <div class="ficha__cta">
+          <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug} icon={false}>Quiero este viaje</Wa>
+          <a href={`/viajes/${d.slug}`} class="link">Ficha completa →</a>
+        </div>
+      </div>
+    )}
+  </div>
+  <div class="etapas" id="etapas">
+    <svg class="linea" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true"><path id="lineaBg" d="M50 0 C 30 150, 70 250, 50 400 S 30 650, 50 800 S 70 950, 50 1000" pathLength="1"></path><path id="lineaFg" d="M50 0 C 30 150, 70 250, 50 400 S 30 650, 50 800 S 70 950, 50 1000" pathLength="1"></path></svg>
+    {etapas.map((e: any, i: number) => (
+      <article class:list={['etapa', { 'etapa--inv': i % 2 === 1 }]} data-etapa>
+        <div class="etapa__img" data-reveal>
+          <Image src={e.imagen} alt="" class="cover" widths={[700, 1000, 1400]} sizes="(max-width: 900px) 100vw, 55vw" />
+          {e.pie && <span class="cap">{e.pie}</span>}
+        </div>
+        <div class="etapa__txt" data-reveal>
+          <span class="etapa__n">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="etapa__t">{e.titulo}</h3>
+          <p>{e.texto}</p>
+        </div>
+        <span class="nodo" aria-hidden="true"></span>
+      </article>
+    ))}
+  </div>
+</section>
+<style>
+  .ruta__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; margin-bottom: 40px; }
+  .ruta__head .label { display: block; margin-bottom: 14px; }
+  .vino { color: var(--vino); }
+  .ficha { display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--linea); border-radius: 4px; padding: 22px 24px; min-width: 360px; background: var(--crema); }
+  .ficha__row { display: flex; gap: 10px; align-items: center; color: var(--gris); font-size: 13px; flex-wrap: wrap; }
+  .ficha__row i { display: inline-block; width: 4px; height: 4px; border-radius: 999px; background: var(--coral); }
+  .ficha__precio .display { font-family: var(--display); text-transform: uppercase; font-size: 28px; }
+  .nota { color: var(--gris); font-size: 13px; }
+  .ficha__cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .etapas { position: relative; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); padding: 40px 0 0; }
+  .linea { position: absolute; top: 0; bottom: 0; left: 50%; width: 120px; height: 100%; transform: translateX(-50%); overflow: visible; pointer-events: none; }
+  .linea path { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+  #lineaBg { stroke: var(--linea); }
+  #lineaFg { stroke: var(--coral); stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .etapa { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding: 0 var(--gutter); max-width: var(--max); margin: 0 auto; width: 100%; }
+  .etapa__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+  .etapa--inv .etapa__img { order: 2; }
+  .etapa__txt { display: flex; flex-direction: column; gap: 12px; max-width: 480px; }
+  .etapa--inv .etapa__txt { justify-self: end; }
+  .etapa__n { font-family: var(--display); font-size: clamp(64px, 7vw, 112px); line-height: .85; color: var(--coral); opacity: .9; }
+  .etapa__t { font-size: clamp(30px, 3vw, 44px); }
+  .etapa__txt p { color: var(--texto-2); }
+  .nodo { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; border-radius: 999px; background: var(--crema); border: 2px solid var(--coral); transform: translate(-50%, -50%) scale(.6); transition: transform .4s var(--ease), background .4s; }
+  .etapa.on .nodo { transform: translate(-50%, -50%) scale(1); background: var(--coral); }
+  @media (max-width: 900px) {
+    .ruta__head { flex-direction: column; align-items: stretch; gap: 20px; }
+    .ficha { min-width: 0; }
+    .etapas { padding-left: 28px; }
+    .linea { left: 14px; transform: none; width: 40px; }
+    .etapa { grid-template-columns: 1fr; gap: 16px; padding: 0 var(--gutter) 0 12px; }
+    .etapa--inv .etapa__img { order: 0; }
+    .etapa__n { font-size: 56px; }
+    .nodo { left: -13px; top: 24px; }
+  }
+</style>
+<script>
+  const box = document.getElementById('etapas'); const fg = document.getElementById('lineaFg') as unknown as SVGPathElement | null;
+  const etapas = document.querySelectorAll<HTMLElement>('[data-etapa]');
+  if (box && fg) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tick = () => {
+      const r = box.getBoundingClientRect(); const vh = innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
+      fg.style.strokeDashoffset = String(reduce ? 0 : 1 - p);
+      etapas.forEach((e) => { const er = e.getBoundingClientRect(); e.classList.toggle('on', er.top + er.height / 2 < vh * 0.7); });
+    };
+    addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
+  }
+</script>

@@ -37,7 +37,11 @@ const home = defineCollection({
         videoMp4: z.string().optional().default(''),
         videoWebm: z.string().optional().default(''),
         mostrarProximaSalida: z.boolean().default(true),
+        cinta: z.array(z.string()).default([]),
       }),
+      cifras: z.array(z.object({ valor: z.string(), unidad: z.string().optional().default(''), etiqueta: z.string() })).default([]),
+      ruta: z.object({ etiqueta: z.string(), titulo: z.string(), imagenes: z.array(image()), pies: z.array(z.string()).default([]) }),
+      precio: z.object({ etiqueta: z.string(), titulo: z.string(), nota: z.string(), pagos: z.array(z.object({ importe: z.string(), cuando: z.string() })) }),
       hechos: z.array(z.string()),
       manifiesto: z.object({
         titulo: z.string(),

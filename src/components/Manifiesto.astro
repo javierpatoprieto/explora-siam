@@ -3,32 +3,32 @@ import { Image } from 'astro:assets';
 const { m } = Astro.props;
 ---
 <section class="mani" id="manifiesto">
-  <div class="mani__text" data-reveal>
-    <h2>{m.titulo} <em>{m.destacado}</em> {m.cierre}</h2>
-    <div class="mani__blocks">
-      {m.bloques.map((b: any) => (<div><h3 class="mani__h">{b.titulo}</h3><p>{b.texto}</p></div>))}
-    </div>
-    {m.enlace && <a href="#galeria" class="link">{m.enlace} →</a>}
-  </div>
-  <div class="mani__img" data-reveal>
-    <Image src={m.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 58vw" />
+  <div class="mani__img">
+    <Image src={m.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2200]} sizes="100vw" />
     {m.pie && <span class="cap">{m.pie}</span>}
+  </div>
+  <div class="wrap mani__grid">
+    <h2 class="mani__h" data-reveal>{m.titulo} <em>{m.destacado}</em> {m.cierre}</h2>
+    <div class="mani__blocks">
+      {m.bloques.map((b: any, i: number) => (<div class="mani__b" data-reveal><span class="mani__i">{String(i + 1).padStart(2, '0')}</span><h3 class="mani__t">{b.titulo}</h3><p>{b.texto}</p></div>))}
+    </div>
   </div>
 </section>
 <style>
-  .mani { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: stretch; padding: clamp(72px, 8vw, 120px) 0 clamp(72px, 8vw, 120px) var(--gutter); }
-  .mani__text { display: flex; flex-direction: column; justify-content: center; gap: 44px; }
-  .mani__text h2 { font-size: clamp(40px, 4.7vw, 68px); max-width: 12ch; text-wrap: balance; }
-  .mani__text h2 em { font-style: normal; color: var(--coral); }
-  .mani__blocks { display: flex; flex-direction: column; gap: 26px; max-width: 460px; }
-  .mani__h { font-family: var(--texto); text-transform: none; font-size: 20px; font-weight: 700; letter-spacing: 0; margin-bottom: 8px; }
-  .mani__blocks p { color: var(--texto-2); }
-  .mani__img { position: relative; min-height: 560px; }
-  .mani .link { align-self: flex-start; }
+  .mani { position: relative; padding-bottom: clamp(72px, 8vw, 120px); }
+  .mani__img { position: relative; height: clamp(420px, 72vh, 820px); overflow: hidden; }
+  .mani__img .cap { left: auto; right: 16px; }
+  .mani__grid { display: grid; grid-template-columns: 7fr 5fr; gap: 64px; align-items: start; }
+  .mani__h { margin-top: -0.9em; position: relative; background: var(--crema); padding: 24px 32px 0 0; font-size: clamp(44px, 6vw, 96px); line-height: .92; max-width: 11ch; text-wrap: balance; }
+  .mani__h em { font-style: normal; color: var(--coral); }
+  .mani__blocks { display: flex; flex-direction: column; gap: 32px; padding-top: 56px; }
+  .mani__b { display: grid; grid-template-columns: 40px 1fr; gap: 0 16px; }
+  .mani__i { font-family: var(--display); font-size: 22px; color: var(--coral); line-height: 1.3; }
+  .mani__t { font-family: var(--texto); text-transform: none; letter-spacing: 0; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .mani__b p { grid-column: 2; color: var(--texto-2); }
   @media (max-width: 900px) {
-    .mani { grid-template-columns: 1fr; gap: 32px; padding: 72px 0 80px; }
-    .mani__text { padding: 0 var(--gutter); order: 2; }
-    .mani__img { min-height: 0; aspect-ratio: 4 / 5; order: 1; }
-    .mani__text h2 { max-width: none; }
+    .mani__grid { grid-template-columns: 1fr; gap: 24px; }
+    .mani__h { margin-top: -0.7em; padding: 16px 16px 0 0; max-width: none; }
+    .mani__blocks { padding-top: 8px; gap: 24px; }
   }
 </style>

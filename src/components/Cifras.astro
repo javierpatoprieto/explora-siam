@@ -1,0 +1,21 @@
+---
+const { cifras } = Astro.props;
+---
+<section class="cifras oscuro" aria-label="La ruta en cifras">
+  <div class="wrap cifras__in">
+    {cifras.map((c: any) => (
+      <div class="cifra" data-reveal>
+        <span class="cifra__n">{c.valor}<small>{c.unidad}</small></span>
+        <span class="cifra__t">{c.etiqueta}</span>
+      </div>
+    ))}
+  </div>
+</section>
+<style>
+  .cifras__in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding-top: clamp(56px, 6vw, 96px); padding-bottom: clamp(56px, 6vw, 96px); }
+  .cifra { display: flex; flex-direction: column; gap: 10px; border-left: 1px solid rgba(243,238,230,.18); padding-left: 24px; }
+  .cifra__n { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .18em; font-family: var(--display); font-size: clamp(56px, 6.6vw, 108px); line-height: .9; letter-spacing: -0.01em; color: var(--crema); }
+  .cifra__n small { font-size: .3em; color: var(--coral); letter-spacing: .02em; }
+  .cifra__t { font-size: 15px; color: rgba(243,238,230,.7); }
+  @media (max-width: 900px) { .cifras__in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; } .cifra { padding-left: 16px; } }
+</style>

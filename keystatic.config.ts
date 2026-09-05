@@ -57,8 +57,31 @@ export default config({
             videoMp4: fields.text({ label: 'Vídeo MP4 (ruta en /public/video/ o URL)' }),
             videoWebm: fields.text({ label: 'Vídeo WebM (opcional)' }),
             mostrarProximaSalida: fields.checkbox({ label: 'Mostrar la próxima salida en el hero', defaultValue: true }),
+            cinta: fields.array(fields.text({ label: 'Lugar' }), { label: 'Cinta de lugares (pie del hero)', itemLabel: (p) => p.value }),
           },
           { label: 'Hero' },
+        ),
+        cifras: fields.array(
+          fields.object({ valor: fields.text({ label: 'Cifra' }), unidad: fields.text({ label: 'Unidad' }), etiqueta: fields.text({ label: 'Texto' }) }),
+          { label: 'Cifras gigantes', itemLabel: (p) => `${p.fields.valor.value} ${p.fields.unidad.value}` },
+        ),
+        ruta: fields.object(
+          {
+            etiqueta: fields.text({ label: 'Etiqueta' }),
+            titulo: fields.text({ label: 'Titular' }),
+            imagenes: fields.array(img(IMG_HOME, 'Imagen'), { label: 'Una imagen por etapa (en el orden del itinerario del viaje)' }),
+            pies: fields.array(fields.text({ label: 'Pie' }), { label: 'Pies de foto', itemLabel: (p) => p.value }),
+          },
+          { label: 'La ruta, etapa a etapa' },
+        ),
+        precio: fields.object(
+          {
+            etiqueta: fields.text({ label: 'Etiqueta' }),
+            titulo: fields.text({ label: 'Precio (texto grande)' }),
+            nota: fields.text({ label: 'Nota' }),
+            pagos: fields.array(fields.object({ importe: fields.text({ label: 'Importe' }), cuando: fields.text({ label: 'Cuándo' }) }), { label: 'Pagos', itemLabel: (p) => `${p.fields.importe.value} ${p.fields.cuando.value}` }),
+          },
+          { label: 'Precio' },
         ),
         hechos: fields.array(fields.text({ label: 'Hecho' }), { label: 'Franja de hechos', itemLabel: (p) => p.value }),
         manifiesto: fields.object(

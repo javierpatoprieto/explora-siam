@@ -3,7 +3,9 @@ import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import Hechos from '../components/Hechos.astro';
+import Cifras from '../components/Cifras.astro';
+import Ruta from '../components/Ruta.astro';
+import Precio from '../components/Precio.astro';
 import Manifiesto from '../components/Manifiesto.astro';
 import Salidas from '../components/Salidas.astro';
 import VideoBand from '../components/VideoBand.astro';
@@ -53,15 +55,14 @@ const jsonLd = [
   <Nav site={site} />
   <main>
     <Hero site={site} hero={home.hero} proxima={proxima} />
-    <Hechos hechos={home.hechos} />
+    <Cifras cifras={home.cifras} />
     <Manifiesto m={home.manifiesto} />
-    <Salidas site={site} cab={home.salidas} salidas={salidas} />
+    {abiertas.length === 1 ? <Ruta site={site} ruta={home.ruta} salida={abiertas[0]} /> : <Salidas site={site} cab={home.salidas} salidas={salidas} />}
     <VideoBand v={home.video} />
-    <Dia site={site} dia={home.dia} />
     <Fundador site={site} f={home.fundador} />
     <Galeria site={site} g={home.galeria} />
+    <Precio site={site} p={home.precio} inc={home.incluye} />
     <Testimonios t={home.testimonios} items={testimonios} />
-    <Incluye site={site} inc={home.incluye} />
     <Faq site={site} faq={home.faq} items={faqs} />
     <Cta site={site} cta={home.cta} />
   </main>

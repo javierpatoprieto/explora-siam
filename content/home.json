@@ -1,9 +1,9 @@
 {
   "hero": {
     "badge": "Ruta en moto por el norte de Tailandia · grupo de 6 a 8",
-    "titulo": "Descubre en moto la Tailandia que",
+    "titulo": "La Tailandia que",
     "destacado": "pocos llegan a conocer.",
-    "subtitulo": "¿Te gustaría rodar por el Mae Hong Son Loop con un grupo reducido de amigos, rodeado de naturaleza, mientras conoces la cultura tailandesa? 650 km y más de 1.800 curvas junto a la frontera birmana.",
+    "subtitulo": "Seis días en moto por el Mae Hong Son Loop, con un grupo de seis a ocho amigos y todo lo demás resuelto.",
     "botonPrimario": "Cuéntame tu viaje por WhatsApp",
     "microcopy": "Te contesta Dani, no un bot.",
     "botonSecundario": "Ver la ruta",
@@ -11,7 +11,18 @@
     "posterMovil": "../src/assets/img/moto-curva-45.jpg",
     "videoMp4": "",
     "videoWebm": "",
-    "mostrarProximaSalida": true
+    "mostrarProximaSalida": true,
+    "cinta": [
+      "Bangkok",
+      "Chiang Rai",
+      "Phu Chi Fa",
+      "Chiang Mai",
+      "Mae Chaem",
+      "Khun Yuam",
+      "Ban Rak Thai",
+      "Ban Ja Bo",
+      "Pai"
+    ]
   },
   "hechos": [
     "Grupos de 6 a 8 personas",
@@ -37,8 +48,8 @@
         "texto": "El ritmo del viaje está pensado para que cada momento tenga su lugar y cada lugar su momento. Actividad y descanso, momentos de convivencia para conocernos, y espacio para la improvisación."
       }
     ],
-    "imagen": "../src/assets/img/riders-mirador-32.jpg",
-    "pie": "Mirador en el Mae Hong Son Loop",
+    "imagen": "../src/assets/img/phuchifa-169.jpg",
+    "pie": "Phu Chi Fa, 05:45",
     "enlace": "Así se vive la ruta"
   },
   "salidas": {
@@ -163,7 +174,7 @@
       }
     ],
     "enlaceInstagram": "Más en Instagram",
-    "intro": "Cada olor a comida, flores o incienso. Cada sabor: frutas, platos típicos con su picante, o un polo de maracuyá que te devuelve a la infancia. Cada conversación con gente local. Cada imagen de un templo, un paisaje o la vida cotidiana. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok. ¿Te gustaría tener la sensación de estar viviendo todo esto a la vez?"
+    "intro": "Cada olor, cada sabor, cada sonido. ¿Te gustaría vivirlo todo a la vez?"
   },
   "testimonios": {
     "titulo": "Lo que dicen los que ya han rodado conmigo.",
@@ -202,5 +213,64 @@
   },
   "footer": {
     "frase": "Vive Tailandia de una forma diferente."
+  },
+  "cifras": [
+    {
+      "valor": "650",
+      "unidad": "km",
+      "etiqueta": "de ruta en moto"
+    },
+    {
+      "valor": "1.800",
+      "unidad": "curvas",
+      "etiqueta": "junto a la frontera birmana"
+    },
+    {
+      "valor": "17",
+      "unidad": "días",
+      "etiqueta": "de Bangkok a Pai"
+    },
+    {
+      "valor": "8",
+      "unidad": "plazas",
+      "etiqueta": "y ni una más"
+    }
+  ],
+  "ruta": {
+    "etiqueta": "La ruta, etapa a etapa",
+    "titulo": "De Bangkok a Pai.",
+    "imagenes": [
+      "../src/assets/img/budas-dorados.jpg",
+      "../src/assets/img/linternas-45.jpg",
+      "../src/assets/img/phuchifa-169.jpg",
+      "../src/assets/img/templo-chiang-mai.jpg",
+      "../src/assets/img/moto-curva-169.jpg"
+    ],
+    "pies": [
+      "Wat Pho, Bangkok",
+      "Yi Peng, Chiang Rai",
+      "Amanecer en Phu Chi Fa",
+      "Chiang Mai",
+      "Carretera 1095, camino de Pai"
+    ]
+  },
+  "precio": {
+    "etiqueta": "Sin letra pequeña",
+    "titulo": "2.000 €",
+    "nota": "IVA incluido. Vuelos y gastos de viaje aparte, unos 1.500 €.",
+    "pagos": [
+      {
+        "importe": "400 €",
+        "cuando": "al inscribirte"
+      },
+      {
+        "importe": "450 €",
+        "cuando": "al formar el grupo"
+      },
+      {
+        "importe": "1.150 €",
+        "cuando": "antes de salir"
+      }
+    ]
   }
 }

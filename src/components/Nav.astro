@@ -9,16 +9,16 @@ const { site } = Astro.props;
       <span>{site.marca}</span>
     </a>
     <nav class="nav__links" aria-label="Secciones">
-      <a href="/#salidas">Salidas</a>
-      <a href="/#como-viajamos">Cómo viajamos</a>
+      <a href="/#salidas">La ruta</a>
+      <a href="/#precio">Precio</a>
       <a href="/preguntas">Preguntas</a>
     </nav>
     <div class="nav__cta"><Wa site={site} origen="nav" class="btn btn--sm">Hablemos por WhatsApp</Wa></div>
     <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
   <div class="menu" id="menu" hidden>
-    <a href="/#salidas">Salidas</a>
-    <a href="/#como-viajamos">Cómo viajamos</a>
+    <a href="/#salidas">La ruta</a>
+    <a href="/#precio">Precio</a>
     <a href="/preguntas">Preguntas</a>
     <Wa site={site} origen="nav">Hablemos por WhatsApp</Wa>
   </div>
