@@ -32,7 +32,7 @@ const hasVideo = Boolean(hero.videoMp4);
           <div class="wide"><dt>Precio</dt><dd>desde {precio(proxima.precio)} <small>· {proxima.notaPrecio}</small></dd></div>
         </dl>
         <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre, fechas: proxima.fechas }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
-        <a href={`/viajes/${proxima.slug}`} class="widget__link">Ver el itinerario completo</a>
+        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a>{site.dossier && <><span>·</span><a href={site.dossier} target="_blank" rel="noopener">Descargar dossier</a></>}</div>
       </aside>
     )}
   </div>
@@ -60,7 +60,9 @@ const hasVideo = Boolean(hero.videoMp4);
   .widget__grid dd { margin: 2px 0 0; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
   .widget__grid dd small { font-weight: 400; color: var(--muted); font-size: 12px; }
   .widget :global(.widget__btn) { width: 100%; }
-  .widget__link { font-size: 13px; color: var(--muted); text-align: center; text-decoration: underline; text-underline-offset: 3px; }
+  .widget__links { display: flex; justify-content: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .widget__links a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .widget__links a:hover { color: var(--ink); }
   @media (max-width: 900px) {
     .hero { padding: 100px 0 32px; min-height: 0; }
     .hero__in { grid-template-columns: 1fr; gap: 28px; }

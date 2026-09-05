@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Explora Siam · Mae Hong Son Loop · Dossier</title>
+<style>
+@font-face { font-family: 'Inter'; src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'Inter Tight'; src: url('../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+:root { --bg:#fff; --bg2:#f5f3ef; --bg3:#ebe8e2; --ink:#17181a; --ink2:#3a3b3f; --muted:#6f7075; --line:#e6e3dd; --accent:#dd8a72; --r:14px; --rl:20px; }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #fff; color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-size: 10.5pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { position: relative; width: 210mm; height: 297mm; overflow: hidden; page-break-after: always; padding: 16mm 16mm 14mm; display: flex; flex-direction: column; }
+.page:last-child { page-break-after: auto; }
+h1, h2, h3 { margin: 0; font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
+h1 { font-size: 40pt; font-weight: 400; }
+h2 { font-size: 26pt; }
+h3 { font-size: 14pt; letter-spacing: -0.02em; }
+p { margin: 0; }
+.eyebrow { font-size: 8.5pt; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+.muted { color: var(--muted); }
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.foot { margin-top: auto; padding-top: 6mm; display: flex; justify-content: space-between; align-items: center; font-size: 8pt; color: var(--muted); border-top: 1px solid var(--line); }
+.foot b { color: var(--ink); font-weight: 500; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 10pt; }
+.brand img { width: 26px; height: 26px; }
+.pill { display: inline-block; padding: 5px 11px; border-radius: 999px; font-size: 8.5pt; font-weight: 500; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.4); color: #fff; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 500; font-size: 10pt; }
+.btn.light { background: #fff; color: var(--ink); }
+.card { background: var(--bg2); border-radius: var(--rl); padding: 8mm; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+.img { position: relative; overflow: hidden; border-radius: var(--rl); background: var(--bg3); }
+.cap { position: absolute; left: 12px; bottom: 10px; font-size: 8pt; color: #fff; font-weight: 500; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
+.lead { font-size: 12.5pt; line-height: 1.45; color: var(--ink2); }
+.body p + p { margin-top: 3mm; }
+.body { color: var(--ink2); }
+/* portada */
+.cover-page { padding: 0; color: #fff; }
+.cover-page .shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,24,26,.7) 0%, rgba(23,24,26,.1) 55%), linear-gradient(90deg, rgba(23,24,26,.35), rgba(23,24,26,0) 60%); }
+.cover-page .top { position: absolute; top: 14mm; left: 16mm; right: 16mm; display: flex; justify-content: space-between; align-items: center; }
+.cover-page .top .brand { color: #fff; }
+.cover-page .top .brand img { width: 34px; height: 34px; }
+.cover-page .bottom { position: absolute; left: 16mm; right: 16mm; bottom: 16mm; display: flex; flex-direction: column; gap: 6mm; }
+.cover-page h1 { font-size: 46pt; max-width: 12ch; }
+.cover-page h1 span { color: rgba(255,255,255,.72); }
+.cover-page .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; }
+.cover-page .meta div { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3); border-radius: 12px; padding: 8px 12px; backdrop-filter: blur(6px); }
+.cover-page .meta dt { font-size: 7.5pt; color: rgba(255,255,255,.75); }
+.cover-page .meta dd { margin: 2px 0 0; font-size: 11pt; font-weight: 500; }
+/* stats */
+.stats { display: flex; flex-direction: column; }
+.stats div { display: flex; justify-content: space-between; align-items: baseline; padding: 3.2mm 0; border-top: 1px solid var(--line); }
+.stats div:last-child { border-bottom: 1px solid var(--line); }
+.stats b { font-family: 'Inter Tight'; font-size: 20pt; font-weight: 500; letter-spacing: -0.03em; }
+.stats b small { font-size: 9pt; font-family: 'Inter'; font-weight: 400; color: var(--muted); margin-left: 5px; letter-spacing: 0; }
+.stats span { font-size: 8.5pt; color: var(--muted); }
+/* statement */
+.st { font-family: 'Inter Tight'; font-weight: 400; font-size: 24pt; letter-spacing: -0.03em; line-height: 1.2; }
+.st .p { display: inline-block; vertical-align: middle; width: 2.4em; height: 1em; border-radius: 999px; overflow: hidden; position: relative; transform: translateY(-.08em); }
+/* etapas */
+.etapa { display: grid; grid-template-columns: 58mm 1fr; gap: 6mm; align-items: start; padding: 5mm 0; border-top: 1px solid var(--line); }
+.etapa .img { height: 42mm; }
+.etapa .n { font-size: 8.5pt; font-weight: 500; color: var(--accent); }
+.etapa h3 { margin: 1mm 0 2mm; }
+.etapa p { font-size: 9.6pt; color: var(--ink2); }
+/* precio */
+.big { font-family: 'Inter Tight'; font-size: 56pt; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+.bloques { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; }
+.bloque { background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 5mm; font-size: 8.8pt; }
+.bloque h3 { font-size: 11pt; margin-bottom: 1mm; }
+.bloque .imp { font-family: 'Inter Tight'; font-size: 16pt; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 2mm; }
+.bloque ul { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 1.6mm; color: var(--ink2); }
+.bloque li { display: flex; gap: 6px; }
+.bloque li::before { content: ''; flex: 0 0 auto; width: 6px; height: 6px; border-radius: 999px; background: var(--ink); margin-top: 6px; }
+.bloque.no li::before { background: var(--bg3); border: 1px solid var(--muted); width: 5px; height: 5px; }
+/* faqs */
+.faq { display: flex; flex-direction: column; gap: 3mm; }
+.q { background: var(--bg2); border-radius: 12px; padding: 4mm 5mm; }
+.q h3 { font-size: 11pt; margin-bottom: 1.5mm; }
+.q p { font-size: 9.4pt; color: var(--ink2); }
+/* back */
+.back { padding: 0; }
+.back .panel { position: absolute; inset: 12mm; border-radius: 24px; overflow: hidden; color: #fff; display: flex; align-items: center; justify-content: center; text-align: center; }
+.back .shade { position: absolute; inset: 0; background: rgba(23,24,26,.6); }
+.back .in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6mm; padding: 10mm; max-width: 140mm; }
+.back h2 { font-size: 30pt; font-weight: 400; }
+.qrs { display: flex; gap: 8mm; }
+.qr { background: #fff; color: var(--ink); border-radius: 14px; padding: 4mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; width: 50mm; }
+.qr img { width: 38mm; height: 38mm; }
+.qr span { font-size: 8pt; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<section class="page cover-page">
+  <img class="cover" src="img/moto-curva-169.jpg" alt="">
+  <div class="shade"></div>
+  <div class="top"><div class="brand"><img src="img/logo.png" alt="">Explora Siam</div><span class="pill">Ruta en moto · norte de Tailandia</span></div>
+  <div class="bottom">
+    <span class="eyebrow" style="color:rgba(255,255,255,.8)">Mae Hong Son Loop · del 21 de noviembre al 7 de diciembre de 2026</span>
+    <h1>La Tailandia que pocos <span>llegan a conocer.</span></h1>
+    <p style="max-width:95mm;font-size:11.5pt;color:rgba(255,255,255,.9)">Seis días en moto por el Mae Hong Son Loop con un grupo de seis a ocho personas. Guía local, furgoneta de apoyo y todo lo demás resuelto.</p>
+    <dl class="meta" style="margin:0"><div><dt>Fechas</dt><dd>21 nov – 7 dic</dd></div><div><dt>Duración</dt><dd>17 días</dd></div><div><dt>Grupo</dt><dd>6 a 8 personas</dd></div><div><dt>Precio</dt><dd>desde 2.000 €</dd></div></dl>
+  </div>
+</section>
+
+<!-- 2 · ¿Y si esta vez Tailandia fuera diferente? -->
+<section class="page">
+  <span class="eyebrow">Explora Siam · Expedición Tailandia</span>
+  <h2 style="margin:3mm 0 6mm;max-width:20ch">¿Te gustaría rodar por el Mae Hong Son Loop con un grupo reducido de amigos?</h2>
+  <div class="grid2">
+    <div class="body">
+      <p class="lead">Descubre en moto la Tailandia que pocos llegan a conocer. Rodeado de plena naturaleza, mientras conoces la cultura tailandesa.</p>
+      <p style="margin-top:4mm">No hace falta que seas piloto de MotoGP: tan solo un mínimo de experiencia con el carnet A2 y muchas ganas de rodar y descubrir mundo.</p>
+      <p>Porque si hay algo que tienes claro es que el mundo tiene mucho por ofrecerte y no eres de quedarte sentado viendo cómo la vida pasa.</p>
+      <p>El Mae Hong Son Loop es un recorrido de unos 650 km con más de 1.800 curvas lindando con la frontera de Myanmar.</p>
+      <p>Trabajas duro en tu día a día esforzándote por dar lo mejor de ti, eres responsable en tus tareas y las llevas a cabo. Además, sabes que desconectar de la rutina y descubrir cosas nuevas te motiva.</p>
+      <p style="font-weight:500;color:var(--ink)">¿Y si esta vez Tailandia fuera diferente?</p>
+      <p>No hay nada como encontrar un espacio con un ambiente agradable en el que puedes charlar tranquilamente, disfrutando, compartiendo risas y vivencias.</p>
+    </div>
+    <div>
+      <div class="img" style="height:78mm"><img class="cover" src="img/riders-mirador-32.jpg" alt=""><span class="cap">Mirador en el Mae Hong Son Loop</span></div>
+      <div class="stats" style="margin-top:6mm">
+        <div><b>650<small>km</small></b><span>de ruta en moto</span></div>
+        <div><b>1.800<small>curvas</small></b><span>junto a la frontera birmana</span></div>
+        <div><b>17<small>días</small></b><span>de Bangkok a Pai</span></div>
+        <div><b>8<small>plazas</small></b><span>y ni una más</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>2</span></div>
+</section>
+
+<!-- 3 · Sabai sabai -->
+<section class="page">
+  <span class="eyebrow">Introducción</span>
+  <h2 style="margin:3mm 0 6mm">Sabai sabai.</h2>
+  <div class="grid2">
+    <div class="body">
+      <p>Desde que empecé a viajar por el sudeste asiático mi vida ha dado un cambio muy importante. Tanto que decidí dejar un trabajo vocacional tras casi 18 años para dedicarme a acompañar a otras personas a conocer este increíble país.</p>
+      <p>El entender esta forma de vivir te hace cambiar la perspectiva y cómo ver las cosas. Descubrir una sociedad más justa y solidaria, donde la sonrisa es la principal divisa, te hace recordar que todos llevamos un niño dentro, libre y feliz.</p>
+      <p>Una mañana, tomando un café helado en Phuket, observé a un turista enfadado porque la camarera tardaba en servirle. El turista resoplaba mientras que la señora, a su ritmo, tan solo trabajaba y decía en voz baja: <em>sabai sabai, sabai sabai…</em></p>
+      <p>Más tarde comprendí que sabai sabai significa estar tranquilo, recibir cada momento tal y como viene, evitando el conflicto y las tensiones innecesarias.</p>
+      <p>Para mí viajar a Tailandia es vivir una película en la que cada escena te sorprende. Cada olor a comida, flores o incienso. Cada sabor que pruebas en frutas, platos típicos con su picante, o incluso un polo de maracuyá que te regresará a la infancia. Cualquier conversación con gente local o con turistas que, como tú, están descubriendo Tailandia. Cada imagen que captures de un templo, un paisaje o la vida cotidiana de sus gentes. Todos los sonidos que percibas, desde el cantar del cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:5mm">
+      <div class="img" style="height:62mm"><img class="cover" src="img/phuchifa-169.jpg" alt=""><span class="cap">Amanecer en Phu Chi Fa</span></div>
+      <div class="card" style="display:flex;flex-direction:column;gap:3mm">
+        <p class="st" style="font-size:16pt">¿Te gustaría tener la sensación de estar viviendo todo esto a la vez?</p>
+        <p class="body" style="font-size:9.6pt">Todos los sentidos reciben estímulos, permitiéndote estar siempre presente. El ritmo del viaje está pensado para que cada momento tenga su lugar y cada lugar tenga su momento. Vamos a realizar actividades de distintos tipos y habrá momentos de convivencia para conocernos mejor. Un equilibrio entre actividad y descanso para que puedas disfrutar en todos los aspectos. Voy a coordinar el grupo para que todo siga un orden adecuado, dejando espacio a la improvisación.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>3</span></div>
+</section>
+
+<!-- 4 · Presentación -->
+<section class="page">
+  <div class="grid2" style="align-items:center;flex:1">
+    <div class="img" style="height:190mm"><img class="cover" src="img/daniel-45.jpg" alt=""><span class="cap">Foto de muestra. Se sustituye por el retrato real.</span></div>
+    <div class="body" style="display:flex;flex-direction:column;gap:4mm">
+      <span class="eyebrow">Presentación</span>
+      <h2>Hola, soy Dani.</h2>
+      <p>Tengo 44 años y quiero compartir con vosotros mi pasión por Tailandia, un país que llevo visitando dos años y que ha cambiado mi vida por completo.</p>
+      <p>Los que me conocen me tachan de divertido, simpático y aventurero. Y la verdad es que no soy bueno contando chistes… ¡pero hey! Lo que sí me encanta es reír.</p>
+      <p>Mi objetivo con este proyecto es crear un espacio en el que las personas puedan descubrir la esencia de Tailandia desde una perspectiva más auténtica y local. Viajando de una manera natural y sostenible, disfrutando en un grupo homogéneo… y luego cada uno decidirá si es una experiencia transformadora, como lo ha sido para mí.</p>
+      <p class="st" style="font-size:18pt;margin-top:2mm">Prepara tu mochila sin pensártelo demasiado ¡y al lío!</p>
+      <div style="margin-top:2mm"><span class="btn">Quiero descubrir esta aventura</span> <span class="muted" style="font-size:8.5pt;margin-left:3mm">WhatsApp +34 605 33 06 54</span></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>4</span></div>
+</section>
+
+<!-- 5 · Itinerario I -->
+<section class="page">
+  <span class="eyebrow">Itinerario</span>
+  <h2 style="margin:3mm 0 5mm">Cinco etapas, de Bangkok a Pai.</h2>
+  <div class="etapa">
+    <div class="img"><img class="cover" src="img/budas-dorados.jpg" alt=""><span class="cap">Bangkok</span></div>
+    <div><span class="n">Etapa 1 · 3 noches</span><h3>Bangkok</h3><p>Se aterrizará en Bangkok y visitaremos los templos más importantes de Tailandia: Palacio Real, Buda Esmeralda, Buda reclinado y Wat Arun, junto con visitas a Talat Noi, uno de los barrios más antiguos de la ciudad, rodeado de arte por todas sus esquinas. Visitaremos uno de los mejores centros comerciales del mundo (Icon Siam), el barrio chino más grande del sudeste asiático y el night market de Asiatique. Podremos disfrutar de una velada de Muay Thai en el estadio Rajadamnern. Navegaremos por el Chao Phraya y sus canales visitando el Wat Pak Nam y el Wat Saket (Monte Dorado), y probaremos la mookata o barbacoa tailandesa, entre muchos otros platos.</p></div>
+  </div>
+  <div class="etapa">
+    <div class="img"><img class="cover" src="img/linternas-45.jpg" alt=""><span class="cap">Yi Peng, Chiang Rai</span></div>
+    <div><span class="n">Etapa 2 · 2 noches</span><h3>Chiang Rai</h3><p>Volaremos a Chiang Rai, donde podremos vivir los festivales Yi Peng (linternas en el cielo) y Loy Krathong (ofrendas en el agua), visitando Wat Huay Pla Kang al atardecer. Probaremos la gastronomía del norte en el night market, veremos bailes regionales por las festividades y podremos relajarnos con un masaje típico tailandés. Cómo no, visitaremos el Templo Blanco, Wat Phra Kaew, Wat Phra Singh y el Templo Azul, todos ellos decorados especialmente por las fiestas. Aprovecharemos para conocer un mercado local con los productos más típicos del norte y podremos iniciarnos o perfeccionar el Muay Thai en un gimnasio.</p></div>
+  </div>
+  <div class="etapa">
+    <div class="img"><img class="cover" src="img/phuchifa-169.jpg" alt=""><span class="cap">Phu Chi Fa</span></div>
+    <div><span class="n">Etapa 3 · 1 noche</span><h3>Frontera con Laos</h3><p>Llegaremos a la frontera con Laos y haremos un trekking por varias cumbres, sin masificaciones. Comenzaremos con una ligera subida en Pha Bong hasta la Puerta de Siam. Seguiremos desde Phu Chi Dao con una ruta circular de unas dos horas donde veremos el atardecer. En Phu Chi Fa veremos un amanecer sobre un mar de nubes si el clima está de nuestra parte, siendo estos meses los más propicios para ello. Visitaremos el parque nacional de Phu Sang con su cascada tras la época de lluvias y la pintoresca villa de Mae Kampong antes de llegar a Chiang Mai, disfrutando de unos paisajes verdísimos durante todo el trayecto.</p></div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>5</span></div>
+</section>
+
+<!-- 6 · Itinerario II -->
+<section class="page">
+  <div class="etapa" style="border-top:0;padding-top:0">
+    <div class="img"><img class="cover" src="img/templo-chiang-mai.jpg" alt=""><span class="cap">Chiang Mai</span></div>
+    <div><span class="n">Etapa 4 · 2 noches</span><h3>Chiang Mai</h3><p>Una vez en Chiang Mai cocinaremos nosotros mismos los platos típicos de Tailandia, visitaremos templos y tendremos tiempo para recibir masajes y disfrutar de una velada de Muay Thai.</p><p style="margin-top:2mm;font-weight:500;color:var(--ink)">A partir de ahora comienza el plato fuerte del viaje.</p></div>
+  </div>
+  <div class="etapa">
+    <div class="img" style="height:60mm"><img class="cover" src="img/moto-curva-169.jpg" alt=""><span class="cap">Carretera 1095, camino de Pai</span></div>
+    <div><span class="n">Etapa 5 · 7 noches</span><h3>Mae Hong Son Loop</h3><p>El Mae Hong Son Loop se recorrerá en seis días, visitando Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai. Combinaremos la ruta en moto con distintas actividades durante las paradas y descansos. Lo realizaremos acompañados por un guía habilitado TAT y una furgoneta de asistencia que nos trasladará las mochilas hasta los puntos señalados de la ruta.</p><p style="margin-top:2mm">Veremos cascadas imponentes durante un trekking, el pico más alto de Tailandia (Doi Inthanon), arrozales, campos de girasoles en las montañas, amaneceres sobre mares de nubes, puentes de bambú, cuevas, templos, navegaremos por lagos mágicos en barcas chinas… y sobre todo mucha, mucha naturaleza. Siempre dejando una parte a la improvisación, dependiendo de lo que necesite el grupo en cada momento.</p><p style="margin-top:2mm">El último día, ya en Chiang Mai, visitaremos elefantes en libertad en un santuario ético.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:5mm;gap:5mm">
+    <div class="img" style="height:58mm"><img class="cover" src="img/banrakthai-169.jpg" alt=""><span class="cap">Lago de Ban Rak Thai</span></div>
+    <div class="img" style="height:58mm"><img class="cover" src="img/moto-pov-219.jpg" alt=""><span class="cap">Seis días de curvas</span></div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>6</span></div>
+</section>
+
+<!-- 7 · Precio -->
+<section class="page">
+  <span class="eyebrow">Precio · Expedición Tailandia</span>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10mm;margin:3mm 0 6mm">
+    <div><div class="big">2.000 €</div><p class="muted" style="margin-top:2mm">IVA incluido. Gastos de viaje no incluidos aparte (bloque III, unos 1.500 €).</p></div>
+    <div class="card" style="padding:5mm 6mm;min-width:70mm"><span class="eyebrow">Dividido en tres pagos</span>
+      <div class="stats" style="margin-top:2mm"><div><b style="font-size:14pt">400 €</b><span>al inscribirte</span></div><div><b style="font-size:14pt">450 €</b><span>al formar el grupo mínimo</span></div><div><b style="font-size:14pt">1.150 €</b><span>antes de salir</span></div></div>
+    </div>
+  </div>
+  <div class="bloques">
+    <div class="bloque"><h3>Bloque I</h3><div class="imp">400 €</div><p class="muted" style="margin-bottom:2mm">Plaza e inscripción</p>
+      <ul><li>Creación, planificación y diseño de toda la aventura.</li><li>Acompañamiento y coordinación durante todo el recorrido.</li><li>Selección, creación y dinamización del grupo.</li><li>Soporte y ayuda en todos los trámites previos al inicio de la expedición.</li><li>Asistencia en compra de vuelos, seguros de viaje y recomendaciones de equipaje.</li><li>Sesión grupal por Zoom previa a la aventura y grupo privado de WhatsApp con todos los participantes.</li><li>Documento PDF con información importante para preparar la experiencia.</li><li>Seguro de responsabilidad civil.</li></ul></div>
+    <div class="bloque"><h3>Bloque II</h3><div class="imp">450 € + 1.150 €</div><p class="muted" style="margin-bottom:2mm">Gastos de viaje sí incluidos</p>
+      <ul><li>Alojamiento en habitaciones dobles compartidas.</li><li>Desayunos todos los días.</li><li>Visita de medio día a un santuario ético de elefantes.</li><li>Curso de cocina tailandesa de medio día.</li><li>Logística y motocicleta para el Mae Hong Son Loop.</li><li>Guías locales con certificado TAT.</li><li>Proveedores certificados con estándares de calidad y seguridad.</li><li>Impuestos correspondientes por los servicios turísticos.</li></ul></div>
+    <div class="bloque no"><h3>Bloque III</h3><div class="imp">± 1.500 €</div><p class="muted" style="margin-bottom:2mm">Gastos de viaje no incluidos</p>
+      <ul><li>Vuelos internacionales (± 850 €).</li><li>Vuelo local (± 60 €).</li><li>Seguro de viaje (± 80 €).</li><li>Traslados durante el viaje (± 100 €).</li><li>Entradas a todas las actividades previstas (± 180 €).</li><li>Bebidas y comidas no incluidas en el bloque II (± 240 €).</li><li>Cualquier actividad extra no incluida en el bloque II. Los masajes serán a elección personal.</li><li>Ocio, propinas voluntarias y gastos extraordinarios.</li></ul></div>
+  </div>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>7</span></div>
+</section>
+
+<!-- 8 · FAQs -->
+<section class="page">
+  <span class="eyebrow">Preguntas frecuentes</span>
+  <h2 style="margin:3mm 0 5mm">Lo que me preguntan antes de reservar.</h2>
+  <div class="faq">
+    <div class="q"><h3>¿Será muy difícil la ruta que vamos a hacer en moto?</h3><p>No. La ruta está diseñada para moteros con experiencia y las etapas no van a superar los 150 km diarios en ningún caso. Las carreteras se encuentran en buen estado salvo imprevistos, como puede pasar en cualquier carretera. Se va a rodar a un ritmo lento, disfrutando del entorno. Piensa que además circularás por el lado izquierdo de la calzada, ¡y en España es al revés!</p></div>
+    <div class="q"><h3>¿Qué tipo de moto se va a utilizar?</h3><p>Se va a proponer el uso de la Honda NX500, aunque el proveedor facilitará la opción de alquilar otras motocicletas. Estas cilindradas son las mínimas para realizar la ruta en buenas condiciones, dado que nos encontraremos pendientes prolongadas y desniveles. Por otra parte, llevar motos menos pesadas y con más maniobrabilidad hará la ruta mucho más cómoda. Habrá unas cuantas horquillas.</p></div>
+    <div class="q"><h3>¿Qué tipo de personas vienen a nuestros viajes?</h3><p>Voy a crear un grupo de personas que compartan las mismas aficiones, que tengan la misma perspectiva en cuanto a la forma de vivir la vida y el viaje, y sobre todo muchas ganas de pasarlo bien y conocer mundo.</p></div>
+    <div class="q"><h3>¿Tengo que comprar yo los vuelos?</h3><p>Sí. Esa cantidad no está incluida en los gastos del presupuesto. Yo te facilitaré los datos de los vuelos de ida y vuelta, así como el interno, para que los puedas comprar, y resolveré cualquier duda que puedas tener al respecto.</p></div>
+    <div class="q"><h3>¿Hay grupo mínimo?</h3><p>El grupo mínimo será de 6 personas y el máximo de 8, para que la experiencia se desarrolle según los valores que se proponen.</p></div>
+    <div class="q"><h3>¿Puedo dormir solo?</h3><p>El viaje se ha diseñado en su mayoría para habitaciones dobles con dos camas, aunque habrá lugares durante la ruta que no ofrecen más posibilidades que casas para cuatro personas. Vamos a estar en zonas donde la oferta es la que es.</p></div>
+    <div class="q"><h3>¿Y si no me gusta la comida asiática?</h3><p>Si realmente no puedes comer ninguno de los muchísimos platos que tiene la cocina tailandesa, este no va a ser tu viaje.</p></div>
+  </div>
+  <p class="st" style="font-size:15pt;margin-top:5mm">Muchas gracias por tu tiempo.</p>
+  <div class="foot"><span><b>Explora Siam</b> · Mae Hong Son Loop 2026</span><span>8</span></div>
+</section>
+
+<!-- 9 · Contraportada -->
+<section class="page back">
+  <div class="panel">
+    <img class="cover" src="img/moto-pov-219.jpg" alt="">
+    <div class="shade"></div>
+    <div class="in">
+      <img src="img/logo.png" alt="" style="width:64px;height:64px">
+      <h2>¿Quieres descubrir esta aventura?</h2>
+      <p style="color:rgba(255,255,255,.88);font-size:11pt">Cuéntame qué viaje tienes en la cabeza. Te contesto yo, normalmente en menos de 24 horas.</p>
+      <div class="qrs">
+        <div class="qr"><img src="img/qr-wa.png" alt=""><span>Escríbeme por WhatsApp</span><span class="muted" style="font-weight:400">+34 605 33 06 54</span></div>
+        <div class="qr"><img src="img/qr-form.png" alt=""><span>Formulario de inscripción</span><span class="muted" style="font-weight:400">Quiero descubrir esta aventura</span></div>
+      </div>
+      <p style="font-size:9pt;color:rgba(255,255,255,.8)">explorasiam.com · info@explorasiam.com · @explora_siam</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

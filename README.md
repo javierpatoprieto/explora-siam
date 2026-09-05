@@ -38,3 +38,13 @@ Sin esas variables, la web se publica igual (solo desaparece la ruta `/keystatic
 ## Indexación
 
 `content/site.json` → `"indexar": false` mantiene la web fuera de Google mientras se valida. Cambiar a `true` en el lanzamiento.
+
+## Dossier en PDF
+
+`dossier/index.html` es el dossier comercial (A4, 9 páginas) con la misma estética de la web. Para regenerarlo tras editarlo:
+
+```bash
+node dossier/render.mjs   # escribe public/dossier-mae-hong-son-loop.pdf
+```
+
+Necesita Chromium; por defecto usa `/opt/pw-browsers/chromium`, y se puede indicar otro con la variable `CHROMIUM_PATH`. El PDF queda enlazado desde el hero y desde la ficha del viaje (campo "Dossier en PDF" en el panel de edición).
