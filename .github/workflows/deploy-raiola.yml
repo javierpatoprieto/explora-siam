@@ -23,8 +23,46 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  comprobar:
+    name: Comprobar credenciales
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar que estan los secretos de FTP
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          FALTAN=""
+          if [ -z "$FTP_HOST" ];     then FALTAN="$FALTAN FTP_HOST"; fi
+          if [ -z "$FTP_USER" ];     then FALTAN="$FALTAN FTP_USER"; fi
+          if [ -z "$FTP_PASSWORD" ]; then FALTAN="$FALTAN FTP_PASSWORD"; fi
+          FALTAN="${FALTAN# }"
+          if [ -n "$FALTAN" ]; then
+            {
+              echo "## No se puede publicar todavia"
+              echo
+              echo "Faltan estos secretos en el repositorio: **$FALTAN**"
+              echo
+              echo "Mientras falten, **los cambios que el cliente guarde en el panel se quedan"
+              echo "guardados en GitHub pero no llegan a explorasiam.com**."
+              echo
+              echo "Para arreglarlo: Settings -> Secrets and variables -> Actions -> New repository secret"
+              echo
+              echo "| Secreto | Valor |"
+              echo "| --- | --- |"
+              echo "| \`FTP_HOST\` | el servidor FTP de Raiola (por ejemplo com1034.raiolanetworks.es) |"
+              echo "| \`FTP_USER\` | usuario de una cuenta FTP limitada a public_html |"
+              echo "| \`FTP_PASSWORD\` | su contrasena |"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Faltan los secretos de FTP:$FALTAN. La web no se ha publicado."
+            exit 1
+          fi
+          echo "Credenciales presentes."
+
   respaldo:
     name: Copia del sitio actual
+    needs: comprobar
     if: github.event_name == 'push' || inputs.respaldo
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +86,12 @@ jobs:
             open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
             mirror --parallel=4 --exclude-glob .well-known/ \"$FTP_DIR\" respaldo;
           " || echo "Aviso: no se pudo descargar todo (¿carpeta vacía o sin permisos?). Se continúa."
-          echo "Archivos descargados: $(find respaldo -type f | wc -l)"
+          N=$(find respaldo -type f | wc -l)
+          echo "Archivos descargados: $N"
+          if [ "$N" -eq 0 ]; then
+            echo "::warning::La copia de seguridad esta vacia: no se ha podido leer $FTP_DIR por FTP."
+            echo "Aviso: la copia de seguridad de esta ejecucion esta vacia." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Guardar la copia como artefacto
         uses: actions/upload-artifact@v4
@@ -60,8 +103,8 @@ jobs:
 
   publicar:
     name: Compilar y subir
-    needs: respaldo
-    if: always() && (github.event_name == 'push' || inputs.publicar)
+    needs: [comprobar, respaldo]
+    if: always() && needs.comprobar.result == 'success' && (github.event_name == 'push' || inputs.publicar)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
