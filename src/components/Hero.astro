@@ -29,20 +29,14 @@ const hasVideo = Boolean(hero.videoMp4);
   </div>
   <div class="wrap hero__foot">
     {hero.mostrarProximaSalida && proxima && (
-      <a href={`/viajes/${proxima.slug}`} class="hero__next label">
-        <span>Próxima salida</span><span class="dot"></span><span>{proxima.fechas}</span>
-        {proxima.disponibles > 0 && <><span class="dot"></span><span class="ambar">{proxima.disponibles < proxima.plazas ? `quedan ${proxima.disponibles}` : `${proxima.plazas} plazas`}</span></>}
+      <a href={`/viajes/${proxima.slug}`} class="hero__next">
+        <span class="hero__next-k">Próxima salida</span>
+        <span class="hero__next-v">{proxima.fechas}</span>
+        <span class="hero__next-m">{proxima.duracion} · {proxima.disponibles < proxima.plazas ? `quedan ${proxima.disponibles} plazas` : `${proxima.plazas} plazas`}</span>
       </a>
     )}
     <span class="hero__scroll label" aria-hidden="true"><span class="hero__line"></span>desliza</span>
   </div>
-  {hero.cinta?.length > 0 && (
-    <div class="cinta" aria-hidden="true">
-      <div class="cinta__track">
-        {[0, 1].map(() => hero.cinta.map((l: string) => <span class="cinta__item">{l}<i></i></span>))}
-      </div>
-    </div>
-  )}
 </section>
 <style>
   .hero { position: relative; min-height: min(100svh, 1080px); display: flex; flex-direction: column; justify-content: flex-end; background: var(--tinta); color: var(--crema); overflow: hidden; }
@@ -51,7 +45,7 @@ const hasVideo = Boolean(hero.videoMp4);
   @media (prefers-reduced-motion: reduce) { .hero__media { animation: none; } }
   .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,33,36,.35) 0%, rgba(42,33,36,.05) 30%, rgba(42,33,36,.85) 100%); }
   .hero__in { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 140px; padding-bottom: 32px; max-width: calc(var(--max)); }
-  .hero__in h1 { max-width: 12ch; font-size: clamp(56px, 9.2vw, 132px); }
+  .hero__in h1 { max-width: 14ch; font-size: clamp(48px, 7.4vw, 104px); }
   .hero__in h1 em { font-style: normal; color: var(--coral); }
   .hero__badge { display: inline-block; background: var(--coral); color: var(--tinta); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; }
   .hero__sub { max-width: 520px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.55; color: rgba(243,238,230,.92); }
@@ -61,14 +55,12 @@ const hasVideo = Boolean(hero.videoMp4);
   .hero__scroll { display: inline-flex; align-items: center; gap: 12px; color: rgba(243,238,230,.7); }
   .hero__line { display: block; width: 48px; height: 1px; background: currentColor; animation: grow 2s var(--ease) infinite; transform-origin: left; }
   @keyframes grow { 0% { transform: scaleX(0); } 60% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
-  .cinta { position: relative; border-top: 1px solid rgba(243,238,230,.18); overflow: hidden; padding: 14px 0; background: rgba(42,33,36,.35); backdrop-filter: blur(6px); }
-  .cinta__track { display: flex; width: max-content; animation: cinta 40s linear infinite; }
-  .cinta__item { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--display); text-transform: uppercase; font-size: 22px; letter-spacing: .04em; color: var(--crema); white-space: nowrap; }
-  .cinta__item i { width: 6px; height: 6px; border-radius: 999px; background: var(--coral); }
-  @keyframes cinta { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .cinta__track { animation: none; } }
-  .hero__next { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: inherit; }
-  .hero__next:hover { color: var(--crema); }
+
+  .hero__next { display: flex; flex-direction: column; gap: 4px; color: var(--crema); padding: 16px 20px; border: 1px solid rgba(243,238,230,.28); border-radius: 4px; backdrop-filter: blur(8px); background: rgba(42,33,36,.25); transition: border-color .25s; }
+  .hero__next:hover { border-color: var(--crema); color: var(--crema); }
+  .hero__next-k { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(243,238,230,.7); }
+  .hero__next-v { font-family: var(--display); text-transform: uppercase; font-size: 24px; line-height: 1; }
+  .hero__next-m { font-size: 13px; color: rgba(243,238,230,.8); }
   .dot { width: 4px; height: 4px; border-radius: 999px; background: currentColor; opacity: .6; }
   .ambar { color: var(--ambar); }
   @media (max-width: 760px) {
@@ -77,6 +69,5 @@ const hasVideo = Boolean(hero.videoMp4);
     .hero__cta :global(.btn) { width: 100%; }
     .hero__foot { padding-bottom: 24px; }
     .hero__scroll { display: none; }
-    .cinta__item { font-size: 18px; }
   }
 </style>

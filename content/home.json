@@ -1,9 +1,9 @@
 {
   "hero": {
     "badge": "Ruta en moto por el norte de Tailandia · grupo de 6 a 8",
-    "titulo": "La Tailandia que",
-    "destacado": "pocos llegan a conocer.",
-    "subtitulo": "Seis días en moto por el Mae Hong Son Loop, con un grupo de seis a ocho amigos y todo lo demás resuelto.",
+    "titulo": "La Tailandia que pocos",
+    "destacado": "llegan a conocer.",
+    "subtitulo": "Seis días en moto por el Mae Hong Son Loop con un grupo de seis a ocho personas. Guía local, furgoneta de apoyo y todo lo demás resuelto.",
     "botonPrimario": "Cuéntame tu viaje por WhatsApp",
     "microcopy": "Te contesta Dani, no un bot.",
     "botonSecundario": "Ver la ruta",
@@ -49,7 +49,7 @@
       }
     ],
     "imagen": "../src/assets/img/phuchifa-169.jpg",
-    "pie": "Phu Chi Fa, 05:45",
+    "pie": "Phu Chi Fa, 05:45. Amanecer sobre un mar de nubes.",
     "enlace": "Así se vive la ruta"
   },
   "salidas": {
