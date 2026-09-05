@@ -12,6 +12,12 @@ if (!file_exists(__DIR__ . '/config.php')) {
 }
 require __DIR__ . '/config.php';
 require __DIR__ . '/lib.php';
+
+// Evita dejar el panel abierto con los valores de ejemplo.
+if (PANEL_PASSWORD === 'cambia-esta-contrasena' || str_starts_with(GITHUB_TOKEN, 'github_pat_...')) {
+    exit('Panel sin configurar: edita panel/config.php y pon la contraseña y el token de GitHub.');
+}
+
 panel_arrancar();
 
 const HOME = 'content/home.json';
