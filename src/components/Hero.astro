@@ -44,14 +44,14 @@ const hasVideo = Boolean(hero.videoMp4);
   @keyframes kb { from { transform: scale(1.12); } to { transform: scale(1); } }
   @media (prefers-reduced-motion: reduce) { .hero__media { animation: none; } }
   .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,33,36,.35) 0%, rgba(42,33,36,.05) 30%, rgba(42,33,36,.85) 100%); }
-  .hero__in { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 140px; padding-bottom: 32px; max-width: calc(var(--max)); }
+  .hero__in { position: relative; width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 140px; padding-bottom: 32px; }
   .hero__in h1 { max-width: 14ch; font-size: clamp(48px, 7.4vw, 104px); }
   .hero__in h1 em { font-style: normal; color: var(--coral); }
   .hero__badge { display: inline-block; background: var(--coral); color: var(--tinta); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; }
   .hero__sub { max-width: 520px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.55; color: rgba(243,238,230,.92); }
   .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
   .hero__micro { color: rgba(243,238,230,.85); margin-top: -8px; }
-  .hero__foot { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 28px; padding-top: 24px; color: rgba(243,238,230,.85); flex-wrap: wrap; }
+  .hero__foot { position: relative; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 28px; padding-top: 24px; color: rgba(243,238,230,.85); flex-wrap: wrap; }
   .hero__scroll { display: inline-flex; align-items: center; gap: 12px; color: rgba(243,238,230,.7); }
   .hero__line { display: block; width: 48px; height: 1px; background: currentColor; animation: grow 2s var(--ease) infinite; transform-origin: left; }
   @keyframes grow { 0% { transform: scaleX(0); } 60% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
