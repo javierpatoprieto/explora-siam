@@ -9,7 +9,7 @@ Viajes de autor a Tailandia en grupo reducido. Web en **Astro** con contenido ed
 - `src/assets/img/` imágenes (Astro las optimiza en el build: AVIF/WebP y varios tamaños).
 - `public/video/` vídeos del hero y de la banda.
 - `public/preview/` la vista previa estática anterior (se puede borrar cuando la web esté validada).
-- `docs/` propuesta de rediseño completa. `design/` artboards de diseño.
+- `docs/` propuesta de rediseño, guía del panel para el cliente y mapa de accesos. `design/` artboards de diseño.
 
 ## Desarrollo
 
