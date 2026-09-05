@@ -61,6 +61,33 @@ export default config({
           },
           { label: 'Hero' },
         ),
+        cifrasTexto: fields.object({ titulo: fields.text({ label: 'Titular' }), texto: fields.text({ label: 'Texto', multiline: true }) }, { label: 'Bloque de cifras · texto' }),
+        statement: fields.object(
+          {
+            antes: fields.text({ label: 'Frase (inicio)' }),
+            imagen1: img(IMG_HOME, 'Imagen 1'),
+            medio: fields.text({ label: 'Frase (medio)' }),
+            imagen2: img(IMG_HOME, 'Imagen 2'),
+            despues: fields.text({ label: 'Frase (final)' }),
+            texto: fields.text({ label: 'Texto pequeño' }),
+          },
+          { label: 'Frase con imágenes' },
+        ),
+        ventajas: fields.object(
+          {
+            titulo: fields.text({ label: 'Titular' }),
+            texto: fields.text({ label: 'Texto' }),
+            items: fields.array(
+              fields.object({
+                icono: fields.select({ label: 'Icono', options: [{ label: 'Guía', value: 'guia' }, { label: 'Furgoneta', value: 'furgo' }, { label: 'Grupo', value: 'grupo' }, { label: 'Seguro', value: 'seguro' }], defaultValue: 'guia' }),
+                titulo: fields.text({ label: 'Título' }),
+                texto: fields.text({ label: 'Texto' }),
+              }),
+              { label: 'Ventajas', itemLabel: (p) => p.fields.titulo.value },
+            ),
+          },
+          { label: 'Ventajas' },
+        ),
         cifras: fields.array(
           fields.object({ valor: fields.text({ label: 'Cifra' }), unidad: fields.text({ label: 'Unidad' }), etiqueta: fields.text({ label: 'Texto' }) }),
           { label: 'Cifras gigantes', itemLabel: (p) => `${p.fields.valor.value} ${p.fields.unidad.value}` },

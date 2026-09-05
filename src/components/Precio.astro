@@ -1,42 +1,38 @@
 ---
 import Wa from './Wa.astro';
 const { site, p, inc } = Astro.props;
-const CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bf7c6f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>';
 ---
-<section class="precio section" id="precio">
-  <div class="wrap precio__top" data-reveal>
-    <div class="precio__big">
-      <span class="label vino">{p.etiqueta}</span>
-      <h2 class="precio__n">{p.titulo}</h2>
-      <p class="precio__nota">{p.nota}</p>
+<section class="pr wrap section" id="precio">
+  <div class="pr__panel" data-reveal>
+    <div class="pr__left">
+      <span class="eyebrow">{p.etiqueta}</span>
+      <h2 class="pr__n">{p.titulo}</h2>
+      <p class="sub">{p.nota}</p>
+      <ol class="pagos">{p.pagos.map((x: any) => (<li><strong>{x.importe}</strong><span>{x.cuando}</span></li>))}</ol>
+      <Wa site={site} origen="precio" icon={false}>{inc.enlace}</Wa>
     </div>
-    <ol class="pagos">
-      {p.pagos.map((x: any, i: number) => (<li class="pago"><span class="pago__i">{i + 1}</span><span class="pago__imp">{x.importe}</span><span class="pago__c">{x.cuando}</span></li>))}
-    </ol>
-  </div>
-  <div class="wrap precio__lists">
-    <div class="col" data-reveal><span class="label vino">Incluido</span><ul>{inc.incluido.map((i: string) => <li><Fragment set:html={CHECK} />{i}</li>)}</ul></div>
-    <div class="col col--no" data-reveal><span class="label gris">No incluido</span><ul>{inc.noIncluido.map((i: string) => <li><span class="dash">–</span>{i}</li>)}</ul></div>
-    <div class="col col--cta" data-reveal><p>{inc.microcopy}</p><Wa site={site} origen="precio" class="link" icon={false}>{inc.enlace} →</Wa></div>
+    <div class="pr__right">
+      <div class="pr__col"><span class="pr__k">Incluido</span><ul>{inc.incluido.map((i: string) => <li><i class="ok"></i>{i}</li>)}</ul></div>
+      <div class="pr__col"><span class="pr__k">No incluido</span><ul>{inc.noIncluido.map((i: string) => <li><i class="no"></i>{i}</li>)}</ul></div>
+    </div>
   </div>
 </section>
 <style>
-  .precio__top { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: end; padding-bottom: 48px; border-bottom: 1px solid var(--tinta); }
-  .precio__big { display: flex; flex-direction: column; gap: 12px; }
-  .precio__n { font-size: clamp(88px, 12vw, 200px); line-height: .85; letter-spacing: -0.02em; }
-  .precio__nota { color: var(--texto-2); max-width: 40ch; }
-  .vino { color: var(--vino); } .gris { color: var(--gris); }
-  .pagos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .pago { display: flex; flex-direction: column; gap: 6px; border-top: 3px solid var(--coral); padding-top: 14px; }
-  .pago__i { font-size: 12px; font-weight: 700; color: var(--gris); }
-  .pago__imp { font-family: var(--display); font-size: clamp(30px, 3vw, 44px); line-height: 1; }
-  .pago__c { font-size: 15px; color: var(--texto-2); }
-  .precio__lists { display: grid; grid-template-columns: 4fr 4fr 4fr; gap: 48px; padding-top: 40px; }
-  .col { display: flex; flex-direction: column; gap: 14px; }
-  .col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
-  .col li { display: flex; gap: 12px; align-items: flex-start; }
-  .col li svg { flex: 0 0 auto; margin-top: 5px; }
-  .dash { color: var(--gris); }
-  .col--cta { justify-content: flex-end; align-items: flex-start; color: var(--texto-2); }
-  @media (max-width: 900px) { .precio__top { grid-template-columns: 1fr; gap: 28px; } .pagos { grid-template-columns: 1fr; gap: 12px; } .pago { flex-direction: row; align-items: baseline; gap: 12px; border-top: 1px solid var(--linea); padding-top: 12px; } .precio__lists { grid-template-columns: 1fr; gap: 28px; } }
+  .pr__panel { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; background: var(--bg-2); border-radius: var(--r-lg); padding: clamp(28px, 4vw, 56px); }
+  .pr__left { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .pr__n { font-size: clamp(56px, 7vw, 96px); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+  .pagos { list-style: none; margin: 8px 0 12px; padding: 0; display: flex; flex-direction: column; width: 100%; max-width: 360px; }
+  .pagos li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .pagos li:last-child { border-bottom: 1px solid var(--line); }
+  .pagos strong { font-weight: 500; }
+  .pagos span { color: var(--muted); }
+  .pr__right { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .pr__k { font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 12px; }
+  .pr__col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+  .pr__col li { display: flex; gap: 10px; align-items: flex-start; }
+  .pr__col i { flex: 0 0 auto; width: 18px; height: 18px; border-radius: 999px; margin-top: 2px; background: var(--ink); position: relative; }
+  .pr__col i.ok::after { content: ''; position: absolute; left: 6px; top: 3px; width: 4px; height: 8px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+  .pr__col i.no { background: var(--bg-3); }
+  .pr__col i.no::after { content: ''; position: absolute; left: 5px; top: 8px; width: 8px; height: 1.5px; background: var(--muted); }
+  @media (max-width: 900px) { .pr__panel { grid-template-columns: 1fr; gap: 32px; } .pr__right { grid-template-columns: 1fr; gap: 24px; } }
 </style>

@@ -17,10 +17,10 @@ const { m } = Astro.props;
 <style>
   .mani__grid { display: grid; grid-template-columns: 7fr 5fr; gap: 64px; align-items: end; padding-bottom: clamp(56px, 6vw, 96px); }
   .mani__h { font-size: clamp(44px, 5.6vw, 88px); line-height: .95; max-width: 14ch; text-wrap: balance; }
-  .mani__h em { font-style: normal; color: var(--coral); }
-  .mani__blocks { display: grid; grid-template-columns: 1fr; gap: 24px; border-top: 1px solid var(--tinta); padding-top: 24px; }
+  .mani__h em { font-style: normal; color: var(--accent); }
+  .mani__blocks { display: grid; grid-template-columns: 1fr; gap: 24px; border-top: 1px solid var(--ink); padding-top: 24px; }
   .mani__t { font-family: var(--texto); text-transform: none; letter-spacing: 0; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .mani__b p { color: var(--texto-2); font-size: 16px; }
+  .mani__b p { color: var(--ink-2); font-size: 16px; }
   .mani__img { position: relative; margin: 0; height: clamp(360px, 62vh, 760px); overflow: hidden; }
   @media (max-width: 900px) { .mani__grid { grid-template-columns: 1fr; gap: 32px; } .mani__h { max-width: none; } }
 </style>

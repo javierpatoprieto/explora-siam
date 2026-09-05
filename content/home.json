@@ -1,6 +1,6 @@
 {
   "hero": {
-    "badge": "Ruta en moto por el norte de Tailandia · grupo de 6 a 8",
+    "badge": "Ruta en moto · norte de Tailandia · 21 nov – 7 dic 2026",
     "titulo": "La Tailandia que pocos",
     "destacado": "llegan a conocer.",
     "subtitulo": "Seis días en moto por el Mae Hong Son Loop con un grupo de seis a ocho personas. Guía local, furgoneta de apoyo y todo lo demás resuelto.",
@@ -177,7 +177,7 @@
     "intro": "Cada olor, cada sabor, cada sonido. ¿Te gustaría vivirlo todo a la vez?"
   },
   "testimonios": {
-    "titulo": "Lo que dicen los que ya han rodado conmigo.",
+    "titulo": "Momentos que se quedan.",
     "fondo": "../src/assets/img/phuchifa-169.jpg"
   },
   "incluye": {
@@ -200,7 +200,7 @@
   },
   "faq": {
     "titulo": "Lo que me preguntáis por WhatsApp.",
-    "intro": "Respuestas de verdad, tal cual las mando. Si la tuya no está, escríbeme y te contesto igual.",
+    "intro": "Lo que me preguntan antes de reservar. Si tu duda no está, escríbeme.",
     "enlace": "Hacer otra pregunta",
     "verTodas": "Ver todas las preguntas"
   },
@@ -237,8 +237,8 @@
     }
   ],
   "ruta": {
-    "etiqueta": "La ruta, etapa a etapa",
-    "titulo": "De Bangkok a Pai.",
+    "etiqueta": "La ruta",
+    "titulo": "Cinco etapas, de Bangkok a Pai.",
     "imagenes": [
       "../src/assets/img/budas-dorados.jpg",
       "../src/assets/img/linternas-45.jpg",
@@ -270,6 +270,44 @@
       {
         "importe": "1.150 €",
         "cuando": "antes de salir"
+      }
+    ]
+  },
+  "cifrasTexto": {
+    "titulo": "Viajar te acerca a lugares, personas y momentos que no salen en el paquete.",
+    "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
+  },
+  "statement": {
+    "antes": "Da el paso y descubre",
+    "imagen1": "../src/assets/img/moto-curva-169.jpg",
+    "medio": "la Tailandia",
+    "imagen2": "../src/assets/img/phuchifa-169.jpg",
+    "despues": "que te está esperando.",
+    "texto": "Viajar te cambia. Ves lugares nuevos, conoces gente nueva y vuelves siendo una versión distinta de ti."
+  },
+  "ventajas": {
+    "titulo": "Un buen viaje se nota en los detalles.",
+    "texto": "Lo que hace que la ruta sea cómoda y segura, para que tú solo pienses en rodar.",
+    "items": [
+      {
+        "icono": "guia",
+        "titulo": "Guía local certificado",
+        "texto": "Un guía habilitado por la TAT nos acompaña durante todo el loop."
+      },
+      {
+        "icono": "furgo",
+        "titulo": "Furgoneta de apoyo",
+        "texto": "Lleva las mochilas de punto a punto. Tú vas ligero en la moto."
+      },
+      {
+        "icono": "grupo",
+        "titulo": "Grupo de 6 a 8",
+        "texto": "Cabemos en una mesa. Nadie se queda atrás y nadie espera de más."
+      },
+      {
+        "icono": "seguro",
+        "titulo": "Todo en regla",
+        "texto": "Seguro de responsabilidad civil, proveedores certificados e impuestos incluidos."
       }
     ]
   }

@@ -1,0 +1,27 @@
+---
+const { v } = Astro.props;
+const ICONS: Record<string, string> = {
+  guia: '<path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/>',
+  furgo: '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+  grupo: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5a5 5 0 0 1 6 5"/>',
+  seguro: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+};
+---
+<section class="vent wrap section">
+  <div class="vent__head center" data-reveal><h2>{v.titulo}</h2><p class="sub">{v.texto}</p></div>
+  <ul class="vent__list" data-reveal>
+    {v.items.map((it: any) => (
+      <li><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[it.icono] ?? ICONS.guia}></svg></span><strong>{it.titulo}</strong><p>{it.texto}</p></li>
+    ))}
+  </ul>
+</section>
+<style>
+  .vent__head { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 36px; }
+  .vent__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .vent__list li { display: flex; flex-direction: column; gap: 10px; padding: 24px; background: var(--bg-2); border-radius: var(--r); }
+  .ico { width: 44px; height: 44px; border-radius: 999px; background: #fff; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); }
+  .vent__list strong { font-weight: 500; font-size: 17px; letter-spacing: -0.01em; margin-top: 6px; }
+  .vent__list p { font-size: 14px; color: var(--muted); }
+  @media (max-width: 900px) { .vent__list { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .vent__list { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+const { ruta, salida, video } = Astro.props;
+const d = salida?.data;
+const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '' }));
+const sizes = ['a', 'b', 'c', 'd', 'e'];
+---
+<section class="dest section" id="ruta">
+  <div class="wrap center dest__head" data-reveal><span class="eyebrow">{ruta.etiqueta}</span><h2>{ruta.titulo}</h2><p class="sub">{d?.descripcion}</p></div>
+  <div class="wrap bento" data-reveal>
+    {etapas.map((e: any, i: number) => (
+      <a href={`/viajes/${d.slug}#etapa-${i + 1}`} class:list={['tile', `tile--${sizes[i] ?? 'e'}`]}>
+        <Image src={e.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 40vw" />
+        <div class="tile__shade"></div>
+        <div class="tile__txt"><strong>{e.titulo.split(',')[0]}</strong><span>Etapa {i + 1}{e.titulo.includes(',') ? ` · ${e.titulo.split(',')[1].trim()}` : ''}</span></div>
+      </a>
+    ))}
+    {video?.poster && (
+      <div class="tile tile--v" id="video">
+        <Image src={video.poster} alt="" class="cover" widths={[600, 900]} sizes="(max-width: 760px) 100vw, 30vw" />
+        <div class="tile__shade"></div>
+        <span class="tile__play" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#fff"></circle><path d="M19 15v18l14-9z" fill="#17181a"></path></svg></span>
+        <div class="tile__txt"><strong>{video.titulo}</strong><span>{video.etiqueta}</span></div>
+      </div>
+    )}
+  </div>
+</section>
+<style>
+  .dest__head { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 36px; }
+  .bento { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 220px; gap: 14px; }
+  .tile { position: relative; display: block; border-radius: var(--r); overflow: hidden; background: var(--bg-3); color: #fff; }
+  .tile :global(img) { transition: transform .7s var(--ease); }
+  .tile:hover :global(img) { transform: scale(1.04); }
+  .tile__shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,24,26,.62) 0%, rgba(23,24,26,0) 55%); }
+  .tile__txt { position: absolute; left: 18px; right: 18px; bottom: 16px; display: flex; flex-direction: column; gap: 2px; }
+  .tile__txt strong { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -0.02em; }
+  .tile__txt span { font-size: 13px; opacity: .85; }
+  .tile__play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .tile--a { grid-column: span 2; grid-row: span 2; }
+  .tile--b { grid-column: span 2; }
+  .tile--c { grid-column: span 2; }
+  .tile--d { grid-column: span 2; }
+  .tile--e { grid-column: span 2; grid-row: span 2; }
+  .tile--v { grid-column: span 2; }
+  @media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; } .tile--a, .tile--e { grid-column: span 2; } .tile--b, .tile--c, .tile--d, .tile--v { grid-column: span 1; } }
+  @media (max-width: 560px) { .bento { grid-template-columns: 1fr; grid-auto-rows: 220px; } .tile { grid-column: span 1 !important; grid-row: span 1 !important; } }
+</style>

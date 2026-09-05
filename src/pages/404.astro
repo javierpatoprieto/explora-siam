@@ -8,12 +8,12 @@ const site = (await getEntry('site', 'site'))!.data;
 const home = (await getEntry('home', 'home'))!.data;
 ---
 <Base title={`Página no encontrada · ${site.marca}`} noindex={true}>
-  <Nav site={site} />
+  <Nav site={site} dark={false} />
   <main class="wrap nf"><h1>Esto no está en el mapa.</h1><p>La página que buscas no existe. Vuelve a la home o escríbeme.</p><div class="nf__row"><a href="/" class="btn btn--line">Volver a la home</a><Wa site={site} origen="nav">Escríbeme por WhatsApp</Wa></div></main>
   <Footer site={site} frase={home.footer.frase} />
 </Base>
 <style>
   .nf { padding-top: 180px; padding-bottom: 80px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; min-height: 70vh; }
   .nf__row { display: flex; gap: 12px; flex-wrap: wrap; }
-  :global(.nav) { color: var(--tinta) !important; }
+
 </style>

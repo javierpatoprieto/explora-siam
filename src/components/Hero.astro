@@ -1,73 +1,71 @@
 ---
 import { Image } from 'astro:assets';
 import Wa from './Wa.astro';
+import { precio } from '../lib/wa';
 const { site, hero, proxima } = Astro.props;
 const hasVideo = Boolean(hero.videoMp4);
 ---
 <section class="hero" id="hero">
-  {hasVideo ? (
-    <video class="cover hero__media" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src}>
-      {hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}
-      <source src={hero.videoMp4} type="video/mp4" />
-    </video>
-  ) : (
-    <picture>
-      <source media="(max-width: 760px)" srcset={hero.posterMovil.src} />
-      <Image src={hero.poster} alt="" class="cover hero__media" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" />
-    </picture>
-  )}
-  <div class="hero__shade"></div>
-  <div class="wrap hero__in">
-    <span class="hero__badge">{hero.badge}</span>
-    <h1>{hero.titulo} <em>{hero.destacado}</em></h1>
-    <p class="hero__sub">{hero.subtitulo}</p>
-    <div class="hero__cta">
-      <Wa site={site} origen="hero">{hero.botonPrimario}</Wa>
-      {hero.botonSecundario && <a href="#salidas" class="btn btn--ghost">{hero.botonSecundario}</a>}
-    </div>
-    {hero.microcopy && <p class="hero__micro label">{hero.microcopy}</p>}
-  </div>
-  <div class="wrap hero__foot">
-    {hero.mostrarProximaSalida && proxima && (
-      <a href={`/viajes/${proxima.slug}`} class="hero__next">
-        <span class="hero__next-k">Próxima salida</span>
-        <span class="hero__next-v">{proxima.fechas}</span>
-        <span class="hero__next-m">{proxima.duracion} · {proxima.disponibles < proxima.plazas ? `quedan ${proxima.disponibles} plazas` : `${proxima.plazas} plazas`}</span>
-      </a>
+  <div class="hero__media">
+    {hasVideo ? (
+      <video class="cover" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>
+    ) : (
+      <picture><source media="(max-width: 760px)" srcset={hero.posterMovil.src} /><Image src={hero.poster} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" /></picture>
     )}
-    <span class="hero__scroll label" aria-hidden="true"><span class="hero__line"></span>desliza</span>
+    <div class="hero__shade"></div>
+  </div>
+  <div class="wrap hero__in">
+    <div class="hero__copy">
+      <span class="hero__badge">{hero.badge}</span>
+      <h1>{hero.titulo} <span>{hero.destacado}</span></h1>
+      <p class="hero__sub">{hero.subtitulo}</p>
+      <div class="hero__cta"><Wa site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Wa>{hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}</div>
+    </div>
+    {proxima && (
+      <aside class="widget" aria-label="Próxima salida">
+        <div class="widget__tabs"><span class="on">Próxima salida</span><span>Una al año</span></div>
+        <dl class="widget__grid">
+          <div><dt>Ruta</dt><dd>{proxima.nombre.split(':')[0]}</dd></div>
+          <div><dt>Fechas</dt><dd>{proxima.fechas}</dd></div>
+          <div><dt>Duración</dt><dd>{proxima.duracion}</dd></div>
+          <div><dt>Grupo</dt><dd>6 a {proxima.plazas} personas</dd></div>
+          <div class="wide"><dt>Precio</dt><dd>desde {precio(proxima.precio)} <small>· {proxima.notaPrecio}</small></dd></div>
+        </dl>
+        <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre, fechas: proxima.fechas }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
+        <a href={`/viajes/${proxima.slug}`} class="widget__link">Ver el itinerario completo</a>
+      </aside>
+    )}
   </div>
 </section>
 <style>
-  .hero { position: relative; min-height: min(100svh, 1080px); display: flex; flex-direction: column; justify-content: flex-end; background: var(--tinta); color: var(--crema); overflow: hidden; }
-  .hero__media { z-index: 0; object-position: 50% 45%; animation: kb 24s ease-out both; transform-origin: 60% 40%; }
-  @keyframes kb { from { transform: scale(1.12); } to { transform: scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .hero__media { animation: none; } }
-  .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42,33,36,.35) 0%, rgba(42,33,36,.05) 30%, rgba(42,33,36,.85) 100%); }
-  .hero__in { position: relative; width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 140px; padding-bottom: 32px; }
-  .hero__in h1 { max-width: 14ch; font-size: clamp(48px, 7.4vw, 104px); }
-  .hero__in h1 em { font-style: normal; color: var(--coral); }
-  .hero__badge { display: inline-block; background: var(--coral); color: var(--tinta); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; }
-  .hero__sub { max-width: 520px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.55; color: rgba(243,238,230,.92); }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
-  .hero__micro { color: rgba(243,238,230,.85); margin-top: -8px; }
-  .hero__foot { position: relative; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 28px; padding-top: 24px; color: rgba(243,238,230,.85); flex-wrap: wrap; }
-  .hero__scroll { display: inline-flex; align-items: center; gap: 12px; color: rgba(243,238,230,.7); }
-  .hero__line { display: block; width: 48px; height: 1px; background: currentColor; animation: grow 2s var(--ease) infinite; transform-origin: left; }
-  @keyframes grow { 0% { transform: scaleX(0); } 60% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
-
-  .hero__next { display: flex; flex-direction: column; gap: 4px; color: var(--crema); padding: 16px 20px; border: 1px solid rgba(243,238,230,.28); border-radius: 4px; backdrop-filter: blur(8px); background: rgba(42,33,36,.25); transition: border-color .25s; }
-  .hero__next:hover { border-color: var(--crema); color: var(--crema); }
-  .hero__next-k { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(243,238,230,.7); }
-  .hero__next-v { font-family: var(--display); text-transform: uppercase; font-size: 24px; line-height: 1; }
-  .hero__next-m { font-size: 13px; color: rgba(243,238,230,.8); }
-  .dot { width: 4px; height: 4px; border-radius: 999px; background: currentColor; opacity: .6; }
-  .ambar { color: var(--ambar); }
-  @media (max-width: 760px) {
-    .hero__in { padding-top: 110px; gap: 18px; }
-    .hero__cta { flex-direction: column; width: 100%; }
+  .hero { position: relative; min-height: min(100svh, 900px); display: flex; align-items: center; color: #fff; padding: 120px 0 56px; }
+  .hero__media { position: absolute; inset: 0; overflow: hidden; border-radius: 0 0 var(--r-lg) var(--r-lg); background: var(--ink); }
+  .hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,24,26,.55) 0%, rgba(23,24,26,.15) 60%), linear-gradient(0deg, rgba(23,24,26,.45), rgba(23,24,26,0) 50%); }
+  .hero__in { position: relative; width: 100%; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero__badge { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(8px); font-size: 13px; font-weight: 500; }
+  .hero h1 { max-width: 13ch; font-weight: 400; }
+  .hero h1 span { color: rgba(255,255,255,.72); }
+  .hero__sub { max-width: 46ch; font-size: 17px; color: rgba(255,255,255,.88); }
+  .hero__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .hero__micro { font-size: 13px; color: rgba(255,255,255,.75); }
+  .widget { justify-self: end; width: min(100%, 400px); background: #fff; color: var(--ink); border-radius: var(--r-lg); padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
+  .widget__tabs { display: flex; gap: 6px; background: var(--bg-2); border-radius: 999px; padding: 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+  .widget__tabs span { flex: 1; text-align: center; padding: 8px 10px; border-radius: 999px; }
+  .widget__tabs .on { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .widget__grid { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .widget__grid div { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; }
+  .widget__grid .wide { grid-column: 1 / -1; }
+  .widget__grid dt { font-size: 12px; color: var(--muted); }
+  .widget__grid dd { margin: 2px 0 0; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+  .widget__grid dd small { font-weight: 400; color: var(--muted); font-size: 12px; }
+  .widget :global(.widget__btn) { width: 100%; }
+  .widget__link { font-size: 13px; color: var(--muted); text-align: center; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) {
+    .hero { padding: 100px 0 32px; min-height: 0; }
+    .hero__in { grid-template-columns: 1fr; gap: 28px; }
+    .hero__media { border-radius: 0 0 20px 20px; }
+    .widget { justify-self: stretch; width: 100%; }
     .hero__cta :global(.btn) { width: 100%; }
-    .hero__foot { padding-bottom: 24px; }
-    .hero__scroll { display: none; }
   }
 </style>

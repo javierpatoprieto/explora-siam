@@ -45,24 +45,24 @@ const { site, cab, salidas } = Astro.props;
 <style>
   .salidas__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 48px; }
   .salidas__head .label { display: block; margin-bottom: 14px; }
-  .vino { color: var(--vino); }
-  .salidas__sub { max-width: 380px; font-size: 18px; color: var(--texto-2); }
+  .vino { color: var(--ink); }
+  .salidas__sub { max-width: 380px; font-size: 18px; color: var(--ink-2); }
   .salidas__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
-  .card { display: flex; flex-direction: column; border: 1px solid var(--linea); border-radius: 4px; background: var(--crema); overflow: hidden; transition: border-color .3s; }
-  .card:hover { border-color: var(--vino); }
+  .card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 4px; background: #fff; overflow: hidden; transition: border-color .3s; }
+  .card:hover { border-color: var(--ink); }
   .card__img { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
   .card__img :global(img) { transition: transform .6s var(--ease); }
   .card:hover .card__img :global(img) { transform: scale(1.03); }
-  .badge { position: absolute; top: 16px; left: 16px; padding: 6px 10px; border-radius: 2px; font-size: 12px; font-weight: 700; color: var(--crema); }
-  .badge--vino { background: var(--vino); } .badge--tinta { background: var(--tinta); }
+  .badge { position: absolute; top: 16px; left: 16px; padding: 6px 10px; border-radius: 2px; font-size: 12px; font-weight: 700; color: #fff; }
+  .badge--vino { background: var(--ink); } .badge--tinta { background: var(--ink); }
   .card__body { display: flex; flex-direction: column; gap: 14px; padding: 24px 24px 28px; }
-  .tachado { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--gris); }
-  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--gris); font-size: 13px; }
-  .coral { color: var(--vino); font-weight: 700; }
-  .card__precio .display { font-family: var(--display); text-transform: uppercase; font-size: 26px; }
-  .nota { color: var(--gris); font-size: 14px; }
-  .card__hl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; color: var(--texto-2); font-size: 15px; }
-  .card__desc { color: var(--texto-2); font-size: 15px; }
+  .tachado { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--muted); }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--muted); font-size: 13px; }
+  .coral { color: var(--ink); font-weight: 700; }
+  .card__precio .display { font-family: var(--display); font-size: 26px; }
+  .nota { color: var(--muted); font-size: 14px; }
+  .card__hl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; color: var(--ink-2); font-size: 15px; }
+  .card__desc { color: var(--ink-2); font-size: 15px; }
   .card :global(.btn) { margin-top: 8px; }
   .card__link { font-size: 15px; font-weight: 700; }
   .salidas__track--una { grid-template-columns: 1fr; }

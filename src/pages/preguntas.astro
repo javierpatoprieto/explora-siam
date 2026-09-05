@@ -12,7 +12,7 @@ const faqs = (await getCollection('faqs')).sort((a, b) => a.data.orden - b.data.
 const jsonLd = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.data.pregunta, acceptedAnswer: { '@type': 'Answer', text: f.data.respuesta } })) }];
 ---
 <Base title={`Preguntas · ${site.marca}`} description="Lo que me preguntáis por WhatsApp antes de viajar a Tailandia con Explora Siam: viajar en solitario, nivel físico, reserva y pago, cancelaciones y más." jsonLd={jsonLd}>
-  <Nav site={site} />
+  <Nav site={site} dark={false} />
   <main class="page">
     <Faq site={site} faq={{ ...home.faq, titulo: 'Lo que me preguntáis por WhatsApp.' }} items={faqs} todas={true} />
     <div style="height: clamp(80px, 10vw, 152px)"></div>
@@ -22,6 +22,6 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEnti
   <Flotante site={site} />
 </Base>
 <style is:global>
-  .page { padding-top: 40px; }
-  .page .faq { padding-top: 120px; }
+  .page { padding-top: 48px; }
+  .page .faq { padding-top: 96px; }
 </style>

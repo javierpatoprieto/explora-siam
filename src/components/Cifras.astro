@@ -1,23 +1,20 @@
 ---
-const { cifras } = Astro.props;
+const { cifras, titulo, texto } = Astro.props;
 ---
-<section class="cifras" aria-label="La ruta en cifras">
-  <div class="wrap cifras__in">
-    {cifras.map((c: any) => (
-      <div class="cifra" data-reveal>
-        <span class="cifra__n">{c.valor} <small>{c.unidad}</small></span>
-        <span class="cifra__t">{c.etiqueta}</span>
-      </div>
-    ))}
-  </div>
+<section class="stats wrap section">
+  <div class="stats__txt" data-reveal><h2>{titulo}</h2><p class="sub">{texto}</p></div>
+  <dl class="stats__list" data-reveal>
+    {cifras.map((c: any) => (<div class="stat"><dt>{c.valor}<small>{c.unidad}</small></dt><dd>{c.etiqueta}</dd></div>))}
+  </dl>
 </section>
 <style>
-  .cifras { border-bottom: 1px solid var(--linea); }
-  .cifras__in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .cifra { display: flex; flex-direction: column; gap: 6px; padding: 32px 24px 32px 0; border-left: 1px solid var(--linea); padding-left: 24px; }
-  .cifra:first-child { border-left: 0; padding-left: 0; }
-  .cifra__n { font-family: var(--display); font-size: clamp(36px, 3.6vw, 56px); line-height: 1; letter-spacing: -0.005em; }
-  .cifra__n small { font-size: .45em; font-family: var(--texto); font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--gris); }
-  .cifra__t { font-size: 14px; color: var(--gris); }
-  @media (max-width: 900px) { .cifras__in { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cifra { padding: 20px 16px 20px 0; } .cifra:nth-child(odd) { border-left: 0; padding-left: 0; } .cifra:nth-child(even) { padding-left: 16px; } }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .stats__txt { display: flex; flex-direction: column; gap: 14px; }
+  .stats__list { margin: 0; display: flex; flex-direction: column; }
+  .stat { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .stat:last-child { border-bottom: 1px solid var(--line); }
+  .stat dt { font-family: var(--display); font-size: 32px; font-weight: 500; letter-spacing: -0.03em; }
+  .stat dt small { font-size: 14px; color: var(--muted); font-family: var(--texto); font-weight: 400; margin-left: 6px; letter-spacing: 0; }
+  .stat dd { margin: 0; font-size: 13px; color: var(--muted); text-align: right; }
+  @media (max-width: 900px) { .stats { grid-template-columns: 1fr; gap: 32px; } }
 </style>

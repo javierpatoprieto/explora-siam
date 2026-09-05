@@ -4,7 +4,9 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Cifras from '../components/Cifras.astro';
-import Ruta from '../components/Ruta.astro';
+import Statement from '../components/Statement.astro';
+import Destinos from '../components/Destinos.astro';
+import Ventajas from '../components/Ventajas.astro';
 import Precio from '../components/Precio.astro';
 import Manifiesto from '../components/Manifiesto.astro';
 import Salidas from '../components/Salidas.astro';
@@ -55,12 +57,11 @@ const jsonLd = [
   <Nav site={site} />
   <main>
     <Hero site={site} hero={home.hero} proxima={proxima} />
-    <Cifras cifras={home.cifras} />
-    <Manifiesto m={home.manifiesto} />
-    {abiertas.length === 1 ? <Ruta site={site} ruta={home.ruta} salida={abiertas[0]} /> : <Salidas site={site} cab={home.salidas} salidas={salidas} />}
-    <VideoBand v={home.video} />
+    <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />
+    <Statement st={home.statement} />
+    <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} />
+    <Ventajas v={home.ventajas} />
     <Fundador site={site} f={home.fundador} />
-    <Galeria site={site} g={home.galeria} />
     <Precio site={site} p={home.precio} inc={home.incluye} />
     <Testimonios t={home.testimonios} items={testimonios} />
     <Faq site={site} faq={home.faq} items={faqs} />

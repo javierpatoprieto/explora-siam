@@ -3,47 +3,24 @@ import { Image } from 'astro:assets';
 import Wa from './Wa.astro';
 const { site, f } = Astro.props;
 ---
-<section class="fund oscuro" id="daniel">
-  <div class="fund__media" data-reveal>
-    <Image src={f.retrato} alt={`${site.fundador} en un mercado de Tailandia`} class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 42vw" />
+<section class="fund wrap section" id="dani">
+  <div class="fund__img" data-reveal>
+    <Image src={f.retrato} alt={site.fundador} class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 45vw" />
     {f.retratoPie && <span class="cap">{f.retratoPie}</span>}
-    {f.archivo && (
-      <figure class="polaroid">
-        <div class="polaroid__img"><Image src={f.archivo} alt="" class="cover" widths={[400, 600]} sizes="200px" style="filter:none" /></div>
-        {f.archivoPie && <figcaption>{f.archivoPie}</figcaption>}
-      </figure>
-    )}
   </div>
-  <div class="fund__text" data-reveal>
-    <span class="label ambar">{f.etiqueta}</span>
+  <div class="fund__txt" data-reveal>
+    <span class="eyebrow">{f.etiqueta}</span>
     <h2>{f.titulo}</h2>
-    <div class="fund__carta">{f.parrafos.map((p: string) => <p>{p}</p>)}</div>
-    <p class="firma" aria-hidden="true">{site.fundador}</p>
-    {f.datos.length > 0 && <p class="fund__datos label">{f.datos.join(' · ')}</p>}
+    <div class="fund__p">{f.parrafos.map((p: string) => <p>{p}</p>)}</div>
     <div class="fund__cta"><Wa site={site} origen="daniel" icon={false}>{f.boton}</Wa>{f.microcopy && <span class="fund__micro">{f.microcopy}</span>}</div>
   </div>
 </section>
 <style>
-  .fund { display: grid; grid-template-columns: 5fr 7fr; min-height: 820px; }
-  .fund__media { position: relative; min-height: 520px; }
-  .polaroid { position: absolute; right: -24px; bottom: 64px; width: 200px; margin: 0; background: var(--crema); padding: 10px 10px 14px; transform: rotate(3deg); box-shadow: 0 12px 32px rgba(0,0,0,.35); z-index: 2; }
-  .polaroid__img { position: relative; height: 150px; overflow: hidden; }
-  .polaroid figcaption { color: var(--tinta); font-size: 11px; font-weight: 600; margin-top: 10px; }
-  .fund__text { display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: clamp(64px, 8vw, 120px) clamp(24px, 8vw, 120px) clamp(64px, 8vw, 120px) clamp(24px, 7.7vw, 112px); }
-  .ambar { color: var(--ambar); }
-  .fund h2 { font-size: clamp(48px, 5.5vw, 80px); }
-  .fund__carta { display: flex; flex-direction: column; gap: 16px; max-width: 560px; font-size: 18px; color: rgba(243,238,230,.9); }
-  .firma { font-family: var(--firma); font-size: 56px; line-height: 1; color: var(--crema); text-shadow: 0 0 18px rgba(243,238,230,.55); }
-  .fund__datos { color: rgba(243,238,230,.6); font-size: 13px; }
-  .fund__cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  .fund__micro { font-size: 14px; color: rgba(243,238,230,.7); }
-  @media (max-width: 900px) {
-    .fund { grid-template-columns: 1fr; min-height: 0; }
-    .fund__media { min-height: 0; aspect-ratio: 4 / 5; }
-    .polaroid { right: 16px; bottom: 16px; width: 150px; }
-    .polaroid__img { height: 110px; }
-    .fund__text { padding: 48px var(--gutter) 56px; gap: 22px; }
-    .firma { font-size: 48px; }
-    .fund__cta :global(.btn) { width: 100%; }
-  }
+  .fund { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: center; }
+  .fund__img { position: relative; aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; }
+  .fund__txt { display: flex; flex-direction: column; gap: 18px; }
+  .fund__p { display: flex; flex-direction: column; gap: 12px; color: var(--ink-2); max-width: 56ch; }
+  .fund__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+  .fund__micro { font-size: 13px; color: var(--muted); }
+  @media (max-width: 900px) { .fund { grid-template-columns: 1fr; gap: 28px; } }
 </style>
