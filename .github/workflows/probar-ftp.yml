@@ -1,0 +1,139 @@
+name: Probar conexion con Raiola
+
+# Sirve para comprobar, antes de fiarte del automatismo, que las credenciales
+# de FTP son correctas y que apuntan a la carpeta buena. No sube nada de la web:
+# solo entra, lista lo que hay y escribe y borra un archivo de prueba.
+on:
+  workflow_dispatch:
+    inputs:
+      servidor_dir:
+        description: Carpeta del hosting (dejalo vacio para usar la configurada)
+        required: false
+        default: ''
+      protocolo:
+        description: Protocolo
+        type: choice
+        options: [ftps, ftp]
+        default: ftps
+      puerto:
+        description: Puerto
+        required: false
+        default: '21'
+
+jobs:
+  probar:
+    name: Probar credenciales
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Entrar y escribir un archivo de prueba
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          DIR: ${{ inputs.servidor_dir || vars.FTP_DIR || '/public_html/' }}
+          PROTO: ${{ inputs.protocolo }}
+          PUERTO: ${{ inputs.puerto }}
+        run: |
+          resumen() { echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
+
+          FALTAN=""
+          if [ -z "$FTP_HOST" ];     then FALTAN="$FALTAN FTP_HOST"; fi
+          if [ -z "$FTP_USER" ];     then FALTAN="$FALTAN FTP_USER"; fi
+          if [ -z "$FTP_PASSWORD" ]; then FALTAN="$FALTAN FTP_PASSWORD"; fi
+          FALTAN="${FALTAN# }"
+          if [ -n "$FALTAN" ]; then
+            resumen "## Faltan credenciales"
+            resumen ""
+            resumen "No estan puestos: **$FALTAN**"
+            resumen ""
+            resumen "Ponlos en Settings -> Secrets and variables -> Actions -> New repository secret."
+            echo "::error::Faltan los secretos:$FALTAN"
+            exit 1
+          fi
+
+          if [ "$PROTO" = "ftps" ]; then FORZAR="set ftp:ssl-force true; set ftp:ssl-protect-data true;"; else FORZAR="set ftp:ssl-allow false;"; fi
+
+          echo "Conectando a $FTP_HOST:$PUERTO por $PROTO, carpeta $DIR"
+          set +e
+          SALIDA=$(lftp -c "
+            set ssl:verify-certificate no;
+            $FORZAR
+            set net:max-retries 2;
+            set net:timeout 25;
+            open -p $PUERTO -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
+            cd \"$DIR\";
+            pwd;
+            cls -1 | head -40;
+          " 2>&1)
+          CODIGO=$?
+          set -e
+
+          if [ $CODIGO -ne 0 ]; then
+            resumen "## La conexion ha fallado"
+            resumen ""
+            resumen "Servidor \`$FTP_HOST\` · puerto \`$PUERTO\` · protocolo \`$PROTO\` · carpeta \`$DIR\`"
+            resumen ""
+            resumen '```'
+            resumen "$SALIDA"
+            resumen '```'
+            resumen ""
+            resumen "Cosas que suelen fallar: el usuario de una cuenta FTP de cPanel es"
+            resumen "\`usuario@explorasiam.com\`, no solo el nombre. Si el servidor no acepta FTPS,"
+            resumen "vuelve a lanzar esta prueba con protocolo \`ftp\`. Y si la cuenta FTP ya esta"
+            resumen "creada dentro de public_html, la carpeta correcta suele ser \`/\` y no \`/public_html/\`."
+            echo "::error::No se ha podido conectar. Mira el resumen de la ejecucion."
+            echo "$SALIDA"
+            exit 1
+          fi
+
+          echo "$SALIDA"
+
+          # prueba de escritura: si esto pasa, la publicacion automatica funcionara
+          echo "prueba de escritura $(date -u +%FT%TZ)" > prueba-conexion.txt
+          set +e
+          ESCRITURA=$(lftp -c "
+            set ssl:verify-certificate no;
+            $FORZAR
+            set net:max-retries 2;
+            set net:timeout 25;
+            open -p $PUERTO -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
+            cd \"$DIR\";
+            put prueba-conexion.txt;
+            rm prueba-conexion.txt;
+          " 2>&1)
+          CODIGO=$?
+          set -e
+
+          if [ $CODIGO -ne 0 ]; then
+            resumen "## Entra, pero no puede escribir"
+            resumen ""
+            resumen "Las credenciales son buenas y \`$DIR\` existe, pero el usuario no tiene permiso"
+            resumen "para escribir ahi. Revisa que la cuenta FTP tenga como directorio esa carpeta."
+            resumen ""
+            resumen '```'
+            resumen "$ESCRITURA"
+            resumen '```'
+            echo "::error::Sin permiso de escritura en $DIR"
+            exit 1
+          fi
+
+          resumen "## Conexion correcta"
+          resumen ""
+          resumen "Servidor \`$FTP_HOST\` · puerto \`$PUERTO\` · protocolo \`$PROTO\` · carpeta \`$DIR\`"
+          resumen ""
+          resumen "Ha entrado, ha escrito un archivo de prueba y lo ha borrado. **La publicacion"
+          resumen "automatica va a funcionar.** A partir de ahora, cada vez que el cliente guarde"
+          resumen "algo en el panel, la web se actualiza sola en unos dos minutos."
+          resumen ""
+          resumen "Esto es lo que hay ahora mismo en esa carpeta:"
+          resumen ""
+          resumen '```'
+          resumen "$SALIDA"
+          resumen '```'
+          resumen ""
+          resumen "Si el protocolo o el puerto que has probado no son los que estan guardados,"
+          resumen "apuntalos en Settings -> Secrets and variables -> Actions -> Variables como"
+          resumen "\`FTP_PROTOCOL\`, \`FTP_PORT\` y \`FTP_DIR\`."

@@ -8,7 +8,7 @@ const { site, frase } = Astro.props;
   </div>
   <div class="foot__bottom">
     <nav class="foot__legal" aria-label="Legal"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones</a></nav>
-    <span>{site.ubicacion}{site.licencia && ` · ${site.licencia}`}</span>
+    <span class="foot__meta">{site.ubicacion}{site.licencia && ` · ${site.licencia}`}{site.autor && <> · <a class="foot__autor" href={site.autor.url} target="_blank" rel="noopener">{site.autor.texto}</a></>}</span>
   </div>
 </footer>
 <style>
@@ -20,6 +20,9 @@ const { site, frase } = Astro.props;
   .foot__brand span { color: var(--muted); font-size: 13px; }
   .foot__links, .foot__legal { display: flex; gap: 22px; flex-wrap: wrap; }
   .foot__links a, .foot__legal a { color: var(--ink); }
+  .foot__meta { display: inline; }
+  .foot__autor { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); transition: color .2s, border-color .2s; }
+  .foot__autor:hover { color: var(--ink); border-color: var(--ink); }
   .foot__bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; }
   @media (min-width: 761px) { .foot { padding-bottom: 48px; } }
 </style>

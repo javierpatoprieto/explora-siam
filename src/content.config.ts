@@ -19,6 +19,7 @@ const site = defineCollection({
     verificacionGoogle: z.string().optional().default(''),
     seoTitulo: z.string(),
     seoDescripcion: z.string(),
+    autor: z.object({ texto: z.string(), url: z.string().url() }).optional(),
     plantillas: z.record(z.string()),
   }),
 });
