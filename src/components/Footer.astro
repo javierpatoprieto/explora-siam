@@ -7,7 +7,7 @@ const { site, frase } = Astro.props;
     <nav class="foot__links" aria-label="Contacto"><a href={site.instagram} target="_blank" rel="noopener">Instagram</a><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:+${site.whatsapp}`}>+{site.whatsapp}</a></nav>
   </div>
   <div class="foot__bottom">
-    <nav class="foot__legal" aria-label="Legal"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones</a></nav>
+    <nav class="foot__legal" aria-label="Legal"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones</a><a href="#" data-ck>Configurar cookies</a></nav>
     <span class="foot__meta">{site.ubicacion}{site.licencia && ` · ${site.licencia}`}{site.autor && <> · <a class="foot__autor" href={site.autor.url} target="_blank" rel="noopener">{site.autor.texto}</a></>}</span>
   </div>
 </footer>
