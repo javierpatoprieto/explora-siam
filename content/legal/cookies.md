@@ -29,11 +29,9 @@ Sin embargo, ninguna de las Cookies permiten el almacenamiento de números de te
 4. ¿QUÉ SON LAS COOKIES PROPIAS Y LAS DE TERCEROS?
 
 - Cookies Propias Son aquellas enviadas al ordenador o dispositivo del Usuario y gestionadas exclusivamente por Explora Siam para el mejor funcionamiento del Sitio Web. La información que se recaba se emplea para mejorar la calidad del Sitio Web, el contenido y servicios del mismo así como la experiencia del Usuario.
-- Cookies Propias utilizadas por Explora Siam:
-- Cookies de Inicio de Sesión.- Permiten identificar al Usuario durante su navegación.
-- Cookies de Personalización.- Ayudan a recordar las preferencias del Usuario.
-- Cookies de Preferencias.- Permiten recordar configuraciones como idioma o ajustes de privacidad.
-- Cookies de Seguridad.- Evitan riesgos de seguridad como intentos de acceso no autorizado.
+Explora Siam no instala cookies propias en el navegador del Usuario. El Sitio Web es estático y no requiere inicio de sesión.
+
+Sí guarda un dato en el almacenamiento local del navegador (`localStorage`), bajo el nombre `es-cookies`: únicamente la decisión del Usuario sobre las cookies y la fecha en que la tomó. No es una cookie, no se envía a ningún servidor y no permite identificar a nadie; sirve para no volver a preguntar durante un año.
 - Cookies de Terceros Son aquellas enviadas al dispositivo del Usuario desde un dominio que no es gestionado por Explora Siam, sino por otra entidad que trata los datos obtenidos a través de las cookies.
 Los proveedores externos que utilicen cookies en el Sitio Web disponen de sus propias políticas de privacidad y cookies, siendo responsables de sus propios tratamientos de datos.
 
@@ -43,9 +41,15 @@ Cookies de Terceros utilizadas por Explora Siam
 
 Este apartado contempla las cookies concretas que instalan los proveedores externos con los que trabaja el Sitio Web.
 
-- Raiola Networks Plataforma que trata los datos con la finalidad de realizar sus servicios de hosting para el Sitio Web de Explora Siam. Https://raiolanetworks.com
-- WordPress: Explora Siam es usuario de la plataforma de suministro y alojamiento de blogs WordPress, propiedad de la empresa norteamericana Automattic, Inc. https://automattic.com/es
+**Google Analytics 4**, de Google Ireland Limited. Finalidad: medición estadística del uso del Sitio Web. Solo se activa si el Usuario acepta las cookies de análisis; si las rechaza, no se descarga ningún archivo de Google.
 
+Cookies que instala una vez aceptadas:
+
+- `_ga`: distingue usuarios. Duración: 2 años.
+- `_ga_<ID>`: mantiene el estado de la sesión. Duración: 2 años. 
+
+La dirección IP se transmite anonimizada y no se han habilitado usos publicitarios. Política de privacidad de Google: https://policies.google.com/privacy
+  
 Uso de las Cookies en el Sitio Web
 
 Las cookies empleadas en el Sitio Web se asocian únicamente con un Usuario anónimo y su dispositivo, no proporcionando referencias que permitan deducir su identidad personal.
