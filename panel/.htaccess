@@ -17,7 +17,9 @@
 Options -Indexes
 DirectoryIndex index.php
 
-<FilesMatch "^(config\.php|config\.example\.php|lib\.php|\.intentos)$">
+# Solo index.php es una puerta de entrada. Todo lo demas se incluye desde el,
+# asi que servirlo suelto no aporta nada y puede filtrar detalles.
+<FilesMatch "^(config\.php|config\.example\.php|lib\.php|publicador\.php|vista\.php|entrada\.php|estilo\.php|\.intentos|\.publicado\.json)$">
   Require all denied
 </FilesMatch>
 

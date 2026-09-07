@@ -12,6 +12,7 @@ if (!file_exists(__DIR__ . '/config.php')) {
 }
 require __DIR__ . '/config.php';
 require __DIR__ . '/lib.php';
+require __DIR__ . '/publicador.php';
 
 // Evita dejar el panel abierto con los valores de ejemplo.
 if (PANEL_PASSWORD === 'cambia-esta-contrasena' || str_starts_with(GITHUB_TOKEN, 'github_pat_...')) {
@@ -69,6 +70,98 @@ if (isset($_GET['foto'])) {
     header('Cache-Control: private, max-age=300');
     echo $archivo['contenido'];
     exit;
+}
+
+/* ------------------------------------------------ publicación en el hosting */
+// La página llama aquí por tandas hasta que la web queda al día.
+if (isset($_GET['api'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+    $accion = (string) $_GET['api'];
+
+    if ($accion === 'estado') {
+        echo json_encode(estado_resumido(estado_publicacion()));
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_valido()) {
+        http_response_code(403);
+        echo json_encode(['estado' => 'error', 'mensaje' => 'Vuelve a cargar la página.']);
+        exit;
+    }
+
+    if ($accion === 'empezar') {
+        $estado = estado_publicacion(true);
+        if ($estado['estado'] === 'error') {
+            echo json_encode($estado);
+            exit;
+        }
+        $_SESSION['pub'] = [
+            'pendientes' => $estado['pendientes'],
+            'commit' => $estado['commit'],
+            'total' => count($estado['pendientes']),
+            'hechos' => 0,
+            'fallos' => [],
+        ];
+        echo json_encode(estado_resumido($estado));
+        exit;
+    }
+
+    if ($accion === 'tanda') {
+        $pub = $_SESSION['pub'] ?? null;
+        if (!is_array($pub)) {
+            echo json_encode(['estado' => 'error', 'mensaje' => 'Empieza la publicación otra vez.']);
+            exit;
+        }
+        if ($pub['pendientes']) {
+            $r = publicar_tanda($pub['pendientes']);
+            $pub['pendientes'] = $r['quedan'];
+            $pub['hechos'] += count($r['hechos']);
+            $pub['fallos'] = array_merge($pub['fallos'], $r['fallos']);
+            $_SESSION['pub'] = $pub;
+        }
+        if ($pub['pendientes']) {
+            echo json_encode([
+                'estado' => 'en-marcha',
+                'hechos' => $pub['hechos'],
+                'total' => $pub['total'],
+                'quedan' => count($pub['pendientes']),
+            ]);
+            exit;
+        }
+        // Terminado: quitamos los _astro viejos y apuntamos la versión.
+        $manifiesto = manifiesto_remoto();
+        $limpiados = $manifiesto ? limpiar_sobrantes($manifiesto) : 0;
+        if (!$pub['fallos']) {
+            apuntar_version((string) $pub['commit'], (int) $pub['total']);
+        }
+        unset($_SESSION['pub']);
+        echo json_encode([
+            'estado' => $pub['fallos'] ? 'con-fallos' : 'listo',
+            'hechos' => $pub['hechos'],
+            'total' => $pub['total'],
+            'limpiados' => $limpiados,
+            'fallos' => array_slice($pub['fallos'], 0, 5),
+        ]);
+        exit;
+    }
+
+    http_response_code(400);
+    echo json_encode(['estado' => 'error', 'mensaje' => 'Acción desconocida.']);
+    exit;
+}
+
+function estado_resumido(array $e): array
+{
+    return [
+        'estado' => $e['estado'],
+        'mensaje' => $e['mensaje'] ?? '',
+        'pendientes' => count($e['pendientes'] ?? []),
+        'bytes' => $e['bytes'] ?? 0,
+        'peso' => bytes_legibles((int) ($e['bytes'] ?? 0)),
+        'commit' => substr((string) ($e['commit'] ?? ''), 0, 7),
+        'generado' => $e['generado'] ?? '',
+    ];
 }
 
 /* ---------------------------------------------------- campos de texto */

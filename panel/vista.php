@@ -22,6 +22,11 @@
 
 <main>
 <?php if ($aviso): ?><p class="aviso <?= e($aviso[0]) ?>"><?= e($aviso[1]) ?></p><?php endif; ?>
+<div id="pub" class="pub" hidden>
+  <span class="pub__luz"></span>
+  <span class="pub__txt">Comprobando la web…</span>
+  <button type="button" class="pub__btn" id="pubBtn" hidden>Publicar ahora</button>
+</div>
 <?php if ($sinConexion): ?>
   <h1>No se puede leer el contenido</h1>
   <p class="guia">Revisa que el token de GitHub del archivo <code>config.php</code> sigue siendo válido y tiene permiso de escritura sobre el repositorio.</p>
@@ -140,5 +145,66 @@
   <?php endif; ?>
 <?php endif; ?>
 </main>
+<script>
+(function () {
+  const caja = document.getElementById('pub');
+  const txt  = caja.querySelector('.pub__txt');
+  const btn  = document.getElementById('pubBtn');
+  const csrf = <?= json_encode(csrf()) ?>;
+  const guardado = <?= json_encode(($aviso[0] ?? '') === 'ok') ?>;
+
+  const pinta = (clase, mensaje, boton) => {
+    caja.hidden = false;
+    caja.className = 'pub ' + clase;
+    txt.textContent = mensaje;
+    btn.hidden = !boton;
+  };
+
+  const pide = (accion, post) => fetch('index.php?api=' + accion, post
+    ? { method: 'POST', body: new URLSearchParams({ csrf }) }
+    : {}).then(r => r.json());
+
+  async function publicar() {
+    btn.hidden = true;
+    let r = await pide('empezar', true);
+    if (r.estado === 'error')  return pinta('mal', r.mensaje, true);
+    if (r.estado === 'al-dia') return pinta('ok', 'La web ya está al día.', false);
+    const total = r.pendientes;
+    pinta('yendo', 'Publicando… 0 de ' + total);
+    for (let i = 0; i < 60; i++) {
+      const t = await pide('tanda', true);
+      if (t.estado === 'en-marcha') { pinta('yendo', 'Publicando… ' + t.hechos + ' de ' + t.total); continue; }
+      if (t.estado === 'listo')     return pinta('ok', '¡Listo! La web ya muestra tus cambios.', false);
+      if (t.estado === 'con-fallos') {
+        const m = (t.fallos && t.fallos[0]) ? ' (' + t.fallos[0].motivo + ')' : '';
+        return pinta('mal', 'Se han subido ' + t.hechos + ' de ' + t.total + ', pero algo ha fallado' + m + '. Prueba otra vez.', true);
+      }
+      return pinta('mal', t.mensaje || 'Algo ha fallado.', true);
+    }
+    pinta('mal', 'Está tardando demasiado. Vuelve a intentarlo.', true);
+  }
+
+  btn.addEventListener('click', publicar);
+
+  // Tras guardar, GitHub tarda un par de minutos en dejar lista la version
+  // nueva. Vamos preguntando hasta que aparezca, y entonces la publicamos.
+  async function esperarYPublicar() {
+    pinta('yendo', 'Preparando la versión nueva… (tarda un par de minutos)');
+    for (let i = 0; i < 30; i++) {
+      await new Promise(r => setTimeout(r, 10000));
+      const e = await pide('estado');
+      if (e.estado === 'pendiente') return publicar();
+    }
+    pinta('mal', 'La versión nueva tarda más de lo normal.', true);
+  }
+
+  pide('estado').then(e => {
+    if (guardado)                 return esperarYPublicar();
+    if (e.estado === 'pendiente') { pinta('yendo', 'Hay cambios sin publicar (' + e.peso + ').', false); return publicar(); }
+    if (e.estado === 'al-dia')    { caja.hidden = true; return; }
+    pinta('mal', e.mensaje || 'No se ha podido comprobar la web.', true);
+  });
+})();
+</script>
 </body>
 </html>

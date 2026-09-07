@@ -32,7 +32,20 @@ En *Viaje* está lo que más se toca:
 
 ## Cuándo se ve el cambio
 
-Al pulsar Guardar, la web se vuelve a publicar sola. Tarda **un par de minutos**. Si no lo ves, recarga con Ctrl+F5.
+Al pulsar Guardar, la web se vuelve a publicar sola. Arriba del todo aparece
+una franja que te va contando:
+
+- **naranja, «Preparando la versión nueva…»** — se está compilando. Tarda un
+  par de minutos. Puedes dejar la pestaña abierta y seguir a lo tuyo.
+- **naranja, «Publicando… 8 de 34»** — está copiando los archivos a la web.
+- **verde, «¡Listo! La web ya muestra tus cambios.»** — ya está.
+- **roja** — algo ha fallado; el propio mensaje dice qué. Casi siempre se
+  arregla pulsando *Publicar ahora* otra vez.
+
+Si cierras la pestaña a mitad no se rompe nada: la próxima vez que entres al
+panel, la franja lo detecta y termina de publicar.
+
+Si no ves el cambio en la web, recarga con Ctrl+F5.
 
 ## Si algo sale mal
 
