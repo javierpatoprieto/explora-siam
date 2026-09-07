@@ -55,8 +55,9 @@ function apuntar_version(string $commit, int $archivos): void
  */
 function descargar_publicado(string $ruta): ?string
 {
+    $antiCache = '&_=' . time();
     $contenido = descargar(
-        'https://api.github.com/repos/' . GITHUB_REPO . '/contents/' . rawurlencode_ruta($ruta) . '?ref=' . RAMA_PUBLICADA,
+        'https://api.github.com/repos/' . GITHUB_REPO . '/contents/' . rawurlencode_ruta($ruta) . '?ref=' . RAMA_PUBLICADA . $antiCache,
         [
             'Authorization: Bearer ' . GITHUB_TOKEN,
             'Accept: application/vnd.github.raw',
@@ -67,7 +68,7 @@ function descargar_publicado(string $ruta): ?string
         return $contenido;
     }
     return descargar(
-        'https://raw.githubusercontent.com/' . GITHUB_REPO . '/' . RAMA_PUBLICADA . '/' . rawurlencode_ruta($ruta),
+        'https://raw.githubusercontent.com/' . GITHUB_REPO . '/' . RAMA_PUBLICADA . '/' . rawurlencode_ruta($ruta) . '?_=' . time(),
         []
     );
 }
@@ -163,6 +164,7 @@ function estado_publicacion(bool $forzar = false): array
     }
 
     $pendientes = [];
+    $hashes = [];
     $bytes = 0;
     foreach ($manifiesto['archivos'] as $ruta => $info) {
         $destino = ruta_segura((string) $ruta);
@@ -173,11 +175,13 @@ function estado_publicacion(bool $forzar = false): array
             continue;
         }
         $pendientes[] = (string) $ruta;
+        $hashes[(string) $ruta] = (string) ($info['sha256'] ?? '');
         $bytes += (int) ($info['bytes'] ?? 0);
     }
 
     return [
         'estado' => $pendientes ? 'pendiente' : 'al-dia',
+        'hashes' => $hashes,
         'commit' => $manifiesto['commit'] ?? '',
         'generado' => $manifiesto['generado'] ?? '',
         'pendientes' => $pendientes,
@@ -190,7 +194,7 @@ function estado_publicacion(bool $forzar = false): array
  * Se descarga una tanda de archivos. Devuelve cuántos ha hecho y cuáles quedan,
  * para que la página vaya llamando hasta terminar.
  */
-function publicar_tanda(array $pendientes): array
+function publicar_tanda(array $pendientes, array $hashes = []): array
 {
     $hechos = [];
     $fallos = [];
@@ -208,6 +212,14 @@ function publicar_tanda(array $pendientes): array
         $contenido = descargar_publicado((string) $ruta);
         if ($contenido === null) {
             $fallos[] = ['ruta' => $ruta, 'motivo' => 'no se ha podido descargar'];
+            continue;
+        }
+        // GitHub sirve los archivos desde una caché que a veces va por detrás.
+        // Si lo descargado no cuadra con el manifiesto, no lo escribimos: mejor
+        // reintentar en un minuto que dejar la web descuadrada.
+        $esperado = $hashes[$ruta] ?? '';
+        if ($esperado !== '' && hash('sha256', $contenido) !== $esperado) {
+            $fallos[] = ['ruta' => $ruta, 'motivo' => 'la copia descargada aún no está actualizada'];
             continue;
         }
         $padre = dirname($destino);

@@ -98,6 +98,7 @@ if (isset($_GET['api'])) {
         }
         $_SESSION['pub'] = [
             'pendientes' => $estado['pendientes'],
+            'hashes' => $estado['hashes'] ?? [],
             'commit' => $estado['commit'],
             'total' => count($estado['pendientes']),
             'hechos' => 0,
@@ -114,7 +115,7 @@ if (isset($_GET['api'])) {
             exit;
         }
         if ($pub['pendientes']) {
-            $r = publicar_tanda($pub['pendientes']);
+            $r = publicar_tanda($pub['pendientes'], $pub['hashes'] ?? []);
             $pub['pendientes'] = $r['quedan'];
             $pub['hechos'] += count($r['hechos']);
             $pub['fallos'] = array_merge($pub['fallos'], $r['fallos']);
@@ -153,6 +154,7 @@ if (isset($_GET['api'])) {
 
 function estado_resumido(array $e): array
 {
+    // Ojo: los hashes se quedan en el servidor, no hacen falta en el navegador.
     return [
         'estado' => $e['estado'],
         'mensaje' => $e['mensaje'] ?? '',
