@@ -26,8 +26,11 @@ jobs:
   comprobar:
     name: Comprobar credenciales
     runs-on: ubuntu-latest
+    outputs:
+      hay_ftp: ${{ steps.secretos.outputs.hay_ftp }}
     steps:
       - name: Verificar que estan los secretos de FTP
+        id: secretos
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
@@ -40,14 +43,16 @@ jobs:
           FALTAN="${FALTAN# }"
           if [ -n "$FALTAN" ]; then
             {
-              echo "## No se puede publicar todavia"
+              echo "## Subida por FTP desactivada"
               echo
-              echo "Faltan estos secretos en el repositorio: **$FALTAN**"
+              echo "No estan puestos estos secretos: **$FALTAN**, asi que esta via no se usa."
               echo
-              echo "Mientras falten, **los cambios que el cliente guarde en el panel se quedan"
-              echo "guardados en GitHub pero no llegan a explorasiam.com**."
+              echo "**No pasa nada**: la web se publica por la otra via, en la que el hosting se"
+              echo "descarga solo la version nueva desde GitHub. Mira el flujo *Preparar la web"
+              echo "para el hosting*."
               echo
-              echo "Para arreglarlo: Settings -> Secrets and variables -> Actions -> New repository secret"
+              echo "Si algun dia quieres tambien la subida por FTP: Settings -> Secrets and"
+              echo "variables -> Actions -> New repository secret"
               echo
               echo "| Secreto | Valor |"
               echo "| --- | --- |"
@@ -55,15 +60,17 @@ jobs:
               echo "| \`FTP_USER\` | usuario de una cuenta FTP limitada a public_html |"
               echo "| \`FTP_PASSWORD\` | su contrasena |"
             } >> "$GITHUB_STEP_SUMMARY"
-            echo "::error::Faltan los secretos de FTP:$FALTAN. La web no se ha publicado."
-            exit 1
+            echo "::notice::Sin credenciales de FTP. La web se publica por la otra via (el hosting se la descarga solo)."
+            echo "hay_ftp=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          echo "hay_ftp=true" >> "$GITHUB_OUTPUT"
           echo "Credenciales presentes."
 
   respaldo:
     name: Copia del sitio actual
     needs: comprobar
-    if: github.event_name == 'push' || inputs.respaldo
+    if: needs.comprobar.outputs.hay_ftp == 'true' && (github.event_name == 'push' || inputs.respaldo)
     runs-on: ubuntu-latest
     steps:
       - name: Instalar lftp
@@ -104,7 +111,7 @@ jobs:
   publicar:
     name: Compilar y subir
     needs: [comprobar, respaldo]
-    if: always() && needs.comprobar.result == 'success' && (github.event_name == 'push' || inputs.publicar)
+    if: always() && needs.comprobar.outputs.hay_ftp == 'true' && (github.event_name == 'push' || inputs.publicar)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
