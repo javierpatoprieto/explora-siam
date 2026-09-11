@@ -264,7 +264,7 @@
     "precio": {
         "etiqueta": "Sin letra pequeña",
         "titulo": "2.000 €",
-        "nota": "IVA incluido. Vuelos y gastos de viaje aparte, unos 1.500 €.",
+        "nota": "IVA incluido. Vuelos y gastos de viaje aparte, unos 1.500 €",
         "pagos": [
             {
                 "importe": "400 €",
