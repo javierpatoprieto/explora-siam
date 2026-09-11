@@ -125,6 +125,42 @@ function leer_json(string $ruta): ?array
     return is_array($j) ? ['datos' => $j, 'sha' => $a['sha']] : null;
 }
 
+/**
+ * Traduce los errores de GitHub a algo que el cliente pueda entender y arreglar.
+ * El mensaje original viene en inglés y no dice qué hacer.
+ */
+function mensaje_github(int $codigo, array $datos): string
+{
+    $original = (string) ($datos['message'] ?? '');
+
+    if ($codigo === 0) {
+        return 'El hosting no ha podido conectar con GitHub. Vuelve a intentarlo en un minuto.';
+    }
+    if ($codigo === 401 || stripos($original, 'bad credentials') !== false) {
+        return 'El token de GitHub ya no vale (caducado o revocado). Hay que generar uno nuevo y ponerlo en panel/config.php.';
+    }
+    if ($codigo === 403 && stripos($original, 'not accessible by personal access token') !== false) {
+        return 'El token de GitHub no tiene permiso de escritura sobre el repositorio. '
+             . 'Hay que darle permiso "Contents: Read and write" sobre ' . GITHUB_REPO . ' y volver a ponerlo en panel/config.php.';
+    }
+    if ($codigo === 403 && stripos($original, 'rate limit') !== false) {
+        return 'GitHub ha puesto un límite temporal de peticiones. Espera unos minutos y vuelve a guardar.';
+    }
+    if ($codigo === 403) {
+        return 'GitHub ha rechazado el cambio por permisos. Revisa el token en panel/config.php. (' . $original . ')';
+    }
+    if ($codigo === 404) {
+        return 'GitHub no encuentra el repositorio ' . GITHUB_REPO . '. O el token no tiene acceso a él, o el nombre de config.php está mal.';
+    }
+    if ($codigo === 409 || stripos($original, 'does not match') !== false) {
+        return 'Alguien ha cambiado esto mientras lo editabas. Recarga la página y vuelve a hacer el cambio.';
+    }
+    if ($codigo === 422) {
+        return 'GitHub ha rechazado el contenido. (' . $original . ')';
+    }
+    return $original !== '' ? $original : ('Error ' . $codigo);
+}
+
 /** Escribe (o crea) un archivo y devuelve [ok, mensaje]. */
 function guardar_archivo(string $ruta, string $contenido, ?string $sha, string $mensaje): array
 {
@@ -140,7 +176,7 @@ function guardar_archivo(string $ruta, string $contenido, ?string $sha, string $
     if ($codigo === 200 || $codigo === 201) {
         return [true, ''];
     }
-    return [false, $datos['message'] ?? ('Error ' . $codigo)];
+    return [false, mensaje_github($codigo, $datos)];
 }
 
 function guardar_json(string $ruta, array $datos, ?string $sha, string $mensaje): array

@@ -41,8 +41,12 @@
         <legend><?= e($grupo) ?></legend>
         <?php foreach ($campos as [$donde, $camino, $etiqueta, $tipo]):
             $datos = $donde === 'home' ? $home['datos'] : $sitio['datos'];
-            $actual = valor($datos, $camino);
-            $clave = $donde . '|' . $camino; ?>
+            $clave = $donde . '|' . $camino;
+            // Si el guardado ha fallado, no le hagamos perder lo que había escrito:
+            // se le devuelve su texto, no el que sigue estando en GitHub.
+            $actual = ($aviso[0] ?? '') === 'mal' && isset($_POST['c'][$clave])
+                ? (string) $_POST['c'][$clave]
+                : valor($datos, $camino); ?>
           <label>
             <span><?= e($etiqueta) ?></span>
             <?php if ($tipo === 'parrafo'): ?>
@@ -120,7 +124,9 @@
       <fieldset>
         <legend><?= e((string) ($salida['datos']['nombre'] ?? 'Viaje')) ?></legend>
         <?php foreach ($VIAJE as [$clave, $etiqueta, $tipo]):
-            $actual = (string) ($salida['datos'][$clave] ?? ''); ?>
+            $actual = ($aviso[0] ?? '') === 'mal' && isset($_POST['v'][$clave])
+                ? (string) $_POST['v'][$clave]
+                : (string) ($salida['datos'][$clave] ?? ''); ?>
           <label>
             <span><?= e($etiqueta) ?></span>
             <?php if ($tipo === 'parrafo'): ?>
@@ -135,7 +141,10 @@
         <label><span>Estado</span>
           <select name="v[estado]">
             <?php foreach (['abierta' => 'Abierta', 'ultimas' => 'Últimas plazas', 'completa' => 'Grupo completo', 'proximamente' => 'Próximamente'] as $k => $t): ?>
-              <option value="<?= e($k) ?>" <?= ($salida['datos']['estado'] ?? '') === $k ? 'selected' : '' ?>><?= e($t) ?></option>
+              <?php $estadoActual = ($aviso[0] ?? '') === 'mal' && isset($_POST['v']['estado'])
+                  ? (string) $_POST['v']['estado']
+                  : (string) ($salida['datos']['estado'] ?? ''); ?>
+              <option value="<?= e($k) ?>" <?= $estadoActual === $k ? 'selected' : '' ?>><?= e($t) ?></option>
             <?php endforeach; ?>
           </select>
         </label>
