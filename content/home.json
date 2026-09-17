@@ -11,6 +11,7 @@
         "posterMovil": "../src/assets/img/moto-curva-45.jpg",
         "videoMp4": "",
         "videoWebm": "",
+        "videoSonido": false,
         "mostrarProximaSalida": true,
         "cinta": [
             "Bangkok",
