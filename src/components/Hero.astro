@@ -8,12 +8,22 @@ const hasVideo = Boolean(hero.videoMp4);
 <section class="hero" id="hero">
   <div class="hero__media">
     {hasVideo ? (
-      <video class="cover" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>
+      <video class="cover" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>
     ) : (
       <picture><source media="(max-width: 760px)" srcset={hero.posterMovil.src} /><Image src={hero.poster} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" /></picture>
     )}
     <div class="hero__shade"></div>
   </div>
+  {hasVideo && hero.videoSonido && (
+    <button class="hero__snd" id="heroSnd" type="button" aria-pressed="false" aria-label="Activar el sonido del vídeo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"></path>
+        <path class="snd-x" d="M17 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path class="snd-o" d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4M19.3 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+      <span>Sonido</span>
+    </button>
+  )}
   <div class="wrap hero__in">
     <div class="hero__copy">
       <span class="hero__badge">{hero.badge}</span>
@@ -44,6 +54,11 @@ const hasVideo = Boolean(hero.videoMp4);
   .hero { position: relative; min-height: min(100svh, 900px); display: flex; align-items: center; color: #fff; padding: 120px 0 56px; }
   .hero__media { position: absolute; inset: 0; overflow: hidden; border-radius: 0 0 var(--r-lg) var(--r-lg); background: var(--ink); }
   .hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,24,26,.55) 0%, rgba(23,24,26,.15) 60%), linear-gradient(0deg, rgba(23,24,26,.45), rgba(23,24,26,0) 50%); }
+  .hero__snd { position: absolute; right: 24px; bottom: 24px; z-index: 4; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(23,24,26,.45); color: #fff; font-size: 13px; line-height: 1; cursor: pointer; backdrop-filter: blur(6px); transition: background .2s var(--ease), border-color .2s var(--ease); }
+  .hero__snd:hover { background: rgba(23,24,26,.72); border-color: rgba(255,255,255,.6); }
+  .hero__snd .snd-o { display: none; }
+  .hero__snd[aria-pressed='true'] .snd-x { display: none; }
+  .hero__snd[aria-pressed='true'] .snd-o { display: inline; }
   .hero__in { position: relative; width: 100%; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .hero__badge { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(8px); font-size: 13px; font-weight: 500; }
@@ -71,7 +86,23 @@ const hasVideo = Boolean(hero.videoMp4);
     .hero { padding: 100px 0 32px; min-height: 0; }
     .hero__in { grid-template-columns: 1fr; gap: 28px; }
     .hero__media { border-radius: 0 0 20px 20px; }
+    .hero__snd { right: 14px; bottom: 14px; padding: 8px 12px; }
     .widget { justify-self: stretch; width: 100%; }
     .hero__cta :global(.btn) { width: 100%; }
   }
 </style>
+
+<script>
+  // El vídeo entra siempre en silencio porque los navegadores bloquean el
+  // autoplay con sonido. Este botón es el gesto del visitante que lo desbloquea.
+  const sb = document.getElementById('heroSnd');
+  const hv = document.getElementById('heroVideo') as HTMLVideoElement | null;
+  if (sb && hv) {
+    sb.addEventListener('click', () => {
+      hv.muted = !hv.muted;
+      sb.setAttribute('aria-pressed', String(!hv.muted));
+      sb.setAttribute('aria-label', hv.muted ? 'Activar el sonido del vídeo' : 'Silenciar el vídeo');
+      if (!hv.muted) hv.play().catch(() => {});
+    });
+  }
+</script>
