@@ -40,6 +40,7 @@ const home = defineCollection({
         posterMovil: image(),
         videoMp4: z.string().optional().default(''),
         videoWebm: z.string().optional().default(''),
+        videoSonido: z.boolean().optional().default(false),
         mostrarProximaSalida: z.boolean().default(true),
         cinta: z.array(z.string()).default([]),
       }),
