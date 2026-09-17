@@ -26,6 +26,11 @@ const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
 const VIDEOS = 'public/video';
 
+// La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
+// que los vídeos se sirven por un subdominio propio que apunta a esa carpeta.
+// Sin esto, el vídeo se sube bien pero la web nunca lo encuentra.
+const URL_VIDEOS = 'https://media.explorasiam.com';
+
 /* ---------------------------------------------------------------- salir */
 if (isset($_GET['salir'])) {
     session_unset();
@@ -293,6 +298,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
         $aviso = subir_medio('foto');
     } elseif (($_POST['accion'] ?? '') === 'video') {
         $aviso = subir_medio('video');
+    } elseif (($_POST['accion'] ?? '') === 'sonido') {
+        $home = leer_json(HOME);
+        if (!$home) {
+            $aviso = ['mal', 'No se pudo leer el contenido.'];
+        } else {
+            fijar($home['datos'], 'hero.videoSonido', isset($_POST['sonido']));
+            [$ok, $err] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: botón de sonido del vídeo de portada');
+            $aviso = $ok
+                ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+                : ['mal', 'No se pudo guardar: ' . $err];
+        }
     }
 }
 
@@ -339,7 +355,7 @@ function subir_medio(string $tipo): array
     $donde = (string) ($_POST['donde'] ?? 'hero');
     $home = leer_json(HOME);
     if ($home) {
-        fijar($home['datos'], $donde === 'hero' ? 'hero.videoMp4' : 'video.mp4', '/video/' . $nombre);
+            fijar($home['datos'], $donde === 'hero' ? 'hero.videoMp4' : 'video.mp4', URL_VIDEOS . '/' . $nombre);
         guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: vídeo en ' . $donde);
     }
     return ['ok', 'Vídeo subido (' . round($peso / 1048576, 1) . ' MB) y colocado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.'];
