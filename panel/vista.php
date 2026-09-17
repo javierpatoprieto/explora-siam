@@ -88,7 +88,7 @@
   <?php $subidos = videos_subidos(); if ($subidos): ?>
     <fieldset><legend>Vídeos en el servidor</legend>
       <table class="tabla"><?php foreach ($subidos as $v): ?>
-        <tr><td><code>/video/<?= e($v['nombre']) ?></code></td><td style="text-align:right;color:var(--muted)"><?= number_format($v['peso'] / 1048576, 1, ',', '.') ?> MB</td></tr>
+        <tr><td><code><?= e($v['nombre']) ?></code></td><td style="text-align:right;color:var(--muted)"><?= number_format($v['peso'] / 1048576, 1, ',', '.') ?> MB</td></tr>
       <?php endforeach; ?></table>
     </fieldset>
   <?php endif; ?>
@@ -103,6 +103,15 @@
         <label><span>Archivo MP4</span><input type="file" name="archivo" accept="video/mp4" required></label>
         <button class="btn" type="submit">Subir vídeo</button>
       </form>
+            <?php if ($donde === 'hero'): ?>
+          <form method="post" class="sonido">
+                      <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+                      <input type="hidden" name="accion" value="sonido">
+                      <label class="check"><input type="checkbox" name="sonido" value="1"<?= valor($home['datos'], 'hero.videoSonido') === '1' ? ' checked' : '' ?>> Dejar que el visitante active el sonido</label>
+                      <p class="guia">El vídeo de la portada siempre empieza en silencio: los navegadores no permiten que un vídeo arranque solo con sonido y lo bloquearían entero. Con esta casilla marcada aparece un botón de altavoz sobre el vídeo para que quien quiera lo active. Si el vídeo no tiene audio, déjala sin marcar.</p>
+                      <button class="btn" type="submit">Guardar</button>
+          </form>
+            <?php endif; ?>
     </fieldset>
   <?php endforeach; ?>
 
