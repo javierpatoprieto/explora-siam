@@ -25,6 +25,21 @@ const proxima = abiertas[0]?.data;
 const testimonios = (await getCollection('testimonios')).sort((a, b) => a.data.orden - b.data.orden);
 const faqs = (await getCollection('faqs', (f) => f.data.enHome)).sort((a, b) => a.data.orden - b.data.orden);
 
+// Vídeos para Google: solo si hay archivo y fecha de subida (la pone el panel al subirlo).
+const videosLd = [
+  { url: home.hero.videoMp4, titulo: home.hero.videoTitulo, desc: home.hero.videoDescripcion, fecha: home.hero.videoFecha, poster: home.hero.poster },
+  { url: home.video.mp4, titulo: home.video.videoTitulo || home.video.titulo, desc: home.video.videoDescripcion, fecha: home.video.videoFecha, poster: home.video.poster },
+]
+  .filter((v) => v.url && v.fecha && v.titulo)
+  .map((v) => ({
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: v.titulo,
+    description: v.desc || v.titulo,
+    thumbnailUrl: new URL(v.poster.src, Astro.site).toString(),
+    contentUrl: v.url,
+    uploadDate: v.fecha,
+  }));
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -46,6 +61,7 @@ const jsonLd = [
     url: new URL(`/viajes/${s.data.slug}`, Astro.site).toString(),
     touristType: 'Grupo reducido',
   })),
+  ...videosLd,
 ];
 ---
 <Base jsonLd={jsonLd}>
