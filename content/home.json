@@ -1,9 +1,9 @@
 {
     "hero": {
-        "badge": "Ruta en moto · norte de Tailandia · 21 nov – 7 dic 2026",
-        "titulo": "Conoce Tailandia",
-        "destacado": "de una forma diferente.",
-        "subtitulo": "Seis días rodando por el Mae Hong Son Loop en un grupo de seis a ocho personas. Guía local, furgoneta de apoyo y todo lo demás resuelto.",
+        "badge": "Ruta en moto · norte de Tailandia",
+        "titulo": "La Tailandia que",
+        "destacado": "pocos llegan a conocer.",
+        "subtitulo": "¿Te imaginas rodar por el Mae Hong Son Loop con un grupo reducido de amigos? Montañas, arrozales y templos junto a la frontera birmana, y la cultura tailandesa vivida desde dentro. Tú solo tienes que disfrutar; del resto me encargo yo.",
         "botonPrimario": "Cuéntame por WhatsApp",
         "microcopy": "Te contesta Dani, no un bot.",
         "botonSecundario": "Ver la ruta",
@@ -12,7 +12,7 @@
         "videoMp4": "",
         "videoWebm": "",
         "videoSonido": false,
-        "mostrarProximaSalida": true,
+        "mostrarProximaSalida": false,
         "cinta": [
             "Bangkok",
             "Chiang Rai",
@@ -45,13 +45,28 @@
                 "texto": "Trabajas duro en tu día a día y eres responsable con lo tuyo. Pero sabes que desconectar de la rutina y descubrir cosas nuevas te motiva. El mundo tiene mucho que ofrecerte y no eres de ver pasar la vida."
             },
             {
-                "titulo": "Sabai sabai",
-                "texto": "El ritmo del viaje está pensado para que cada momento tenga su lugar y cada lugar su momento. Actividad y descanso, momentos de convivencia para conocernos, y espacio para la improvisación."
+                "titulo": "Buena compañía",
+                "texto": "No hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. De seis a ocho personas con las mismas ganas de conocer mundo."
             }
         ],
         "imagen": "../src/assets/img/phuchifa-169.jpg",
         "pie": "Phu Chi Fa, 05:45. Amanecer sobre un mar de nubes.",
         "enlace": "Así se vive la ruta"
+    },
+    "sabai": {
+        "etiqueta": "Sabai sabai",
+        "titulo": "Vivir una película en la que cada escena te sorprende.",
+        "parrafos": [
+            "Una mañana, tomando un café helado en Phuket, vi a un turista enfadado porque la camarera tardaba en servirle. Él resoplaba y ella, a su ritmo, seguía trabajando y decía en voz baja: sabai sabai, sabai sabai…",
+            "Más tarde entendí lo que significa: estar tranquilo, recibir cada momento tal y como viene. Descubrir una sociedad donde la sonrisa es la principal divisa te recuerda que todos llevamos dentro un niño libre y feliz.",
+            "Cada olor a comida, flores o incienso. Cada sabor, del picante de un plato típico a un polo de maracuyá que te devuelve a la infancia. Cada conversación con la gente local. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok."
+        ],
+        "pregunta": "¿Te gustaría sentir todo esto a la vez?",
+        "boton": "Cuéntame por WhatsApp",
+        "imagen": "../src/assets/img/mercado-45.jpg",
+        "pie": "Mercado de Chiang Mai",
+        "imagen2": "../src/assets/img/viajeros-rio-32.jpg",
+        "pie2": "Sobremesa junto al río"
     },
     "salidas": {
         "etiqueta": "Próxima expedición",
@@ -182,8 +197,8 @@
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
     "incluye": {
-        "titulo": "Sin letra pequeña.",
-        "microcopy": "2.000 € con IVA en tres pagos: 400 € al inscribirte, 450 € al formar el grupo y 1.150 € antes de salir. Los gastos de viaje no incluidos rondan los 1.500 €.",
+        "titulo": "Todo resuelto.",
+        "microcopy": "Tú solo te preocupas de disfrutar. Si quieres el dossier completo, con el presupuesto y la forma de pago, pídemelo por WhatsApp y te lo mando.",
         "incluido": [
             "Diseño de la aventura, acompañamiento y coordinación de Dani todo el viaje",
             "Moto y logística del Mae Hong Son Loop, guía local con certificado TAT y furgoneta de apoyo",
@@ -192,12 +207,12 @@
             "Seguro de responsabilidad civil, sesión previa por Zoom, grupo de WhatsApp y guía en PDF para preparar el viaje"
         ],
         "noIncluido": [
-            "Vuelos internacionales (unos 850 €) y vuelo interno (unos 60 €)",
-            "Seguro de viaje (unos 80 €) y traslados (unos 100 €)",
-            "Entradas a las actividades (unos 180 €) y comidas y bebidas no incluidas (unos 240 €)",
+            "Vuelos internacionales y vuelo interno (te ayudo a elegirlos)",
+            "Seguro de viaje y traslados",
+            "Entradas a las actividades y comidas no incluidas",
             "Masajes, extras, ocio y propinas"
         ],
-        "enlace": "¿Dudas del precio? Pregúntame"
+        "enlace": "Pídeme el dossier completo"
     },
     "faq": {
         "titulo": "Lo que me preguntáis por WhatsApp.",
@@ -286,12 +301,12 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "antes": "Da el paso y descubre",
+        "antes": "No solo es viajar,",
         "imagen1": "../src/assets/img/moto-curva-169.jpg",
-        "medio": "la Tailandia",
+        "medio": "es volver",
         "imagen2": "../src/assets/img/phuchifa-169.jpg",
-        "despues": "que no todos conocen.",
-        "texto": "No solo es viajar, es volver con una versión distinta de ti que no olvides."
+        "despues": "con una versión distinta de ti.",
+        "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!"
     },
     "ventajas": {
         "titulo": "Un buen viaje se nota en los detalles.",

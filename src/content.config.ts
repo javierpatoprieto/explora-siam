@@ -60,6 +60,17 @@ const home = defineCollection({
         pie: z.string().optional().default(''),
         enlace: z.string().optional().default(''),
       }),
+      sabai: z.object({
+        etiqueta: z.string(),
+        titulo: z.string(),
+        parrafos: z.array(z.string()),
+        pregunta: z.string().optional().default(''),
+        boton: z.string().optional().default(''),
+        imagen: image(),
+        pie: z.string().optional().default(''),
+        imagen2: image().optional(),
+        pie2: z.string().optional().default(''),
+      }),
       salidas: z.object({ etiqueta: z.string(), titulo: z.string(), subtitulo: z.string() }),
       video: z.object({ etiqueta: z.string(), titulo: z.string(), poster: image(), mp4: z.string().optional().default('') }),
       dia: z.object({

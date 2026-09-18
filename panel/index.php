@@ -181,6 +181,27 @@ $CAMPOS = [
         ['home', 'hero.botonPrimario', 'Botón de WhatsApp', 'linea'],
         ['home', 'hero.microcopy', 'Frase bajo el botón', 'linea'],
     ],
+    '¿Y si esta vez…?' => [
+        ['home', 'manifiesto.titulo', 'Titular, inicio', 'linea'],
+        ['home', 'manifiesto.destacado', 'Titular, parte en color', 'linea'],
+        ['home', 'manifiesto.cierre', 'Titular, final', 'linea'],
+        ['home', 'manifiesto.bloques.0.titulo', 'Primer bloque, título', 'linea'],
+        ['home', 'manifiesto.bloques.0.texto', 'Primer bloque, texto', 'parrafo'],
+        ['home', 'manifiesto.bloques.1.titulo', 'Segundo bloque, título', 'linea'],
+        ['home', 'manifiesto.bloques.1.texto', 'Segundo bloque, texto', 'parrafo'],
+        ['home', 'manifiesto.bloques.2.titulo', 'Tercer bloque, título', 'linea'],
+        ['home', 'manifiesto.bloques.2.texto', 'Tercer bloque, texto', 'parrafo'],
+        ['home', 'manifiesto.pie', 'Pie de la foto grande', 'linea'],
+    ],
+    'Sabai sabai' => [
+        ['home', 'sabai.etiqueta', 'Etiqueta', 'linea'],
+        ['home', 'sabai.titulo', 'Titular', 'linea'],
+        ['home', 'sabai.parrafos.0', 'Primer párrafo', 'parrafo'],
+        ['home', 'sabai.parrafos.1', 'Segundo párrafo', 'parrafo'],
+        ['home', 'sabai.parrafos.2', 'Tercer párrafo', 'parrafo'],
+        ['home', 'sabai.pregunta', 'Pregunta final', 'linea'],
+        ['home', 'sabai.boton', 'Botón de WhatsApp', 'linea'],
+    ],
     'Frase destacada' => [
         ['home', 'statement.antes', 'Frase, primera parte', 'linea'],
         ['home', 'statement.medio', 'Frase, parte central', 'linea'],
@@ -202,9 +223,9 @@ $CAMPOS = [
         ['home', 'fundador.microcopy', 'Frase junto al botón', 'linea'],
         ['home', 'fundador.retratoPie', 'Pie del retrato (vacío para quitarlo)', 'linea'],
     ],
-    'Precio' => [
-        ['home', 'precio.titulo', 'Precio grande', 'linea'],
-        ['home', 'precio.nota', 'Nota bajo el precio', 'parrafo'],
+    'Qué incluye' => [
+        ['home', 'incluye.titulo', 'Titular', 'linea'],
+        ['home', 'incluye.microcopy', 'Texto', 'parrafo'],
         ['home', 'incluye.enlace', 'Texto del enlace a WhatsApp', 'linea'],
     ],
     'Cierre' => [
@@ -224,12 +245,10 @@ $CAMPOS = [
 ];
 
 $VIAJE = [
-    ['fechas', 'Fechas', 'linea'],
+    ['fechas', 'Fechas (de momento no se muestran en la web)', 'linea'],
     ['duracion', 'Duración', 'linea'],
     ['plazas', 'Plazas totales', 'numero'],
     ['disponibles', 'Plazas libres', 'numero'],
-    ['precio', 'Precio en euros', 'numero'],
-    ['notaPrecio', 'Nota del precio', 'linea'],
     ['descripcion', 'Descripción', 'parrafo'],
 ];
 

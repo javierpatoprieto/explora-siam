@@ -41,6 +41,8 @@ p { margin: 0; }
 .btn--light:hover { background: var(--bg-2); color: var(--ink); }
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
 .btn--ghost:hover { background: var(--bg-2); color: var(--ink); }
+.btn--ghost-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+.btn--ghost-light:hover { background: rgba(255,255,255,.12); color: #fff; border-color: #fff; }
 .btn--sm { min-height: 42px; padding: 0 18px; font-size: 14px; }
 .btn--lg { min-height: 56px; padding: 0 28px; font-size: 16px; }
 .link { font-weight: 500; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line); }

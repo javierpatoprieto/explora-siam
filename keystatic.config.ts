@@ -32,12 +32,12 @@ export default config({
         seoDescripcion: fields.text({ label: 'Descripción SEO', multiline: true }),
         plantillas: fields.object(
           Object.fromEntries(
-            ['nav', 'hero', 'salida', 'avisame', 'dia', 'daniel', 'galeria', 'precio', 'faq', 'final', 'flotante'].map((k) => [
+            ['nav', 'hero', 'salida', 'avisame', 'dia', 'daniel', 'galeria', 'sabai', 'precio', 'faq', 'final', 'flotante'].map((k) => [
               k,
               fields.text({ label: `Mensaje de WhatsApp · ${k}`, multiline: true }),
             ]),
           ),
-          { label: 'Mensajes predefinidos de WhatsApp', description: 'En "salida" y "avisame" puedes usar {nombre} y {fechas}.' },
+          { label: 'Mensajes predefinidos de WhatsApp', description: 'En "salida" y "avisame" puedes usar {nombre}.' },
         ),
       },
     }),
@@ -129,6 +129,20 @@ export default config({
             enlace: fields.text({ label: 'Texto del enlace a la galería' }),
           },
           { label: 'Manifiesto' },
+        ),
+        sabai: fields.object(
+          {
+            etiqueta: fields.text({ label: 'Etiqueta' }),
+            titulo: fields.text({ label: 'Titular' }),
+            parrafos: fields.array(fields.text({ label: 'Párrafo', multiline: true }), { label: 'Párrafos', itemLabel: (p) => p.value.slice(0, 60) }),
+            pregunta: fields.text({ label: 'Pregunta final' }),
+            boton: fields.text({ label: 'Botón de WhatsApp' }),
+            imagen: img(IMG_HOME, 'Imagen principal'),
+            pie: fields.text({ label: 'Pie de la imagen principal' }),
+            imagen2: img(IMG_HOME, 'Imagen secundaria'),
+            pie2: fields.text({ label: 'Pie de la imagen secundaria' }),
+          },
+          { label: 'Sabai sabai (introducción)' },
         ),
         salidas: fields.object(
           { etiqueta: fields.text({ label: 'Etiqueta' }), titulo: fields.text({ label: 'Titular' }), subtitulo: fields.text({ label: 'Subtítulo' }) },

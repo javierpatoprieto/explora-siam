@@ -8,7 +8,6 @@ import Incluye from '../../components/Incluye.astro';
 import Cta from '../../components/Cta.astro';
 import Footer from '../../components/Footer.astro';
 import Flotante from '../../components/Flotante.astro';
-import { precio } from '../../lib/wa';
 
 export async function getStaticPaths() {
   const salidas = await getCollection('salidas');
@@ -19,9 +18,9 @@ const d = s.data;
 const site = (await getEntry('site', 'site'))!.data;
 const home = (await getEntry('home', 'home'))!.data;
 const completa = d.estado === 'completa';
-const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name: d.nombre, description: d.descripcion, offers: { '@type': 'Offer', price: d.precio, priceCurrency: 'EUR', availability: completa ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' } }];
+const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name: d.nombre, description: d.descripcion }];
 ---
-<Base title={`${d.nombre} · ${d.fechas} · ${site.marca}`} description={d.descripcion} jsonLd={jsonLd}>
+<Base title={`${d.nombre} · ${site.marca}`} description={d.descripcion} jsonLd={jsonLd}>
   <Nav site={site} dark={true} />
   <main>
     <section class="vh">
@@ -31,7 +30,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
         {d.estado === 'ultimas' && <span class="badge">Últimas plazas</span>}
         {completa && <span class="badge badge--tinta">Grupo completo</span>}
         <h1>{d.nombre}</h1>
-        <p class="label vh__meta">{d.fechas} · {d.duracion} · grupo de 6 a {d.plazas}{!completa && d.disponibles < d.plazas && ` · quedan ${d.disponibles}`}</p>
+        <p class="label vh__meta">{d.duracion} · grupo de 6 a {d.plazas}</p>
       </div>
     </section>
     <section class="wrap vb">
@@ -48,16 +47,14 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
         )}
       </div>
       <aside class="vb__side">
-        {!completa && <p class="vb__precio"><span class="display">desde {precio(d.precio)}</span>{d.notaPrecio && <span class="nota"> · {d.notaPrecio}</span>}</p>}
         {completa ? (
           <Wa site={site} origen="avisame" vars={{ nombre: d.nombre }} salida={d.slug} class="btn btn--line" icon={false}>Avísame de la próxima</Wa>
         ) : (
-          <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug}>Quiero este viaje</Wa>
+          <Wa site={site} origen="salida" vars={{ nombre: d.nombre }} salida={d.slug}>Quiero este viaje</Wa>
         )}
         <p class="vb__micro">Sin compromiso. Te cuento y decides.</p>
         {site.formulario && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">Rellenar el formulario</a>}
-        {site.dossier && <a href={site.dossier} class="link" target="_blank" rel="noopener">Descargar el dossier en PDF →</a>}
-        <a href="/#salidas" class="link">Ver otras salidas →</a>
+        <Wa site={site} origen="precio" class="link" icon={false}>Pídeme el dossier completo →</Wa>
       </aside>
     </section>
     <Incluye site={site} inc={home.incluye} />

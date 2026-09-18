@@ -23,6 +23,8 @@ En local, el panel de edición escribe directamente en los archivos de `content/
 
 ## Cómo se publica
 
+> **Estado actual (septiembre 2026):** explorasiam.com apunta a **Vercel** (proyecto `explora-siam`); cada push a `main` sale a producción en un minuto. Las DNS siguen en Raiola. El panel del cliente es el PHP de `panel/`, alojado en Raiola en `panel.explorasiam.com`, y guarda con un token de GitHub de `panel/config.php` que caduca: si el panel deja de guardar, lo primero es renovar ese token. Los cambios en `panel/` hay que subirlos a mano al hosting. Lo que sigue describe la vía de Raiola, que se mantiene como alternativa.
+
 La web se sirve **estática desde el hosting del cliente (Raiola)** y el **panel de edición vive en Vercel**, porque necesita Node y un hosting clásico no lo tiene.
 
 ```
@@ -89,5 +91,7 @@ Para subirlo a mano: `npm run build:static` y copiar **todo el contenido** de `d
 ```bash
 node dossier/render.mjs   # escribe public/dossier-mae-hong-son-loop.pdf
 ```
+
+En Windows: `CHROMIUM_PATH="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" node dossier/render.mjs`. Chromium guarda las fotos sin comprimir por los filtros CSS (unos 20 MB): conviene pasarlas a JPEG antes de subirlo (con PyMuPDF, `page.replace_image`) para dejarlo en unos 5 MB.
 
 Necesita Chromium; por defecto usa `/opt/pw-browsers/chromium`, y se puede indicar otro con la variable `CHROMIUM_PATH`. El PDF queda enlazado desde el hero y desde la ficha del viaje (campo "Dossier en PDF" en el panel de edición).

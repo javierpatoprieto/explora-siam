@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import Wa from './Wa.astro';
+const { site, s } = Astro.props;
+---
+<section class="sab wrap section" id="sabai">
+  <div class="sab__txt" data-reveal>
+    <span class="eyebrow">{s.etiqueta}</span>
+    <h2>{s.titulo}</h2>
+    <div class="sab__p">{s.parrafos.map((p: string) => <p>{p}</p>)}</div>
+    {s.pregunta && <p class="sab__q">{s.pregunta}</p>}
+    {s.boton && <div class="sab__cta"><Wa site={site} origen="sabai">{s.boton}</Wa></div>}
+  </div>
+  <div class="sab__media" data-reveal>
+    <figure class="sab__a">
+      <Image src={s.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 40vw" />
+      {s.pie && <figcaption class="cap">{s.pie}</figcaption>}
+    </figure>
+    {s.imagen2 && (
+      <figure class="sab__b">
+        <Image src={s.imagen2} alt="" class="cover" widths={[400, 700]} sizes="(max-width: 900px) 60vw, 22vw" />
+        {s.pie2 && <figcaption class="cap">{s.pie2}</figcaption>}
+      </figure>
+    )}
+  </div>
+</section>
+<style>
+  .sab { display: grid; grid-template-columns: 6fr 5fr; gap: 64px; align-items: center; }
+  .sab__txt { display: flex; flex-direction: column; gap: 18px; }
+  .sab__p { display: flex; flex-direction: column; gap: 12px; color: var(--ink-2); max-width: 56ch; }
+  .sab__q { font-family: var(--display); font-size: clamp(22px, 2.2vw, 28px); line-height: 1.25; letter-spacing: -0.02em; max-width: 24ch; margin-top: 6px; }
+  .sab__cta { margin-top: 4px; }
+  .sab__media { position: relative; padding-bottom: 72px; }
+  .sab__media .sab__a, .sab__media .sab__b { margin: 0; overflow: hidden; }
+  .sab__media .sab__a { position: relative; width: 86%; aspect-ratio: 4 / 5; border-radius: var(--r-lg); }
+  .sab__media .sab__b { position: absolute; right: 0; bottom: 0; width: 50%; aspect-ratio: 3 / 2; border-radius: var(--r); box-shadow: 0 0 0 6px var(--bg); }
+  @media (max-width: 900px) { .sab { grid-template-columns: 1fr; gap: 32px; } .sab__media { padding-bottom: 40px; } }
+</style>

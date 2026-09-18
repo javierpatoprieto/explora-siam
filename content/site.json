@@ -9,7 +9,7 @@
     "horario": "Lunes a viernes, de 9:00 a 20:00",
     "indexar": true,
     "seoTitulo": "Explora Siam · Mae Hong Son Loop en moto, grupo reducido",
-    "seoDescripcion": "Ruta en moto por el norte de Tailandia con Dani: Mae Hong Son Loop, 650 km y más de 1.800 curvas, en grupo de 6 a 8 personas, con guía local y furgoneta de apoyo. Del 21 de noviembre al 7 de diciembre. Habla con él por WhatsApp.",
+    "seoDescripcion": "Ruta en moto por el norte de Tailandia con Dani: Mae Hong Son Loop, 650 km y más de 1.800 curvas, en grupo de 6 a 8 personas, con guía local y furgoneta de apoyo. Habla con él por WhatsApp.",
     "autor": {
         "texto": "Hecho por javierpato.es",
         "url": "https://javierpato.es"
@@ -17,12 +17,13 @@
     "plantillas": {
         "nav": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo.",
         "hero": "Hola Dani, he visto la web de Explora Siam y me interesa la ruta en moto por el norte de Tailandia.",
-        "salida": "Hola Dani, me interesa el viaje \"{nombre}\" del {fechas}. ¿Quedan plazas? Me gustaría saber más.",
+        "salida": "Hola Dani, me interesa el viaje \"{nombre}\". Me gustaría saber más.",
         "avisame": "Hola Dani, me gustaría que me avisaras cuando abras la próxima edición de \"{nombre}\".",
         "dia": "Hola Dani, me he imaginado ese martes cualquiera en el norte y quiero saber cómo sería el viaje completo.",
         "daniel": "Hola Dani, acabo de leer tu carta en la web. Me gustaría contarte el viaje que tengo en la cabeza.",
         "galeria": "Hola Dani, he visto las fotos del último viaje y quiero saber cuándo es el siguiente.",
-        "precio": "Hola Dani, tengo una duda sobre el precio y lo que incluye el viaje.",
+        "sabai": "Hola Dani, he leído lo de sabai sabai y me gustaría vivirlo. ¿Me cuentas cómo es el viaje?",
+        "precio": "Hola Dani, ¿me mandas el dossier completo del viaje, con el presupuesto y lo que incluye?",
         "faq": "Hola Dani, tengo una pregunta que no está en la web:",
         "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
         "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."

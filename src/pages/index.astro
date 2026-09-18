@@ -7,15 +7,11 @@ import Cifras from '../components/Cifras.astro';
 import Statement from '../components/Statement.astro';
 import Destinos from '../components/Destinos.astro';
 import Ventajas from '../components/Ventajas.astro';
-import Precio from '../components/Precio.astro';
-import Manifiesto from '../components/Manifiesto.astro';
-import Salidas from '../components/Salidas.astro';
-import VideoBand from '../components/VideoBand.astro';
-import Dia from '../components/Dia.astro';
-import Fundador from '../components/Fundador.astro';
-import Galeria from '../components/Galeria.astro';
-import Testimonios from '../components/Testimonios.astro';
 import Incluye from '../components/Incluye.astro';
+import Sabai from '../components/Sabai.astro';
+import Manifiesto from '../components/Manifiesto.astro';
+import Fundador from '../components/Fundador.astro';
+import Testimonios from '../components/Testimonios.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import Footer from '../components/Footer.astro';
@@ -49,7 +45,6 @@ const jsonLd = [
     description: s.data.descripcion,
     url: new URL(`/viajes/${s.data.slug}`, Astro.site).toString(),
     touristType: 'Grupo reducido',
-    offers: { '@type': 'Offer', price: s.data.precio, priceCurrency: 'EUR', availability: s.data.disponibles > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut' },
   })),
 ];
 ---
@@ -57,12 +52,14 @@ const jsonLd = [
   <Nav site={site} />
   <main>
     <Hero site={site} hero={home.hero} proxima={proxima} />
+    <Manifiesto m={home.manifiesto} />
+    <Sabai site={site} s={home.sabai} />
     <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />
-    <Statement st={home.statement} />
     <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} />
+    <Statement st={home.statement} />
     <Ventajas v={home.ventajas} />
     <Fundador site={site} f={home.fundador} />
-    <Precio site={site} p={home.precio} inc={home.incluye} />
+    <Incluye site={site} inc={home.incluye} />
     <Testimonios t={home.testimonios} items={testimonios} />
     <Faq site={site} faq={home.faq} items={faqs} />
     <Cta site={site} cta={home.cta} />
