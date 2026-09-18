@@ -224,7 +224,7 @@
     "cta": {
         "titulo": "¿Quieres descubrir esta aventura?",
         "subtitulo": "Cuéntame qué viaje tienes en la cabeza. Te contesto yo, normalmente en menos de 24 horas.",
-        "boton": "Abrir WhatsApp",
+        "boton": "Más información.",
         "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
         "imagen": "../src/assets/img/moto-pov-219.jpg"
     },
