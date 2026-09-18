@@ -30,9 +30,9 @@ const { site, s } = Astro.props;
   .sab__p { display: flex; flex-direction: column; gap: 12px; color: var(--ink-2); max-width: 56ch; }
   .sab__q { font-family: var(--display); font-size: clamp(22px, 2.2vw, 28px); line-height: 1.25; letter-spacing: -0.02em; max-width: 24ch; margin-top: 6px; }
   .sab__cta { margin-top: 4px; }
-  .sab__media { position: relative; padding-bottom: 64px; }
-  .sab__media figure { position: relative; margin: 0; overflow: hidden; }
-  .sab__a { aspect-ratio: 4 / 5; border-radius: var(--r-lg); width: 86%; }
-  .sab__b { position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 3 / 2; border-radius: var(--r); border: 6px solid var(--bg); }
+  .sab__media { position: relative; padding-bottom: 72px; }
+  .sab__media .sab__a, .sab__media .sab__b { margin: 0; overflow: hidden; }
+  .sab__media .sab__a { position: relative; width: 86%; aspect-ratio: 4 / 5; border-radius: var(--r-lg); }
+  .sab__media .sab__b { position: absolute; right: 0; bottom: 0; width: 50%; aspect-ratio: 3 / 2; border-radius: var(--r); box-shadow: 0 0 0 6px var(--bg); }
   @media (max-width: 900px) { .sab { grid-template-columns: 1fr; gap: 32px; } .sab__media { padding-bottom: 40px; } }
 </style>
