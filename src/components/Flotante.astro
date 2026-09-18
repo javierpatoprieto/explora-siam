@@ -4,7 +4,7 @@ const { site, proxima, soloBarra = false } = Astro.props;
 ---
 <div class="flot" id="flot" hidden={true} data-solo-barra={soloBarra ? '1' : undefined}><Wa site={site} origen="flotante" class="flot__btn" label="Hablemos por WhatsApp"><span class="flot__txt">¿Hablamos?</span></Wa></div>
 <div class="bar" id="mbar" hidden>
-  {proxima && <p class="bar__ctx label">{proxima.nombre} · {proxima.fechas}{proxima.disponibles > 0 && proxima.disponibles < proxima.plazas && <span class="vino"> · quedan {proxima.disponibles}</span>}</p>}
+  {proxima && <p class="bar__ctx label">{proxima.nombre.split(':')[0]} · grupo de 6 a {proxima.plazas}</p>}
   <Wa site={site} origen="flotante">Hablemos por WhatsApp</Wa>
 </div>
 <style>

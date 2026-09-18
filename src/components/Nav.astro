@@ -5,12 +5,12 @@ const { site, dark = true } = Astro.props;
 <header class:list={['nav', { 'nav--dark': dark }]} id="nav">
   <div class="wrap nav__in">
     <a href="/" class="nav__brand" aria-label={site.marca}><img src="/logo.png" alt="" width="40" height="40" /><span>{site.marca}</span></a>
-    <nav class="nav__links" aria-label="Secciones"><a href="/#ruta">La ruta</a><a href="/#precio">Precio</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
+    <nav class="nav__links" aria-label="Secciones"><a href="/#ruta">La ruta</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
     <div class="nav__cta"><Wa site={site} origen="nav" class="btn btn--sm nav__btn" icon={true}>Hablemos</Wa></div>
     <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
   <div class="menu" id="menu" hidden>
-    <a href="/#ruta">La ruta</a><a href="/#precio">Precio</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
+    <a href="/#ruta">La ruta</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
     <Wa site={site} origen="nav">Hablemos por WhatsApp</Wa>
   </div>
 </header>

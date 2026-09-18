@@ -119,7 +119,7 @@
   $archivo = basename((string) ($_GET['a'] ?? ($salidas[0]['name'] ?? '')));
   $salida = $archivo ? leer_json('content/salidas/' . $archivo) : null; ?>
   <h1>Datos del viaje</h1>
-  <p class="guia">Fechas, plazas y precio. Cuando el grupo se llene, cambia el estado a «Grupo completo» y la web lo muestra tachado con un botón para avisar de la próxima edición.</p>
+  <p class="guia">Duración, plazas, descripción e itinerario día a día. El precio y las fechas no se muestran en la web: se dan por WhatsApp con el dossier.</p>
   <?php if (count($salidas) > 1): ?>
     <p><?php foreach ($salidas as $s): ?>
       <a class="btn claro" href="?s=viaje&a=<?= e(rawurlencode($s['name'])) ?>"><?= e(str_replace('.json', '', $s['name'])) ?></a>

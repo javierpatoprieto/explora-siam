@@ -1,9 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import Wa from './Wa.astro';
-import { precio } from '../lib/wa';
 const { site, hero, proxima } = Astro.props;
 const hasVideo = Boolean(hero.videoMp4);
+const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
 ---
 <section class="hero" id="hero">
   <div class="hero__media">
@@ -29,23 +29,23 @@ const hasVideo = Boolean(hero.videoMp4);
       <span class="hero__badge">{hero.badge}</span>
       <h1>{hero.titulo} <span>{hero.destacado}</span></h1>
       <p class="hero__sub">{hero.subtitulo}</p>
-      <div class="hero__cta"><Wa site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Wa>{hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}</div>
+      <div class="hero__cta"><Wa site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Wa>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
+      {hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}
     </div>
-    {proxima && (
-      <aside class="widget" aria-label="Próxima salida">
-        <div class="widget__tabs"><span class="on">Próxima salida</span><span>Una al año</span></div>
+    {conFicha && (
+      <aside class="widget" aria-label="El viaje">
+        <div class="widget__tabs"><span class="on">El viaje</span><span>Grupo reducido</span></div>
         <dl class="widget__grid">
           <div><dt>Ruta</dt><dd>{proxima.nombre.split(':')[0]}</dd></div>
-          <div><dt>Fechas</dt><dd>{proxima.fechas}</dd></div>
           <div><dt>Duración</dt><dd>{proxima.duracion}</dd></div>
           <div><dt>Grupo</dt><dd>6 a {proxima.plazas} personas</dd></div>
-          <div class="wide"><dt>Precio</dt><dd>desde {precio(proxima.precio)} <small>· {proxima.notaPrecio}</small></dd></div>
+          <div><dt>Moto</dt><dd>Carnet A2</dd></div>
         </dl>
         <div class="widget__acts">
-          <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre, fechas: proxima.fechas }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
+          <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
           {site.formulario && <a href={site.formulario} class="btn btn--ghost widget__btn" target="_blank" rel="noopener">Rellenar el formulario</a>}
         </div>
-        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a>{site.dossier && <><span>·</span><a href={site.dossier} target="_blank" rel="noopener">Descargar dossier</a></>}</div>
+        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a><span>·</span><Wa site={site} origen="precio" class="" icon={false}>Pídeme el dossier</Wa></div>
       </aside>
     )}
   </div>
@@ -60,11 +60,12 @@ const hasVideo = Boolean(hero.videoMp4);
   .hero__snd[aria-pressed='true'] .snd-x { display: none; }
   .hero__snd[aria-pressed='true'] .snd-o { display: inline; }
   .hero__in { position: relative; width: 100%; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .hero__in:not(:has(.widget)) { grid-template-columns: 1fr; }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .hero__badge { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(8px); font-size: 13px; font-weight: 500; }
-  .hero h1 { max-width: 13ch; font-weight: 400; }
+  .hero h1 { max-width: 14ch; font-weight: 400; }
   .hero h1 span { color: rgba(255,255,255,.72); }
-  .hero__sub { max-width: 46ch; font-size: 17px; color: rgba(255,255,255,.88); }
+  .hero__sub { max-width: 52ch; font-size: 18px; color: rgba(255,255,255,.9); }
   .hero__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .hero__micro { font-size: 13px; color: rgba(255,255,255,.75); }
   .widget { justify-self: end; width: min(100%, 400px); background: #fff; color: var(--ink); border-radius: var(--r-lg); padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
