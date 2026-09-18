@@ -77,7 +77,10 @@
         "etiqueta": "",
         "titulo": "Vivir una película en la que cada escena te sorprende.",
         "poster": "../src/assets/img/moto-pov-219.jpg",
-        "mp4": ""
+        "mp4": "https://media.explorasiam.com/71494.mp4",
+        "videoFecha": "2026-09-18",
+        "videoTitulo": "Doi Inthanon",
+        "videoDescripcion": "Subida hacia el parque nacional de Doi Inthanon"
     },
     "dia": {
         "etiqueta": "Cómo es un día en el loop",
