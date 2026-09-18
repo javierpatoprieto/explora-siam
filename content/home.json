@@ -193,6 +193,7 @@
         "intro": "Cada olor, cada sabor, cada sonido. ¿Te gustaría vivirlo todo a la vez?"
     },
     "testimonios": {
+        "mostrar": false,
         "titulo": "Momentos que se quedan.",
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },

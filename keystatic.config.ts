@@ -217,7 +217,7 @@ export default config({
           },
           { label: 'Galería' },
         ),
-        testimonios: fields.object({ titulo: fields.text({ label: 'Titular' }), fondo: img(IMG_HOME, 'Foto de fondo del testimonio destacado') }, { label: 'Testimonios' }),
+        testimonios: fields.object({ mostrar: fields.checkbox({ label: 'Mostrar el bloque de testimonios en la web', description: 'Apagado hasta tener testimonios reales.', defaultValue: false }), titulo: fields.text({ label: 'Titular' }), fondo: img(IMG_HOME, 'Foto de fondo del testimonio destacado') }, { label: 'Testimonios' }),
         incluye: fields.object(
           {
             titulo: fields.text({ label: 'Titular' }),

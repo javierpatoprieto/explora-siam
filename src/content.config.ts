@@ -105,7 +105,7 @@ const home = defineCollection({
         ),
         enlaceInstagram: z.string().optional().default('Más en Instagram'),
       }),
-      testimonios: z.object({ titulo: z.string(), fondo: image() }),
+      testimonios: z.object({ mostrar: z.boolean().optional().default(false), titulo: z.string(), fondo: image() }),
       incluye: z.object({
         titulo: z.string(),
         microcopy: z.string().optional().default(''),

@@ -60,7 +60,8 @@ const jsonLd = [
     <Ventajas v={home.ventajas} />
     <Fundador site={site} f={home.fundador} />
     <Incluye site={site} inc={home.incluye} />
-    <Testimonios t={home.testimonios} items={testimonios} />
+    {/* Oculto hasta que Dani tenga testimonios reales: se enciende con home.testimonios.mostrar */}
+    {home.testimonios.mostrar && <Testimonios t={home.testimonios} items={testimonios} />}
     <Faq site={site} faq={home.faq} items={faqs} />
     <Cta site={site} cta={home.cta} />
   </main>
