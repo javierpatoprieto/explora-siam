@@ -3,7 +3,7 @@
         "badge": "Ruta en moto · norte de Tailandia",
         "titulo": "La Tailandia que",
         "destacado": "pocos llegan a conocer.",
-        "subtitulo": "¿Te imaginas rodar por el Mae Hong Son Loop con un grupo reducido de amigos? Montañas, arrozales y templos junto a la frontera birmana, y la cultura tailandesa vivida desde dentro. Tú solo tienes que disfrutar; del resto me encargo yo.",
+        "subtitulo": "¿Te imaginas rodar por el Mae Hong Son Loop con un grupo reducido de amigos? Montañas, arrozales, cascadas, templos junto a la frontera Birmania... y mucha cultura tailandesa. \r\nTú solo tienes que disfrutar; del resto me encargo yo.",
         "botonPrimario": "Cuéntame por WhatsApp",
         "microcopy": "Te contesta Dani, no un bot.",
         "botonSecundario": "Ver la ruta",
@@ -33,33 +33,33 @@
     ],
     "manifiesto": {
         "titulo": "¿Y si esta vez",
-        "destacado": "Tailandia",
-        "cierre": "fuera diferente?",
+        "destacado": "te atreves a conocer Tailandia",
+        "cierre": "desde otro punto de vista?",
         "bloques": [
             {
                 "titulo": "No hace falta ser piloto de MotoGP",
-                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. Honda NX500, etapas de menos de 150 km y ritmo lento, disfrutando del entorno."
+                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. \r\nHonda NX500, etapas de menos de 150 km y ritmo lento, disfrutando del entorno y acompañado de un equipo que se cuida."
             },
             {
                 "titulo": "Para gente que no se queda sentada",
                 "texto": "Trabajas duro en tu día a día y eres responsable con lo tuyo. Pero sabes que desconectar de la rutina y descubrir cosas nuevas te motiva. El mundo tiene mucho que ofrecerte y no eres de ver pasar la vida."
             },
             {
-                "titulo": "Buena compañía",
-                "texto": "No hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. De seis a ocho personas con las mismas ganas de conocer mundo."
+                "titulo": "Aquí hacemos equipo",
+                "texto": "Nadie se queda atrás. Todos codo con codo \r\nNo hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. \r\nUn grupo con las mismas ganas de conocer mundo."
             }
         ],
         "imagen": "../src/assets/img/phuchifa-169.jpg",
-        "pie": "Phu Chi Fa, 05:45. Amanecer sobre un mar de nubes.",
+        "pie": "Phu Chi Fa, 06:15. Amanecer sobre un mar de nubes.",
         "enlace": "Así se vive la ruta"
     },
     "sabai": {
         "etiqueta": "Sabai sabai",
         "titulo": "Vivir una película en la que cada escena te sorprende.",
         "parrafos": [
-            "Una mañana, tomando un café helado en Phuket, vi a un turista enfadado porque la camarera tardaba en servirle. Él resoplaba y ella, a su ritmo, seguía trabajando y decía en voz baja: sabai sabai, sabai sabai…",
+            "Una mañana, tomando un café helado en Phuket, vi a un turista enfadado porque la camarera tardaba en servirle. Él resoplaba y ella, a su ritmo, seguía trabajando y decía en voz baja: Sabai sabai, sabai sabai…",
             "Más tarde entendí lo que significa: estar tranquilo, recibir cada momento tal y como viene. Descubrir una sociedad donde la sonrisa es la principal divisa te recuerda que todos llevamos dentro un niño libre y feliz.",
-            "Cada olor a comida, flores o incienso. Cada sabor, del picante de un plato típico a un polo de maracuyá que te devuelve a la infancia. Cada conversación con la gente local. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok."
+            "Cada olor a comida, flores o incienso. Cada sabor, del picante de un plato típico a un polo de maracuyá que te devuelve a la infancia. \r\nCada conversación con la gente local. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok."
         ],
         "pregunta": "¿Te gustaría sentir todo esto a la vez?",
         "boton": "Cuéntame por WhatsApp",
@@ -302,11 +302,11 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "antes": "No solo es viajar,",
+        "antes": "No solo es viajar y hacer check en una lista,",
         "imagen1": "../src/assets/img/moto-curva-169.jpg",
-        "medio": "es volver",
+        "medio": "es volver a casa",
         "imagen2": "../src/assets/img/phuchifa-169.jpg",
-        "despues": "con una versión distinta de ti.",
+        "despues": "con una versión distinta de ti. Con apertura.",
         "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!"
     },
     "ventajas": {
