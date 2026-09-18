@@ -7,6 +7,7 @@ import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, ig } = Astro.props;
 const usuario = igUsuario(site.instagram);
 const vueltas = [false, true]; // la segunda copia solo sirve para que el bucle no tenga corte
+const REEL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
 ---
 <section class="ig section" id="instagram">
   <div class="wrap ig__head" data-reveal>
@@ -25,8 +26,10 @@ const vueltas = [false, true]; // la segunda copia solo sirve para que el bucle 
     <div class="ig__track">
       {vueltas.map((copia) => ig.fotos.map((f: any) => (
         <a href={f.enlace || site.instagram} class="ig__foto" target="_blank" rel="noopener" data-ig="carrusel-foto" aria-hidden={copia ? 'true' : undefined} tabindex={copia ? -1 : undefined}>
-          <Foto src={f.imagen} alt={f.pie} class="cover" widths={[320, 480, 640]} sizes="(max-width: 760px) 220px, 300px" loading="lazy" />
-          <span class="ig__velo"><Fragment set:html={IG_ICON} />{f.pie && <span>{f.pie}</span>}</span>
+          <Foto src={f.imagen} alt={f.pie} class="cover" widths={[240, 360]} sizes="(max-width: 760px) 170px, 240px" loading="lazy" />
+          {f.enlace?.includes('/reel/') && <span class="ig__reel"><Fragment set:html={REEL} /></span>}
+          <span class="ig__velo"><Fragment set:html={IG_ICON} /></span>
+          {f.pie && <span class="ig__pie">{f.pie}</span>}
         </a>
       )))}
     </div>
@@ -45,17 +48,21 @@ const vueltas = [false, true]; // la segunda copia solo sirve para que el bucle 
   .ig__track { display: flex; gap: 14px; width: max-content; animation: ig-pasa 70s linear infinite; }
   .ig__rail:hover .ig__track, .ig__rail:focus-within .ig__track { animation-play-state: paused; }
   @keyframes ig-pasa { to { transform: translateX(calc(-50% - 7px)); } }
-  .ig__foto { position: relative; flex: 0 0 300px; aspect-ratio: 1; border-radius: var(--r); overflow: hidden; background: var(--bg-3); color: #fff; }
+  .ig__foto { position: relative; flex: 0 0 240px; aspect-ratio: 9 / 16; border-radius: var(--r); overflow: hidden; background: var(--bg-3); color: #fff; }
   .ig__foto :global(img) { transition: transform .7s var(--ease); }
   .ig__foto:hover :global(img) { transform: scale(1.05); }
-  .ig__velo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; font-size: 14px; font-weight: 500; background: rgba(23,24,26,.45); opacity: 0; transition: opacity .3s; }
-  .ig__velo :global(svg) { width: 30px; height: 30px; }
+  .ig__foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(23,24,26,.7) 0%, rgba(23,24,26,0) 40%); pointer-events: none; }
+  .ig__reel { position: absolute; top: 12px; right: 12px; z-index: 1; filter: drop-shadow(0 1px 4px rgba(0,0,0,.5)); }
+  .ig__pie { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 1; font-size: 14px; font-weight: 500; line-height: 1.3; text-shadow: 0 1px 8px rgba(0,0,0,.45); }
+  .ig__velo { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; background: rgba(23,24,26,.35); opacity: 0; transition: opacity .3s; }
+  .ig__velo :global(svg) { width: 36px; height: 36px; }
   .ig__foto:hover .ig__velo, .ig__foto:focus-visible .ig__velo { opacity: 1; }
   @media (max-width: 760px) {
     .ig__head { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 28px; }
     .ig__perfil { width: 100%; flex-wrap: wrap; border-radius: var(--r); padding: 14px; }
     .ig__perfil .btn { width: 100%; }
-    .ig__foto { flex-basis: 220px; }
+    .ig__foto { flex-basis: 170px; }
+    .ig__pie { font-size: 13px; left: 12px; right: 12px; bottom: 12px; }
     .ig__track { animation-duration: 55s; }
   }
   @media (prefers-reduced-motion: reduce) {
