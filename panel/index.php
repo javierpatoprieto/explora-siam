@@ -257,7 +257,10 @@ $seccion = $_GET['s'] ?? 'textos';
 
 /* ------------------------------------------------------------- guardar */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
-    if (!csrf_valido()) {
+    if (!$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+        // Si el archivo supera el límite del servidor, PHP vacía $_POST y parecía «sesión caducada».
+        $aviso = ['mal', 'El archivo pesa más de lo que admite el servidor y no ha llegado. Prueba con uno más ligero.'];
+    } elseif (!csrf_valido()) {
         $aviso = ['mal', 'La sesión ha caducado. Vuelve a intentarlo.'];
     } elseif (($_POST['accion'] ?? '') === 'textos') {
         $home = leer_json(HOME);
@@ -314,104 +317,220 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
-    } elseif (($_POST['accion'] ?? '') === 'foto') {
-        $aviso = subir_medio('foto');
-    } elseif (($_POST['accion'] ?? '') === 'foto_textos') {
-        $aviso = guardar_textos_foto();
+    } elseif (($_POST['accion'] ?? '') === 'hueco') {
+        $aviso = guardar_hueco();
     } elseif (($_POST['accion'] ?? '') === 'video') {
-        $aviso = subir_medio('video');
-    } elseif (($_POST['accion'] ?? '') === 'sonido') {
-        $home = leer_json(HOME);
-        if (!$home) {
-            $aviso = ['mal', 'No se pudo leer el contenido.'];
-        } else {
-            fijar($home['datos'], 'hero.videoSonido', isset($_POST['sonido']));
-            [$ok, $err] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: botón de sonido del vídeo de portada');
-            $aviso = $ok
-                ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
-                : ['mal', 'No se pudo guardar: ' . $err];
-        }
+        $aviso = guardar_video();
     }
 }
 
-/** Guarda el título y la descripción de una foto en content/fotos.json. */
-function guardar_textos_foto(): array
+/**
+ * Sitios de la web donde hay una foto, en el orden en que aparecen al bajar
+ * por la página. Cada hueco apunta a un campo del contenido; cambiar la foto
+ * de un hueco sube un archivo nuevo y solo cambia ese sitio, aunque la foto
+ * anterior se usara también en otros.
+ */
+function huecos_fotos(array $viajes = [], array $etapas = []): array
 {
-    $nombre = basename((string) ($_POST['nombre'] ?? ''));
-    if ($nombre === '') {
-        return ['mal', 'No se ha indicado qué foto.'];
+    $lista = [
+        ['Portada', 'Foto de fondo en ordenador', 'home', 'hero.poster'],
+        ['Portada', 'Foto de fondo en móvil', 'home', 'hero.posterMovil'],
+        ['¿Y si esta vez Tailandia fuera diferente?', 'Foto grande a todo lo ancho', 'home', 'manifiesto.imagen'],
+        ['Sabai sabai', 'Foto principal', 'home', 'sabai.imagen'],
+        ['Sabai sabai', 'Foto pequeña superpuesta', 'home', 'sabai.imagen2'],
+    ];
+    for ($i = 0; $i < 5; $i++) {
+        $lista[] = ['La ruta', 'Etapa ' . ($i + 1) . (isset($etapas[$i]) && $etapas[$i] !== '' ? ' · ' . $etapas[$i] : ''), 'home', 'ruta.imagenes.' . $i];
     }
-    $nuevo = [
+    $lista[] = ['La ruta', 'Portada del vídeo de la ruta', 'home', 'video.poster'];
+    $lista[] = ['Frase «No solo es viajar…»', 'Primera foto redonda', 'home', 'statement.imagen1'];
+    $lista[] = ['Frase «No solo es viajar…»', 'Segunda foto redonda', 'home', 'statement.imagen2'];
+    $lista[] = ['Quién te acompaña', 'Retrato de Dani', 'home', 'fundador.retrato'];
+    $lista[] = ['Cierre', 'Foto de fondo del final', 'home', 'cta.imagen'];
+    foreach ($viajes as $v) {
+        $lista[] = ['Página del viaje', 'Foto de cabecera' . (count($viajes) > 1 ? ' · ' . str_replace('.json', '', $v) : ''), 'viaje:' . $v, 'imagen'];
+    }
+    return array_map(fn ($h) => ['grupo' => $h[0], 'etiqueta' => $h[1], 'fuente' => $h[2], 'camino' => $h[3], 'id' => $h[2] . '|' . $h[3]], $lista);
+}
+
+/** Archivo del repositorio donde vive el contenido de un hueco. */
+function ruta_fuente(string $fuente): string
+{
+    return $fuente === 'home' ? HOME : 'content/salidas/' . basename(substr($fuente, strlen('viaje:')));
+}
+
+/** Nombres de los archivos de viajes (content/salidas/*.json). */
+function nombres_viajes(): array
+{
+    return array_values(array_map(
+        fn ($f) => (string) $f['name'],
+        array_filter(listar('content/salidas'), fn ($f) => str_ends_with($f['name'] ?? '', '.json'))
+    ));
+}
+
+/** Título y descripción enviados desde un formulario, ya limpios. */
+function textos_enviados(): array
+{
+    return [
         'titulo' => trim((string) ($_POST['titulo'] ?? '')),
         'descripcion' => trim((string) preg_replace('/\s+/', ' ', (string) ($_POST['descripcion'] ?? ''))),
     ];
-    $archivo = leer_json(TEXTOS_FOTOS);
-    $datos = $archivo['datos'] ?? [];
-    if (($datos[$nombre] ?? null) === $nuevo) {
-        return ['ok', 'No había nada que cambiar.'];
-    }
-    $datos[$nombre] = $nuevo;
-    ksort($datos);
-    [$ok, $err] = guardar_json(TEXTOS_FOTOS, $datos, $archivo['sha'] ?? null, 'Panel: textos de la foto ' . $nombre);
-    return $ok
-        ? ['ok', 'Textos de la foto guardados. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
-        : ['mal', 'No se pudo guardar: ' . $err];
 }
 
-/** Sube una foto (sustituyendo otra) o un vídeo. */
-function subir_medio(string $tipo): array
+/** Comprueba la foto subida y devuelve [extensión, error]. */
+function validar_foto(): array
 {
-    if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
-        return ['mal', 'No ha llegado ningún archivo. ¿Pesa demasiado?'];
+    if ($_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+        return ['', 'La foto no ha llegado entera. ¿Pesa más de 8 MB?'];
     }
-    $tmp = $_FILES['archivo']['tmp_name'];
-    $peso = (int) $_FILES['archivo']['size'];
-    $limite = $tipo === 'foto' ? 8 * 1024 * 1024 : 300 * 1024 * 1024;
-    if ($peso > $limite) {
-        return ['mal', 'El archivo pesa ' . round($peso / 1048576, 1) . ' MB y el máximo son ' . round($limite / 1048576) . ' MB.'];
+    if ((int) $_FILES['archivo']['size'] > 8 * 1024 * 1024) {
+        return ['', 'La foto pesa ' . round($_FILES['archivo']['size'] / 1048576, 1) . ' MB y el máximo son 8 MB.'];
     }
-    $mime = (string) (new finfo(FILEINFO_MIME_TYPE))->file($tmp);
-    if ($tipo === 'foto') {
-        $permitidos = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
-        if (!isset($permitidos[$mime])) {
-            return ['mal', 'Solo se admiten imágenes JPG, PNG o WEBP.'];
+    $mime = (string) (new finfo(FILEINFO_MIME_TYPE))->file($_FILES['archivo']['tmp_name']);
+    $permitidos = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+    if (!isset($permitidos[$mime])) {
+        return ['', 'Solo se admiten imágenes JPG, PNG o WEBP.'];
+    }
+    return [$permitidos[$mime], ''];
+}
+
+/** Cambia la foto de un sitio de la web y/o su título y descripción. */
+function guardar_hueco(): array
+{
+    $id = (string) ($_POST['hueco'] ?? '');
+    $hueco = null;
+    foreach (huecos_fotos(nombres_viajes()) as $h) {
+        if ($h['id'] === $id) {
+            $hueco = $h;
         }
-        $destino = IMGS . '/' . basename((string) ($_POST['sustituye'] ?? ''));
-        if ($destino === IMGS . '/') {
-            return ['mal', 'No se ha indicado qué foto sustituir.'];
+    }
+    if (!$hueco) {
+        return ['mal', 'No se ha reconocido ese sitio de la web. Recarga la página.'];
+    }
+    $ruta = ruta_fuente($hueco['fuente']);
+    $doc = leer_json($ruta);
+    if (!$doc) {
+        return ['mal', 'No se ha podido leer el contenido. Revisa el token de GitHub.'];
+    }
+    $archivo = basename(valor($doc['datos'], $hueco['camino']));
+    $hecho = [];
+
+    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        [$ext, $error] = validar_foto();
+        if ($error !== '') {
+            return ['mal', $error];
         }
-        $actual = leer_archivo($destino);
-        [$ok, $err] = guardar_archivo($destino, (string) file_get_contents($tmp), $actual['sha'] ?? null, 'Panel: nueva foto ' . basename($destino));
-        return $ok
-            ? ['ok', 'Foto sustituida. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
-            : ['mal', 'No se pudo subir: ' . $err];
+        $base = (string) preg_replace('/[^a-z0-9]+/', '-', strtolower(pathinfo((string) $_FILES['archivo']['name'], PATHINFO_FILENAME)));
+        $base = trim(substr($base, 0, 40), '-');
+        $nuevo = ($base !== '' ? $base : 'foto') . '-' . date('ymdHis') . '.' . $ext;
+        [$ok, $err] = guardar_archivo(IMGS . '/' . $nuevo, (string) file_get_contents($_FILES['archivo']['tmp_name']), null, 'Panel: foto nueva ' . $nuevo);
+        if (!$ok) {
+            return ['mal', 'No se pudo subir la foto: ' . $err];
+        }
+        $prefijo = $hueco['fuente'] === 'home' ? '../src/assets/img/' : '../../src/assets/img/';
+        fijar($doc['datos'], $hueco['camino'], $prefijo . $nuevo);
+        [$ok, $err] = guardar_json($ruta, $doc['datos'], $doc['sha'], 'Panel: foto de ' . $hueco['grupo'] . ' · ' . $hueco['etiqueta']);
+        if (!$ok) {
+            return ['mal', 'La foto se ha subido pero no se ha podido colocar: ' . $err];
+        }
+        $archivo = $nuevo;
+        $hecho[] = 'Foto cambiada.';
     }
-    if ($mime !== 'video/mp4') {
-        return ['mal', 'El vídeo debe ser un MP4.'];
+
+    $textos = textos_enviados();
+    $tf = leer_json(TEXTOS_FOTOS);
+    $datos = $tf['datos'] ?? [];
+    if ($archivo !== '' && ($datos[$archivo] ?? null) !== $textos) {
+        $datos[$archivo] = $textos;
+        ksort($datos);
+        [$ok, $err] = guardar_json(TEXTOS_FOTOS, $datos, $tf['sha'] ?? null, 'Panel: textos de la foto ' . $archivo);
+        if (!$ok) {
+            return ['mal', implode(' ', $hecho) . ' No se han podido guardar los textos: ' . $err];
+        }
+        $hecho[] = 'Textos guardados.';
     }
-    // Los vídeos se guardan en el propio hosting, no en el repositorio: pesan
-    // demasiado para la API de GitHub y no tiene sentido versionarlos.
-    $nombre = preg_replace('/[^a-z0-9._-]/', '-', strtolower((string) $_FILES['archivo']['name'])) ?: 'video.mp4';
-    if (!str_ends_with($nombre, '.mp4')) {
-        $nombre .= '.mp4';
+    return $hecho
+        ? ['ok', implode(' ', $hecho) . ' La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['ok', 'No había nada que cambiar.'];
+}
+
+/** Sitios de la web con vídeo, en orden: [donde, grupo, etiqueta, prefijo en home.json, campo de la URL]. */
+function huecos_videos(): array
+{
+    return [
+        ['hero', 'Portada', 'Vídeo de fondo de la portada', 'hero.', 'hero.videoMp4'],
+        ['banda', 'La ruta', 'Vídeo de la tarjeta con botón de play', 'video.', 'video.mp4'],
+    ];
+}
+
+/** Sube un vídeo (opcional) y guarda su título, descripción y, en portada, el sonido. */
+function guardar_video(): array
+{
+    $hueco = null;
+    foreach (huecos_videos() as $h) {
+        if ($h[0] === ($_POST['donde'] ?? '')) {
+            $hueco = $h;
+        }
     }
-    if (!@move_uploaded_file($tmp, carpeta_videos() . '/' . $nombre)) {
-        return ['mal', 'No se pudo guardar el vídeo en el servidor. Comprueba los permisos de la carpeta video.'];
+    if (!$hueco) {
+        return ['mal', 'No se ha reconocido ese vídeo. Recarga la página.'];
     }
-    $donde = (string) ($_POST['donde'] ?? 'hero');
+    [$donde, $grupo, , $pre, $campoUrl] = $hueco;
     $home = leer_json(HOME);
-    if ($home) {
-            fijar($home['datos'], $donde === 'hero' ? 'hero.videoMp4' : 'video.mp4', URL_VIDEOS . '/' . $nombre);
-        guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: vídeo en ' . $donde);
+    if (!$home) {
+        return ['mal', 'No se ha podido leer el contenido. Revisa el token de GitHub.'];
     }
-    return ['ok', 'Vídeo subido (' . round($peso / 1048576, 1) . ' MB) y colocado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.'];
+    $antes = $home['datos'];
+    $subido = '';
+
+    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        if ($_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+            return ['mal', 'El vídeo no ha llegado entero. ¿Pesa más de 300 MB?'];
+        }
+        $tmp = $_FILES['archivo']['tmp_name'];
+        $peso = (int) $_FILES['archivo']['size'];
+        if ($peso > 300 * 1024 * 1024) {
+            return ['mal', 'El vídeo pesa ' . round($peso / 1048576, 1) . ' MB y el máximo son 300 MB.'];
+        }
+        if ((string) (new finfo(FILEINFO_MIME_TYPE))->file($tmp) !== 'video/mp4') {
+            return ['mal', 'El vídeo debe ser un MP4.'];
+        }
+        // Los vídeos se guardan en el propio hosting, no en el repositorio: pesan
+        // demasiado para la API de GitHub y no tiene sentido versionarlos.
+        $nombre = preg_replace('/[^a-z0-9._-]/', '-', strtolower((string) $_FILES['archivo']['name'])) ?: 'video.mp4';
+        if (!str_ends_with($nombre, '.mp4')) {
+            $nombre .= '.mp4';
+        }
+        if (!@move_uploaded_file($tmp, carpeta_videos() . '/' . $nombre)) {
+            return ['mal', 'No se pudo guardar el vídeo en el servidor. Comprueba los permisos de la carpeta video.'];
+        }
+        fijar($home['datos'], $campoUrl, URL_VIDEOS . '/' . $nombre);
+        fijar($home['datos'], $pre . 'videoFecha', date('Y-m-d'));
+        $subido = 'Vídeo subido (' . round($peso / 1048576, 1) . ' MB). ';
+    }
+
+    $textos = textos_enviados();
+    foreach (['videoTitulo' => $textos['titulo'], 'videoDescripcion' => $textos['descripcion']] as $campo => $v) {
+        if (valor($home['datos'], $pre . $campo) !== $v) {
+            fijar($home['datos'], $pre . $campo, $v);
+        }
+    }
+    if ($donde === 'hero' && (valor($home['datos'], 'hero.videoSonido') === '1') !== isset($_POST['sonido'])) {
+        fijar($home['datos'], 'hero.videoSonido', isset($_POST['sonido']));
+    }
+    if ($home['datos'] === $antes) {
+        return ['ok', 'No había nada que cambiar.'];
+    }
+    [$ok, $err] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: vídeo de ' . $grupo);
+    return $ok
+        ? ['ok', $subido . 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['mal', $subido . 'No se pudo guardar: ' . $err];
 }
 
 /* --------------------------------------------------------------- datos */
 $home = leer_json(HOME);
 $sitio = leer_json(SITIO);
 $sinConexion = !$home || !$sitio;
-$fotos = $sinConexion ? [] : array_values(array_filter(listar(IMGS), fn ($f) => ($f['type'] ?? '') === 'file'));
 $textosFotos = $sinConexion ? [] : ((leer_json(TEXTOS_FOTOS) ?? [])['datos'] ?? []);
 $salidas = $sinConexion ? [] : array_values(array_filter(listar('content/salidas'), fn ($f) => str_ends_with($f['name'] ?? '', '.json')));
 

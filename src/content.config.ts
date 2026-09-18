@@ -41,6 +41,9 @@ const home = defineCollection({
         videoMp4: z.string().optional().default(''),
         videoWebm: z.string().optional().default(''),
         videoSonido: z.boolean().optional().default(false),
+        videoTitulo: z.string().optional().default(''),
+        videoDescripcion: z.string().optional().default(''),
+        videoFecha: z.string().optional().default(''),
         mostrarProximaSalida: z.boolean().default(true),
         cinta: z.array(z.string()).default([]),
       }),
@@ -72,7 +75,7 @@ const home = defineCollection({
         pie2: z.string().optional().default(''),
       }),
       salidas: z.object({ etiqueta: z.string(), titulo: z.string(), subtitulo: z.string() }),
-      video: z.object({ etiqueta: z.string(), titulo: z.string(), poster: image(), mp4: z.string().optional().default('') }),
+      video: z.object({ etiqueta: z.string(), titulo: z.string(), poster: image(), mp4: z.string().optional().default(''), videoTitulo: z.string().optional().default(''), videoDescripcion: z.string().optional().default(''), videoFecha: z.string().optional().default('') }),
       dia: z.object({
         etiqueta: z.string(),
         titulo: z.string(),

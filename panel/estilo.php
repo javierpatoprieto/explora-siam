@@ -48,11 +48,13 @@
   .foto code { font-size:12px; color:var(--muted); word-break:break-all; }
   .foto input[type=file] { font-size:12px; width:100%; }
   .fotos { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
-  .textos-foto { display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--line); padding-top:10px; }
-  .textos-foto label { margin:0; }
-  .textos-foto input[type=text], .textos-foto textarea { font-size:13px; padding:8px 10px; }
-  .textos-foto textarea { min-height:72px; }
-  .textos-foto .btn { min-height:38px; font-size:13px; padding:0 14px; }
+  .grupo-fotos { font-size:19px; font-weight:600; letter-spacing:-.02em; margin:36px 0 12px; }
+  .foto .pie label { margin:0; }
+  .foto .pie input[type=text], .foto .pie textarea { font-size:13px; padding:8px 10px; }
+  .foto .pie textarea { min-height:72px; }
+  .foto .donde { font-size:14px; }
+  .foto .compartida { margin:0; font-size:12px; color:#8a5a00; background:#fff6e0; border-radius:8px; padding:6px 8px; }
+  .foto .pie .btn { min-height:38px; font-size:13px; padding:0 14px; }
   .entrada { max-width:380px; margin:14vh auto; padding:0 24px; }
   .entrada img { width:56px; height:56px; border-radius:14px; margin-bottom:20px; }
   .tabla { width:100%; border-collapse:collapse; font-size:15px; }

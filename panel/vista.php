@@ -61,40 +61,60 @@
     <div class="guardar"><button class="btn" type="submit">Guardar cambios</button></div>
   </form>
 
-<?php elseif ($seccion === 'fotos'): ?>
+<?php elseif ($seccion === 'fotos'):
+  // Nombres de las etapas para rotular las fotos de la ruta.
+  $viajes = array_map(fn ($s) => (string) $s['name'], $salidas);
+  $docs = ['home' => $home['datos']];
+  foreach ($viajes as $v) {
+      $docs['viaje:' . $v] = (leer_json('content/salidas/' . $v) ?? [])['datos'] ?? [];
+  }
+  $etapas = [];
+  foreach (($viajes ? ($docs['viaje:' . $viajes[0]]['itinerario'] ?? []) : []) as $it) {
+      $etapas[] = trim(explode(',', (string) ($it['titulo'] ?? ''))[0]);
+  }
+  $huecos = huecos_fotos($viajes, $etapas);
+  // Qué archivo hay en cada hueco y en qué otros sitios sale el mismo archivo.
+  $usos = [];
+  foreach ($huecos as $i => $h) {
+      $huecos[$i]['archivo'] = basename(valor($docs[$h['fuente']] ?? [], $h['camino']));
+      $usos[$huecos[$i]['archivo']][] = $h['grupo'] . ' · ' . $h['etiqueta'];
+  }
+  $grupoActual = null; ?>
   <h1>Fotos</h1>
-  <p class="guia">Para cambiar una foto, elige la nueva debajo de la que quieres sustituir. Se queda en el mismo sitio de la web. Formatos JPG, PNG o WEBP, hasta 8 MB.</p>
-  <p class="guia">Cada foto tiene un <strong>título</strong> y una <strong>descripción</strong>. La descripción es lo que lee Google y lo que oyen las personas que navegan con lector de pantalla: cuenta en una frase qué se ve y dónde, por ejemplo «Amanecer sobre un mar de nubes desde el mirador de Phu Chi Fa». Si cambias una foto, revisa también sus textos.</p>
-  <div class="fotos">
-    <?php foreach ($fotos as $f): ?>
-      <div class="foto">
-        <img src="?foto=<?= e(rawurlencode($f['name'])) ?>" alt="" loading="lazy">
-        <div class="pie">
-          <code><?= e($f['name']) ?></code>
-          <form method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
-            <input type="hidden" name="accion" value="foto">
-            <input type="hidden" name="sustituye" value="<?= e($f['name']) ?>">
-            <input type="file" name="archivo" accept="image/jpeg,image/png,image/webp" required onchange="this.form.submit()">
-          </form>
-          <?php $tx = $textosFotos[$f['name']] ?? []; ?>
-          <form method="post" class="textos-foto">
-            <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
-            <input type="hidden" name="accion" value="foto_textos">
-            <input type="hidden" name="nombre" value="<?= e($f['name']) ?>">
-            <label><span>Título</span><input type="text" name="titulo" maxlength="120" value="<?= e((string) ($tx['titulo'] ?? '')) ?>"></label>
-            <label><span>Descripción</span><textarea name="descripcion" maxlength="300" rows="3"><?= e((string) ($tx['descripcion'] ?? '')) ?></textarea></label>
-            <button class="btn claro" type="submit">Guardar textos</button>
-          </form>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
+  <p class="guia">Las fotos están en el mismo orden en que aparecen en la web. Para cambiar una, elige la nueva en su recuadro y pulsa <strong>Guardar</strong>: solo cambia en ese sitio. Formatos JPG, PNG o WEBP, hasta 8 MB.</p>
+  <p class="guia">Cada foto tiene un <strong>título</strong> y una <strong>descripción</strong>. La descripción es lo que lee Google y lo que oyen las personas que navegan con lector de pantalla: cuenta en una frase qué se ve y dónde, por ejemplo «Amanecer sobre un mar de nubes desde el mirador de Phu Chi Fa». Si cambias la foto, revisa también sus textos.</p>
+  <?php foreach ($huecos as $h):
+    if ($h['grupo'] !== $grupoActual):
+      if ($grupoActual !== null): ?></div><?php endif;
+      $grupoActual = $h['grupo']; ?>
+      <h2 class="grupo-fotos"><?= e($h['grupo']) ?></h2>
+      <div class="fotos">
+    <?php endif;
+    $tx = $textosFotos[$h['archivo']] ?? [];
+    $otros = array_values(array_filter($usos[$h['archivo']] ?? [], fn ($u) => $u !== $h['grupo'] . ' · ' . $h['etiqueta'])); ?>
+    <div class="foto">
+      <?php if ($h['archivo'] !== ''): ?><img src="?foto=<?= e(rawurlencode($h['archivo'])) ?>" alt="" loading="lazy"><?php endif; ?>
+      <form method="post" enctype="multipart/form-data" class="pie">
+        <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+        <input type="hidden" name="accion" value="hueco">
+        <input type="hidden" name="hueco" value="<?= e($h['id']) ?>">
+        <strong class="donde"><?= e($h['etiqueta']) ?></strong>
+        <code><?= e($h['archivo']) ?></code>
+        <?php if ($otros): ?><p class="compartida">Esta misma foto sale también en: <?= e(implode('; ', $otros)) ?>. El título y la descripción son los mismos en todos esos sitios.</p><?php endif; ?>
+        <label><span>Cambiar foto</span><input type="file" name="archivo" accept="image/jpeg,image/png,image/webp"></label>
+        <label><span>Título</span><input type="text" name="titulo" maxlength="120" value="<?= e((string) ($tx['titulo'] ?? '')) ?>"></label>
+        <label><span>Descripción</span><textarea name="descripcion" maxlength="300" rows="3"><?= e((string) ($tx['descripcion'] ?? '')) ?></textarea></label>
+        <button class="btn" type="submit">Guardar</button>
+      </form>
+    </div>
+  <?php endforeach;
+  if ($grupoActual !== null): ?></div><?php endif; ?>
 
 <?php elseif ($seccion === 'videos'): ?>
   <h1>Vídeos</h1>
-  <p class="guia">Sube un MP4 de hasta 300 MB. Los vídeos se guardan en el propio servidor, así que la subida puede tardar un rato: no cierres la pestaña.</p>
-  <p class="guia"><strong>Consejo importante:</strong> el vídeo de la portada se reproduce solo nada más entrar, así que conviene que sea ligero, de unos 10 segundos y por debajo de 10 MB, o la web tardará en cargar en el móvil. El de la banda central solo se descarga cuando alguien le da al play, así que ahí sí puede ser largo y pesado.</p>
+  <p class="guia">Los vídeos están en el mismo orden en que aparecen en la web. Sube un MP4 de hasta 300 MB. Los vídeos se guardan en el propio servidor, así que la subida puede tardar un rato: no cierres la pestaña.</p>
+  <p class="guia"><strong>Consejo importante:</strong> el vídeo de la portada se reproduce solo nada más entrar, así que conviene que sea ligero, de unos 10 segundos y por debajo de 10 MB, o la web tardará en cargar en el móvil. El de la ruta solo se descarga cuando alguien le da al play, así que ahí sí puede ser largo y pesado.</p>
+  <p class="guia">Igual que las fotos, cada vídeo tiene un <strong>título</strong> y una <strong>descripción</strong>: Google los usa para entender y mostrar el vídeo en sus resultados.</p>
   <?php $subidos = videos_subidos(); if ($subidos): ?>
     <fieldset><legend>Vídeos en el servidor</legend>
       <table class="tabla"><?php foreach ($subidos as $v): ?>
@@ -102,26 +122,25 @@
       <?php endforeach; ?></table>
     </fieldset>
   <?php endif; ?>
-  <?php foreach ([['hero', 'Vídeo de la portada', valor($home['datos'], 'hero.videoMp4')], ['banda', 'Vídeo de la banda central', valor($home['datos'], 'video.mp4')]] as [$donde, $etiqueta, $actual]): ?>
+  <?php foreach (huecos_videos() as [$donde, $grupo, $etiqueta, $pre, $campoUrl]):
+    $actual = valor($home['datos'], $campoUrl); ?>
+    <h2 class="grupo-fotos"><?= e($grupo) ?></h2>
     <fieldset>
       <legend><?= e($etiqueta) ?></legend>
-      <p class="guia"><?= $actual ? 'Ahora mismo: <code>' . e($actual) . '</code>' : 'Ahora mismo no hay vídeo: se ve la foto de fondo.' ?></p>
+      <p class="guia"><?= $actual ? 'Ahora mismo: <code>' . e($actual) . '</code>' : ($donde === 'hero' ? 'Ahora mismo no hay vídeo: se ve la foto de fondo.' : 'Ahora mismo no hay vídeo: la tarjeta muestra solo la foto.') ?></p>
       <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
         <input type="hidden" name="accion" value="video">
         <input type="hidden" name="donde" value="<?= e($donde) ?>">
-        <label><span>Archivo MP4</span><input type="file" name="archivo" accept="video/mp4" required></label>
-        <button class="btn" type="submit">Subir vídeo</button>
+        <label><span><?= $actual ? 'Cambiar vídeo (MP4)' : 'Subir vídeo (MP4)' ?></span><input type="file" name="archivo" accept="video/mp4"></label>
+        <label><span>Título</span><input type="text" name="titulo" maxlength="120" value="<?= e(valor($home['datos'], $pre . 'videoTitulo')) ?>"></label>
+        <label><span>Descripción</span><textarea name="descripcion" maxlength="300" rows="3"><?= e(valor($home['datos'], $pre . 'videoDescripcion')) ?></textarea></label>
+        <?php if ($donde === 'hero'): ?>
+          <label class="check"><input type="checkbox" name="sonido" value="1"<?= valor($home['datos'], 'hero.videoSonido') === '1' ? ' checked' : '' ?>> Dejar que el visitante active el sonido</label>
+          <p class="guia">El vídeo de la portada siempre empieza en silencio: los navegadores no permiten que un vídeo arranque solo con sonido y lo bloquearían entero. Con esta casilla marcada aparece un botón de altavoz sobre el vídeo para que quien quiera lo active. Si el vídeo no tiene audio, déjala sin marcar.</p>
+        <?php endif; ?>
+        <button class="btn" type="submit">Guardar</button>
       </form>
-            <?php if ($donde === 'hero'): ?>
-          <form method="post" class="sonido">
-                      <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
-                      <input type="hidden" name="accion" value="sonido">
-                      <label class="check"><input type="checkbox" name="sonido" value="1"<?= valor($home['datos'], 'hero.videoSonido') === '1' ? ' checked' : '' ?>> Dejar que el visitante active el sonido</label>
-                      <p class="guia">El vídeo de la portada siempre empieza en silencio: los navegadores no permiten que un vídeo arranque solo con sonido y lo bloquearían entero. Con esta casilla marcada aparece un botón de altavoz sobre el vídeo para que quien quiera lo active. Si el vídeo no tiene audio, déjala sin marcar.</p>
-                      <button class="btn" type="submit">Guardar</button>
-          </form>
-            <?php endif; ?>
     </fieldset>
   <?php endforeach; ?>
 
