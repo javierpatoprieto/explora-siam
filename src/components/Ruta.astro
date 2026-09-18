@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 import { precio } from '../lib/wa';
 const { site, ruta, salida } = Astro.props;
@@ -28,7 +28,7 @@ const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen:
       <div class="etapas__list">
         {etapas.map((e: any, i: number) => (
           <article class="etapa" data-etapa={i}>
-            <figure class="etapa__mimg"><Image src={e.imagen} alt="" class="cover" widths={[600, 900]} sizes="100vw" />{e.pie && <figcaption class="cap">{e.pie}</figcaption>}</figure>
+            <figure class="etapa__mimg"><Foto src={e.imagen} alt="" class="cover" widths={[600, 900]} sizes="100vw" />{e.pie && <figcaption class="cap">{e.pie}</figcaption>}</figure>
             <span class="etapa__n">Etapa {String(i + 1).padStart(2, '0')}</span>
             <h3 class="etapa__t">{e.titulo}</h3>
             <p>{e.texto}</p>
@@ -39,7 +39,7 @@ const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen:
         <div class="frame">
           {etapas.map((e: any, i: number) => (
             <figure class:list={['slide', { on: i === 0 }]} data-slide={i}>
-              <Image src={e.imagen} alt="" class="cover" widths={[700, 1000, 1400]} sizes="45vw" />
+              <Foto src={e.imagen} alt="" class="cover" widths={[700, 1000, 1400]} sizes="45vw" />
               {e.pie && <figcaption class="cap">{e.pie}</figcaption>}
             </figure>
           ))}

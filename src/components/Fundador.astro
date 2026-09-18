@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 const { site, f } = Astro.props;
 ---
 <section class="fund wrap section" id="dani">
   <div class="fund__img" data-reveal>
-    <Image src={f.retrato} alt={site.fundador} class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 45vw" />
+    <Foto src={f.retrato} alt={site.fundador} class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 45vw" />
     {f.retratoPie && <span class="cap">{f.retratoPie}</span>}
   </div>
   <div class="fund__txt" data-reveal>

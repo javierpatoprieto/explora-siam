@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 const { site, s } = Astro.props;
 ---
@@ -13,12 +13,12 @@ const { site, s } = Astro.props;
   </div>
   <div class="sab__media" data-reveal>
     <figure class="sab__a">
-      <Image src={s.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 40vw" />
+      <Foto src={s.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 40vw" />
       {s.pie && <figcaption class="cap">{s.pie}</figcaption>}
     </figure>
     {s.imagen2 && (
       <figure class="sab__b">
-        <Image src={s.imagen2} alt="" class="cover" widths={[400, 700]} sizes="(max-width: 900px) 60vw, 22vw" />
+        <Foto src={s.imagen2} alt="" class="cover" widths={[400, 700]} sizes="(max-width: 900px) 60vw, 22vw" />
         {s.pie2 && <figcaption class="cap">{s.pie2}</figcaption>}
       </figure>
     )}

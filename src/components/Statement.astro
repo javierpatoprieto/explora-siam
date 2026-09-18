@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 const { st } = Astro.props;
 ---
 <section class="st wrap section center" data-reveal>
-  <h2 class="st__h">{st.antes} <span class="pill"><Image src={st.imagen1} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.medio} <span class="pill"><Image src={st.imagen2} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.despues}</h2>
+  <h2 class="st__h">{st.antes} <span class="pill"><Foto src={st.imagen1} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.medio} <span class="pill"><Foto src={st.imagen2} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.despues}</h2>
   <p class="sub">{st.texto}</p>
 </section>
 <style>

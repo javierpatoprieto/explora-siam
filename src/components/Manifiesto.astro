@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 const { m } = Astro.props;
 ---
 <section class="mani section" id="manifiesto">
@@ -10,7 +10,7 @@ const { m } = Astro.props;
     </div>
   </div>
   <figure class="mani__img" data-reveal>
-    <Image src={m.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2200]} sizes="100vw" />
+    <Foto src={m.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2200]} sizes="100vw" />
     {m.pie && <figcaption class="cap">{m.pie}</figcaption>}
   </figure>
 </section>

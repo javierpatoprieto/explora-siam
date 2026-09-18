@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 const { site, cta } = Astro.props;
 ---
 <section class="cta wrap section" id="contacto">
   <div class="cta__panel" data-reveal>
-    <Image src={cta.imagen} alt="" class="cover" widths={[800, 1200, 1600]} sizes="100vw" />
+    <Foto src={cta.imagen} alt="" class="cover" widths={[800, 1200, 1600]} sizes="100vw" />
     <div class="cta__shade"></div>
     <div class="cta__in">
       <h2>{cta.titulo}</h2>

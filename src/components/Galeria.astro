@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 const { site, g } = Astro.props;
 const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#bf7c6f"></circle><path d="M26 21v22l18-11z" fill="#2a2124"></path></svg></span>';
@@ -10,7 +10,7 @@ const PLAY = '<span class="play" aria-hidden="true"><svg width="56" height="56" 
     {g.piezas.map((p: any, i: number) => (
       <figure class:list={['gal__item', `gal__item--${p.tamano}`]}>
         <button class="gal__btn" data-full={p.imagen.src} data-pie={p.pie} aria-label={`Ampliar: ${p.pie || 'imagen ' + (i + 1)}`}>
-          <Image src={p.imagen} alt={p.pie} class="cover" widths={[500, 800, 1200, 1600]} sizes={p.tamano === 'sangre' ? '100vw' : '(max-width: 760px) 100vw, 40vw'} />
+          <Foto src={p.imagen} alt={p.pie} class="cover" widths={[500, 800, 1200, 1600]} sizes={p.tamano === 'sangre' ? '100vw' : '(max-width: 760px) 100vw, 40vw'} />
           {p.video && <Fragment set:html={PLAY} />}
         </button>
         {p.pie && <figcaption class="cap">{p.video ? 'Vídeo · ' : ''}{p.pie}</figcaption>}

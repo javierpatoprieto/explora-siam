@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
-import { Image } from 'astro:assets';
+import Foto from '../../components/Foto.astro';
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Wa from '../../components/Wa.astro';
@@ -24,7 +24,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
   <Nav site={site} dark={true} />
   <main>
     <section class="vh">
-      <Image src={d.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" />
+      <Foto src={d.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" />
       <div class="vh__shade"></div>
       <div class="wrap vh__in">
         {d.estado === 'ultimas' && <span class="badge">Últimas plazas</span>}

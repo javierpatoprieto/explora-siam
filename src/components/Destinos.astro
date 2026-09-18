@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 const { ruta, salida, video } = Astro.props;
 const d = salida?.data;
 const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '', foco: ruta.focos?.[i] || '50% 50%' }));
@@ -10,14 +10,14 @@ const sizes = ['a', 'b', 'c', 'd', 'e'];
   <div class="wrap bento" data-reveal>
     {etapas.map((e: any, i: number) => (
       <a href={`/viajes/${d.slug}#etapa-${i + 1}`} class:list={['tile', `tile--${sizes[i] ?? 'e'}`]}>
-        <Image src={e.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 40vw" style={`object-position: ${e.foco}`} />
+        <Foto src={e.imagen} alt="" class="cover" widths={[600, 900, 1200]} sizes="(max-width: 760px) 100vw, 40vw" style={`object-position: ${e.foco}`} />
         <div class="tile__shade"></div>
         <div class="tile__txt"><strong>{e.titulo.split(',')[0]}</strong><span>Etapa {i + 1}{e.titulo.includes(',') ? ` · ${e.titulo.split(',')[1].trim()}` : ''}</span></div>
       </a>
     ))}
     {video?.poster && (
       <div class="tile tile--v" id="video">
-        <Image src={video.poster} alt="" class="cover" widths={[600, 900]} sizes="(max-width: 760px) 100vw, 30vw" />
+        <Foto src={video.poster} alt="" class="cover" widths={[600, 900]} sizes="(max-width: 760px) 100vw, 30vw" />
         <div class="tile__shade"></div>
         <span class="tile__play" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#fff"></circle><path d="M19 15v18l14-9z" fill="#17181a"></path></svg></span>
         <div class="tile__txt"><strong>{video.titulo}</strong><span>{video.etiqueta}</span></div>
