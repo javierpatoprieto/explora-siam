@@ -8,7 +8,9 @@ function panel_arrancar(): void
     if (session_status() === PHP_SESSION_NONE) {
         session_set_cookie_params([
             'lifetime' => 0,
-            'path' => '/panel/',
+            // El panel se sirve en la raíz de panel.explorasiam.com. Con '/panel/'
+            // el navegador no devuelve la cookie y la contraseña "no entra".
+            'path' => '/',
             'secure' => !empty($_SERVER['HTTPS']),
             'httponly' => true,
             'samesite' => 'Lax',
