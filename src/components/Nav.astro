@@ -1,16 +1,18 @@
 ---
 import Wa from './Wa.astro';
+import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, dark = true } = Astro.props;
 ---
 <header class:list={['nav', { 'nav--dark': dark }]} id="nav">
   <div class="wrap nav__in">
     <a href="/" class="nav__brand" aria-label={site.marca}><img src="/logo.png" alt="" width="40" height="40" /><span>{site.marca}</span></a>
-    <nav class="nav__links" aria-label="Secciones"><a href="/#ruta">La ruta</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
-    <div class="nav__cta"><Wa site={site} origen="nav" class="btn btn--sm nav__btn" icon={true}>Hablemos</Wa></div>
+    <nav class="nav__links" aria-label="Secciones"><a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
+    <div class="nav__cta"><a href={site.instagram} class="nav__ig" target="_blank" rel="noopener" aria-label={`Instagram ${igUsuario(site.instagram)}`} data-ig="nav"><Fragment set:html={IG_ICON} /></a><Wa site={site} origen="nav" class="btn btn--sm nav__btn" icon={true}>Hablemos</Wa></div>
     <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
   <div class="menu" id="menu" hidden>
-    <a href="/#ruta">La ruta</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
+    <a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
+    <a href={site.instagram} class="menu__ig" target="_blank" rel="noopener" data-ig="menu"><Fragment set:html={IG_ICON} />{igUsuario(site.instagram)}</a>
     <Wa site={site} origen="nav">Hablemos por WhatsApp</Wa>
   </div>
 </header>
@@ -23,6 +25,10 @@ const { site, dark = true } = Astro.props;
   .nav__links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
   .nav__links a { color: inherit; opacity: .9; }
   .nav__links a:hover { opacity: 1; }
+  .nav__cta { display: flex; align-items: center; gap: 10px; }
+  .nav__ig { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; color: inherit; opacity: .9; transition: opacity .2s, background .2s; }
+  .nav__ig:hover { opacity: 1; background: rgba(127,127,127,.14); }
+  .menu__ig { display: inline-flex; align-items: center; gap: 10px; }
   .nav--dark:not(.solid) :global(.nav__btn) { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.35); color: #fff; backdrop-filter: blur(8px); }
   .nav.solid :global(.nav__btn) { background: var(--ink); color: #fff; border-color: var(--ink); }
   .nav__burger { display: none; width: 44px; height: 44px; background: none; border: 0; flex-direction: column; gap: 6px; align-items: center; justify-content: center; cursor: pointer; }

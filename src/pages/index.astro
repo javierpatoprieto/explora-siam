@@ -6,6 +6,7 @@ import Hero from '../components/Hero.astro';
 import Cifras from '../components/Cifras.astro';
 import Statement from '../components/Statement.astro';
 import Destinos from '../components/Destinos.astro';
+import Moto from '../components/Moto.astro';
 import Ventajas from '../components/Ventajas.astro';
 import Incluye from '../components/Incluye.astro';
 import Sabai from '../components/Sabai.astro';
@@ -71,7 +72,8 @@ const jsonLd = [
     <Manifiesto m={home.manifiesto} />
     <Sabai site={site} s={home.sabai} />
     <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />
-    <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} />
+    <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} moto={home.moto} />
+    {home.moto && <Moto site={site} moto={home.moto} />}
     <Statement st={home.statement} />
     <Ventajas v={home.ventajas} />
     <Fundador site={site} f={home.fundador} />

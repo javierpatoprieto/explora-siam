@@ -209,11 +209,38 @@ $CAMPOS = [
         ['home', 'statement.despues', 'Frase, parte final', 'linea'],
         ['home', 'statement.texto', 'Texto pequeño debajo', 'parrafo'],
     ],
-    'La ruta' => [
+    'El viaje (las etapas por zonas)' => [
         ['home', 'ruta.etiqueta', 'Etiqueta', 'linea'],
         ['home', 'ruta.titulo', 'Titular', 'linea'],
         ['home', 'video.titulo', 'Titular del vídeo', 'linea'],
         ['home', 'video.etiqueta', 'Etiqueta del vídeo', 'linea'],
+    ],
+    'La ruta en moto (los 6 días)' => [
+        ['home', 'moto.etiqueta', 'Etiqueta', 'linea'],
+        ['home', 'moto.titulo', 'Titular', 'linea'],
+        ['home', 'moto.texto', 'Texto de entrada', 'parrafo'],
+        ['home', 'moto.datos.0.valor', 'Dato 1, cifra', 'linea'],
+        ['home', 'moto.datos.0.etiqueta', 'Dato 1, texto', 'linea'],
+        ['home', 'moto.datos.1.valor', 'Dato 2, cifra', 'linea'],
+        ['home', 'moto.datos.1.etiqueta', 'Dato 2, texto', 'linea'],
+        ['home', 'moto.datos.2.valor', 'Dato 3, cifra', 'linea'],
+        ['home', 'moto.datos.2.etiqueta', 'Dato 3, texto', 'linea'],
+        ['home', 'moto.datos.3.valor', 'Dato 4, cifra', 'linea'],
+        ['home', 'moto.datos.3.etiqueta', 'Dato 4, texto', 'linea'],
+        ['home', 'moto.dias.0.titulo', 'Día 1, tramo', 'linea'],
+        ['home', 'moto.dias.0.texto', 'Día 1, texto', 'parrafo'],
+        ['home', 'moto.dias.1.titulo', 'Día 2, tramo', 'linea'],
+        ['home', 'moto.dias.1.texto', 'Día 2, texto', 'parrafo'],
+        ['home', 'moto.dias.2.titulo', 'Día 3, tramo', 'linea'],
+        ['home', 'moto.dias.2.texto', 'Día 3, texto', 'parrafo'],
+        ['home', 'moto.dias.3.titulo', 'Día 4, tramo', 'linea'],
+        ['home', 'moto.dias.3.texto', 'Día 4, texto', 'parrafo'],
+        ['home', 'moto.dias.4.titulo', 'Día 5, tramo', 'linea'],
+        ['home', 'moto.dias.4.texto', 'Día 5, texto', 'parrafo'],
+        ['home', 'moto.dias.5.titulo', 'Día 6, tramo', 'linea'],
+        ['home', 'moto.dias.5.texto', 'Día 6, texto', 'parrafo'],
+        ['home', 'moto.cierre', 'Frase de la última tarjeta', 'linea'],
+        ['home', 'moto.cierreBoton', 'Botón de la última tarjeta', 'linea'],
     ],
     'Quién te acompaña' => [
         ['home', 'fundador.titulo', 'Titular', 'linea'],
@@ -340,9 +367,12 @@ function huecos_fotos(array $viajes = [], array $etapas = []): array
         ['Sabai sabai', 'Foto pequeña superpuesta', 'home', 'sabai.imagen2'],
     ];
     for ($i = 0; $i < 5; $i++) {
-        $lista[] = ['La ruta', 'Etapa ' . ($i + 1) . (isset($etapas[$i]) && $etapas[$i] !== '' ? ' · ' . $etapas[$i] : ''), 'home', 'ruta.imagenes.' . $i];
+        $lista[] = ['El viaje', 'Etapa ' . ($i + 1) . (isset($etapas[$i]) && $etapas[$i] !== '' ? ' · ' . $etapas[$i] : ''), 'home', 'ruta.imagenes.' . $i];
     }
-    $lista[] = ['La ruta', 'Portada del vídeo de la ruta', 'home', 'video.poster'];
+    $lista[] = ['El viaje', 'Portada del vídeo', 'home', 'video.poster'];
+    for ($i = 0; $i < 6; $i++) {
+        $lista[] = ['La ruta en moto', 'Día ' . ($i + 1), 'home', 'moto.dias.' . $i . '.imagen'];
+    }
     $lista[] = ['Frase «No solo es viajar…»', 'Primera foto redonda', 'home', 'statement.imagen1'];
     $lista[] = ['Frase «No solo es viajar…»', 'Segunda foto redonda', 'home', 'statement.imagen2'];
     $lista[] = ['Quién te acompaña', 'Retrato de Dani', 'home', 'fundador.retrato'];
@@ -459,7 +489,7 @@ function huecos_videos(): array
 {
     return [
         ['hero', 'Portada', 'Vídeo de fondo de la portada', 'hero.', 'hero.videoMp4'],
-        ['banda', 'La ruta', 'Vídeo de la tarjeta con botón de play', 'video.', 'video.mp4'],
+        ['banda', 'El viaje', 'Vídeo de la tarjeta con botón de play', 'video.', 'video.mp4'],
     ];
 }
 

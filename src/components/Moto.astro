@@ -1,0 +1,94 @@
+---
+// La ruta en moto: los seis días del Mae Hong Son Loop, día a día.
+// Va aparte de "El viaje" (las etapas por zonas) para que no se confundan.
+import Foto from './Foto.astro';
+import Wa from './Wa.astro';
+const { site, moto } = Astro.props;
+---
+<section class="moto section" id="ruta">
+  <div class="wrap moto__head" data-reveal>
+    <div class="moto__intro">
+      <span class="moto__eyebrow">{moto.etiqueta}</span>
+      <h2>{moto.titulo}</h2>
+      {moto.texto && <p class="moto__texto">{moto.texto}</p>}
+    </div>
+    {moto.datos.length > 0 && (
+      <dl class="moto__datos">
+        {moto.datos.map((d: any) => <div><dt>{d.etiqueta}</dt><dd>{d.valor}</dd></div>)}
+      </dl>
+    )}
+  </div>
+  <div class="moto__track" id="motoTrack" data-reveal>
+    {moto.dias.map((d: any, i: number) => (
+      <article class="dia">
+        <div class="dia__img">
+          <Foto src={d.imagen} alt="" class="cover" widths={[480, 720, 960]} sizes="(max-width: 760px) 84vw, 420px" />
+          <span class="dia__n">Día {i + 1}</span>
+        </div>
+        <div class="dia__txt">
+          <h3>{d.titulo}</h3>
+          <p>{d.texto}</p>
+        </div>
+      </article>
+    ))}
+    {moto.cierre && (
+      <div class="dia dia--fin">
+        <p class="dia__cierre">{moto.cierre}</p>
+        <Wa site={site} origen="moto" class="btn btn--light">{moto.cierreBoton || 'Hablemos'}</Wa>
+      </div>
+    )}
+  </div>
+  <div class="wrap moto__nav" aria-hidden="true">
+    <div class="moto__bar"><div class="moto__fill" id="motoFill"></div></div>
+    <div class="moto__flechas">
+      <button type="button" data-dir="-1" tabindex="-1">←</button>
+      <button type="button" data-dir="1" tabindex="-1">→</button>
+    </div>
+  </div>
+</section>
+<style>
+  .moto { background: var(--ink); color: #fff; padding-bottom: clamp(56px, 7vw, 104px); margin-top: clamp(64px, 8vw, 120px); overflow: hidden; }
+  .moto__head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: end; margin-bottom: 44px; }
+  .moto__intro { display: flex; flex-direction: column; gap: 14px; }
+  .moto__eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .moto__texto { color: rgba(255,255,255,.72); max-width: 56ch; }
+  .moto__datos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; }
+  .moto__datos div { display: flex; flex-direction: column-reverse; border-top: 1px solid rgba(255,255,255,.16); padding-top: 12px; }
+  .moto__datos dd { margin: 0; font-family: var(--display); font-size: clamp(30px, 3vw, 40px); font-weight: 500; letter-spacing: -0.03em; line-height: 1; }
+  .moto__datos dt { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 6px; }
+  .moto__track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); padding: 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); scrollbar-width: none; }
+  .moto__track::-webkit-scrollbar { display: none; }
+  .dia { flex: 0 0 min(420px, 84vw); scroll-snap-align: start; display: flex; flex-direction: column; background: rgba(255,255,255,.06); border-radius: var(--r); overflow: hidden; }
+  .dia__img { position: relative; aspect-ratio: 4 / 3; background: #2a2b2e; }
+  .dia__n { position: absolute; left: 16px; top: 16px; padding: 6px 12px; border-radius: 999px; background: var(--accent); color: var(--ink); font-size: 13px; font-weight: 600; }
+  .dia__txt { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .dia__txt h3 { color: #fff; }
+  .dia__txt p { color: rgba(255,255,255,.72); font-size: 15px; }
+  .dia--fin { justify-content: center; align-items: flex-start; gap: 22px; padding: 32px; background: rgba(221,138,114,.14); }
+  .dia__cierre { font-family: var(--display); font-size: clamp(28px, 2.6vw, 36px); line-height: 1.05; letter-spacing: -0.03em; }
+  .moto__nav { display: flex; align-items: center; gap: 24px; margin-top: 28px; }
+  .moto__bar { flex: 1; height: 2px; background: rgba(255,255,255,.16); position: relative; }
+  .moto__fill { position: absolute; left: 0; top: 0; height: 2px; width: 16%; background: var(--accent); transition: width .2s; }
+  .moto__flechas { display: flex; gap: 10px; }
+  .moto__flechas button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); background: none; color: #fff; font-size: 18px; cursor: pointer; transition: background .2s; }
+  .moto__flechas button:hover { background: rgba(255,255,255,.12); }
+  @media (max-width: 900px) {
+    .moto__head { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; }
+    .moto__datos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .moto__datos dd { font-size: 24px; }
+    .moto__datos dt { font-size: 12px; }
+    .moto__flechas { display: none; }
+  }
+  @media (max-width: 520px) { .moto__datos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+</style>
+<script>
+  const t = document.getElementById('motoTrack'); const f = document.getElementById('motoFill');
+  if (t && f) {
+    const pinta = () => { const max = t.scrollWidth - t.clientWidth; f.style.width = (16 + 84 * (max ? t.scrollLeft / max : 0)) + '%'; };
+    t.addEventListener('scroll', pinta, { passive: true });
+    document.querySelectorAll<HTMLButtonElement>('.moto__flechas button').forEach((b) => b.addEventListener('click', () => {
+      const card = t.querySelector<HTMLElement>('.dia'); const paso = card ? card.offsetWidth + 20 : 440;
+      t.scrollBy({ left: paso * Number(b.dataset.dir), behavior: 'smooth' });
+    }));
+  }
+</script>

@@ -1,6 +1,7 @@
 ---
 import Foto from './Foto.astro';
 import Wa from './Wa.astro';
+import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, f } = Astro.props;
 ---
 <section class="fund wrap section" id="dani">
@@ -13,6 +14,7 @@ const { site, f } = Astro.props;
     <h2>{f.titulo}</h2>
     <div class="fund__p">{f.parrafos.map((p: string) => <p>{p}</p>)}</div>
     <div class="fund__cta"><Wa site={site} origen="daniel" icon={false}>{f.boton}</Wa>{f.microcopy && <span class="fund__micro">{f.microcopy}</span>}</div>
+    {site.instagram && <a href={site.instagram} class="fund__ig" target="_blank" rel="noopener" data-ig="daniel"><Fragment set:html={IG_ICON} /><span>Sígueme en Instagram <b>{igUsuario(site.instagram)}</b></span></a>}
   </div>
 </section>
 <style>
@@ -22,5 +24,8 @@ const { site, f } = Astro.props;
   .fund__p { display: flex; flex-direction: column; gap: 12px; color: var(--ink-2); max-width: 56ch; }
   .fund__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
   .fund__micro { font-size: 13px; color: var(--muted); }
+  .fund__ig { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; font-size: 15px; color: var(--ink-2); }
+  .fund__ig b { font-weight: 600; color: var(--ink); }
+  .fund__ig:hover b { text-decoration: underline; text-underline-offset: 4px; }
   @media (max-width: 900px) { .fund { grid-template-columns: 1fr; gap: 28px; } }
 </style>

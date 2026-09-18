@@ -257,7 +257,7 @@
         }
     ],
     "ruta": {
-        "etiqueta": "La ruta",
+        "etiqueta": "El viaje",
         "titulo": "Cinco etapas, de Bangkok a Chiang Mai.",
         "imagenes": [
             "../src/assets/img/67210-260918173712.jpg",
@@ -280,6 +280,63 @@
             "50% 68%",
             "50% 55%"
         ]
+    },
+    "moto": {
+        "etiqueta": "La ruta en moto",
+        "titulo": "Seis días rodando el Mae Hong Son Loop.",
+        "texto": "El corazón del viaje. Salimos de Chiang Mai en Honda NX500 y cerramos el círculo por las montañas de la frontera birmana: etapas de menos de 150 km, guía habilitado TAT delante y la furgoneta detrás con las mochilas.",
+        "datos": [
+            {
+                "valor": "6",
+                "etiqueta": "días en moto"
+            },
+            {
+                "valor": "650",
+                "etiqueta": "kilómetros"
+            },
+            {
+                "valor": "1.800",
+                "etiqueta": "curvas"
+            },
+            {
+                "valor": "< 150",
+                "etiqueta": "km por etapa"
+            }
+        ],
+        "dias": [
+            {
+                "titulo": "Chiang Mai → Mae Chaem",
+                "texto": "Subida al Doi Inthanon, el pico más alto de Tailandia, entre cascadas y bosque de niebla. Bajamos entre arrozales hasta Mae Chaem.",
+                "imagen": "../src/assets/img/moto-pov-219.jpg"
+            },
+            {
+                "titulo": "Mae Chaem → Khun Yuam",
+                "texto": "Carreteras de montaña casi vacías y, en noviembre, las laderas amarillas de girasoles de montaña en flor.",
+                "imagen": "../src/assets/img/moto-curva-169.jpg"
+            },
+            {
+                "titulo": "Khun Yuam → Ban Rak Thai",
+                "texto": "Pasamos por Mae Hong Son y su puente de bambú entre arrozales, y subimos hasta el pueblo de té junto a la frontera birmana.",
+                "imagen": "../src/assets/img/riders-mirador-32.jpg"
+            },
+            {
+                "titulo": "Ban Rak Thai → Ban Ja Bo",
+                "texto": "Paseo por el lago en barca china y ruta de cuevas y templos hasta Ban Ja Bo, colgado sobre el valle.",
+                "imagen": "../src/assets/img/banrakthai-169.jpg"
+            },
+            {
+                "titulo": "Ban Ja Bo → Pai",
+                "texto": "Amanecer sobre un mar de nubes y curvas de montaña hasta Pai, el pueblo más bohemio del norte.",
+                "imagen": "../src/assets/img/niebla-169.jpg"
+            },
+            {
+                "titulo": "Pai → Chiang Mai",
+                "texto": "La carretera de las 762 curvas para cerrar el círculo. Al día siguiente, elefantes en libertad en un santuario ético.",
+                "imagen": "../src/assets/img/moto-curva-45.jpg"
+            }
+        ],
+        "cierre": "¿Te guardo una moto?",
+        "cierreBoton": "Pregúntame por la ruta"
     },
     "precio": {
         "etiqueta": "Sin letra pequeña",

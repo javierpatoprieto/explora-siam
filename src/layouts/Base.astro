@@ -53,6 +53,13 @@ const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
         const g = (window as any).gtag;
         if (typeof g === 'function') g('event', 'whatsapp_click', { origen: a.dataset.wa, salida: a.dataset.salida || '' });
       });
+      // Y a Instagram
+      document.addEventListener('click', (ev) => {
+        const a = (ev.target as HTMLElement).closest('a[data-ig]') as HTMLAnchorElement | null;
+        if (!a) return;
+        const g = (window as any).gtag;
+        if (typeof g === 'function') g('event', 'instagram_click', { origen: a.dataset.ig });
+      });
     </script>
   </body>
 </html>

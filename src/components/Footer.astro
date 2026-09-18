@@ -1,10 +1,11 @@
 ---
+import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, frase } = Astro.props;
 ---
 <footer class="foot wrap">
   <div class="foot__top">
     <div class="foot__brand"><img src="/logo.png" alt="" width="44" height="44" /><div><strong>{site.marca}</strong><span>{frase}</span></div></div>
-    <nav class="foot__links" aria-label="Contacto"><a href={site.instagram} target="_blank" rel="noopener">Instagram</a><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:+${site.whatsapp}`}>+{site.whatsapp}</a></nav>
+    <nav class="foot__links" aria-label="Contacto"><a href={site.instagram} class="foot__ig" target="_blank" rel="noopener" data-ig="footer"><Fragment set:html={IG_ICON} />{igUsuario(site.instagram)}</a><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:+${site.whatsapp}`}>+{site.whatsapp}</a></nav>
   </div>
   <div class="foot__bottom">
     <nav class="foot__legal" aria-label="Legal"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones</a><a href="#" data-ck>Configurar cookies</a></nav>
@@ -20,6 +21,7 @@ const { site, frase } = Astro.props;
   .foot__brand span { color: var(--muted); font-size: 13px; }
   .foot__links, .foot__legal { display: flex; gap: 22px; flex-wrap: wrap; }
   .foot__links a, .foot__legal a { color: var(--ink); }
+  .foot__ig { display: inline-flex; align-items: center; gap: 8px; }
   .foot__meta { display: inline; }
   .foot__autor { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); transition: color .2s, border-color .2s; }
   .foot__autor:hover { color: var(--ink); border-color: var(--ink); }
