@@ -1,0 +1,66 @@
+---
+// Carrusel de Instagram hecho a mano: las fotos las elige Dani en el panel
+// y cada una lleva a su publicación (o al perfil si no tiene enlace).
+// Sin scripts de Meta, así que no necesita consentimiento de cookies.
+import Foto from './Foto.astro';
+import { IG_ICON, igUsuario } from '../lib/ig';
+const { site, ig } = Astro.props;
+const usuario = igUsuario(site.instagram);
+const vueltas = [false, true]; // la segunda copia solo sirve para que el bucle no tenga corte
+---
+<section class="ig section" id="instagram">
+  <div class="wrap ig__head" data-reveal>
+    <div class="ig__intro">
+      {ig.etiqueta && <span class="eyebrow">{ig.etiqueta}</span>}
+      <h2>{ig.titulo}</h2>
+      {ig.texto && <p class="sub">{ig.texto}</p>}
+    </div>
+    <a href={site.instagram} class="ig__perfil" target="_blank" rel="noopener" data-ig="carrusel">
+      <img src="/logo.png" alt="" width="52" height="52" />
+      <span class="ig__quien"><strong>{usuario}</strong><span>{site.marca}</span></span>
+      <span class="btn btn--sm"><Fragment set:html={IG_ICON} />{ig.boton}</span>
+    </a>
+  </div>
+  <div class="ig__rail" data-reveal>
+    <div class="ig__track">
+      {vueltas.map((copia) => ig.fotos.map((f: any) => (
+        <a href={f.enlace || site.instagram} class="ig__foto" target="_blank" rel="noopener" data-ig="carrusel-foto" aria-hidden={copia ? 'true' : undefined} tabindex={copia ? -1 : undefined}>
+          <Foto src={f.imagen} alt={f.pie} class="cover" widths={[320, 480, 640]} sizes="(max-width: 760px) 220px, 300px" loading="lazy" />
+          <span class="ig__velo"><Fragment set:html={IG_ICON} />{f.pie && <span>{f.pie}</span>}</span>
+        </a>
+      )))}
+    </div>
+  </div>
+</section>
+<style>
+  .ig__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 36px; }
+  .ig__intro { display: flex; flex-direction: column; gap: 12px; max-width: 640px; }
+  .ig__perfil { display: flex; align-items: center; gap: 14px; padding: 10px 10px 10px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); flex-shrink: 0; transition: border-color .2s; }
+  .ig__perfil:hover { border-color: var(--ink); }
+  .ig__perfil img { width: 52px; height: 52px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #f9ce34, #ee2a7b 50%, #6228d7); }
+  .ig__quien { display: flex; flex-direction: column; line-height: 1.25; }
+  .ig__quien strong { font-size: 15px; }
+  .ig__quien span { font-size: 13px; color: var(--muted); }
+  .ig__rail { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+  .ig__track { display: flex; gap: 14px; width: max-content; animation: ig-pasa 70s linear infinite; }
+  .ig__rail:hover .ig__track, .ig__rail:focus-within .ig__track { animation-play-state: paused; }
+  @keyframes ig-pasa { to { transform: translateX(calc(-50% - 7px)); } }
+  .ig__foto { position: relative; flex: 0 0 300px; aspect-ratio: 1; border-radius: var(--r); overflow: hidden; background: var(--bg-3); color: #fff; }
+  .ig__foto :global(img) { transition: transform .7s var(--ease); }
+  .ig__foto:hover :global(img) { transform: scale(1.05); }
+  .ig__velo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; font-size: 14px; font-weight: 500; background: rgba(23,24,26,.45); opacity: 0; transition: opacity .3s; }
+  .ig__velo :global(svg) { width: 30px; height: 30px; }
+  .ig__foto:hover .ig__velo, .ig__foto:focus-visible .ig__velo { opacity: 1; }
+  @media (max-width: 760px) {
+    .ig__head { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 28px; }
+    .ig__perfil { width: 100%; flex-wrap: wrap; border-radius: var(--r); padding: 14px; }
+    .ig__perfil .btn { width: 100%; }
+    .ig__foto { flex-basis: 220px; }
+    .ig__track { animation-duration: 55s; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ig__rail { overflow-x: auto; -webkit-mask-image: none; mask-image: none; scrollbar-width: none; padding: 0 var(--gutter); }
+    .ig__track { animation: none; }
+    .ig__track > [aria-hidden='true'] { display: none; }
+  }
+</style>

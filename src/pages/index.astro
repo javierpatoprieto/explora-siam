@@ -7,6 +7,7 @@ import Cifras from '../components/Cifras.astro';
 import Statement from '../components/Statement.astro';
 import Destinos from '../components/Destinos.astro';
 import Moto from '../components/Moto.astro';
+import Instagram from '../components/Instagram.astro';
 import Ventajas from '../components/Ventajas.astro';
 import Incluye from '../components/Incluye.astro';
 import Sabai from '../components/Sabai.astro';
@@ -81,6 +82,7 @@ const jsonLd = [
     {/* Oculto hasta que Dani tenga testimonios reales: se enciende con home.testimonios.mostrar */}
     {home.testimonios.mostrar && <Testimonios t={home.testimonios} items={testimonios} />}
     <Faq site={site} faq={home.faq} items={faqs} />
+    {home.instagram?.mostrar && home.instagram.fotos.length > 0 && <Instagram site={site} ig={home.instagram} />}
     <Cta site={site} cta={home.cta} />
   </main>
   <Footer site={site} frase={home.footer.frase} />

@@ -200,6 +200,65 @@
         "titulo": "Momentos que se quedan.",
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
+    "instagram": {
+        "mostrar": true,
+        "etiqueta": "En Instagram",
+        "titulo": "El viaje, en directo desde el norte.",
+        "texto": "Fotos, vídeos y rutas en tiempo real. Si quieres ver cómo es antes de venirte, pásate por el perfil.",
+        "boton": "Seguir en Instagram",
+        "fotos": [
+            {
+                "imagen": "../src/assets/img/riders-mirador-32.jpg",
+                "pie": "Mirador en el Mae Hong Son Loop",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/linternas-45.jpg",
+                "pie": "Yi Peng en Chiang Rai",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/khaosoi-169.jpg",
+                "pie": "Khao soi, el plato del norte",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/niebla-45.jpg",
+                "pie": "Amanecer sobre las nubes",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/budas-dorados.jpg",
+                "pie": "Templos de Bangkok",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/mercado-45.jpg",
+                "pie": "Mercado local",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/banrakthai-169.jpg",
+                "pie": "Ban Rak Thai",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/sukhothai-atardecer.jpg",
+                "pie": "Atardecer en Sukhothai",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/songthaew-32.jpg",
+                "pie": "En songthaew por el norte",
+                "enlace": ""
+            },
+            {
+                "imagen": "../src/assets/img/moto-curva-45.jpg",
+                "pie": "Curvas camino de Pai",
+                "enlace": ""
+            }
+        ]
+    },
     "incluye": {
         "titulo": "Todo resuelto.",
         "microcopy": "Tú solo te preocupas de disfrutar. Si quieres el dossier completo, con el presupuesto y la forma de pago, pídemelo por WhatsApp y te lo mando.",

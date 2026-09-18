@@ -262,6 +262,32 @@ $CAMPOS = [
         ['home', 'cta.boton', 'Botón', 'linea'],
         ['home', 'cta.microcopy', 'Frase bajo el botón', 'linea'],
     ],
+    'Carrusel de Instagram' => [
+        ['home', 'instagram.etiqueta', 'Etiqueta', 'linea'],
+        ['home', 'instagram.titulo', 'Titular', 'linea'],
+        ['home', 'instagram.texto', 'Texto', 'parrafo'],
+        ['home', 'instagram.boton', 'Botón', 'linea'],
+        ['home', 'instagram.fotos.0.enlace', 'Foto 1, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.0.pie', 'Foto 1, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.1.enlace', 'Foto 2, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.1.pie', 'Foto 2, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.2.enlace', 'Foto 3, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.2.pie', 'Foto 3, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.3.enlace', 'Foto 4, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.3.pie', 'Foto 4, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.4.enlace', 'Foto 5, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.4.pie', 'Foto 5, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.5.enlace', 'Foto 6, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.5.pie', 'Foto 6, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.6.enlace', 'Foto 7, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.6.pie', 'Foto 7, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.7.enlace', 'Foto 8, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.7.pie', 'Foto 8, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.8.enlace', 'Foto 9, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.8.pie', 'Foto 9, texto al pasar el ratón', 'linea'],
+        ['home', 'instagram.fotos.9.enlace', 'Foto 10, enlace a la publicación (vacío: va al perfil)', 'linea'],
+        ['home', 'instagram.fotos.9.pie', 'Foto 10, texto al pasar el ratón', 'linea'],
+    ],
     'Contacto y medición' => [
         ['sitio', 'whatsapp', 'WhatsApp (internacional, sin +)', 'linea'],
         ['sitio', 'email', 'Email', 'linea'],
@@ -372,6 +398,9 @@ function huecos_fotos(array $viajes = [], array $etapas = []): array
     $lista[] = ['El viaje', 'Portada del vídeo', 'home', 'video.poster'];
     for ($i = 0; $i < 6; $i++) {
         $lista[] = ['La ruta en moto', 'Día ' . ($i + 1), 'home', 'moto.dias.' . $i . '.imagen'];
+    }
+    for ($i = 0; $i < 10; $i++) {
+        $lista[] = ['Carrusel de Instagram', 'Foto ' . ($i + 1), 'home', 'instagram.fotos.' . $i . '.imagen'];
     }
     $lista[] = ['Frase «No solo es viajar…»', 'Primera foto redonda', 'home', 'statement.imagen1'];
     $lista[] = ['Frase «No solo es viajar…»', 'Segunda foto redonda', 'home', 'statement.imagen2'];
