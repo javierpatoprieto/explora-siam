@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 import { precio } from '../lib/wa';
 const { site, cab, salidas } = Astro.props;
@@ -15,7 +15,7 @@ const { site, cab, salidas } = Astro.props;
       return (
         <article class:list={['card', { 'card--full': completa }]}>
           <a href={`/viajes/${d.slug}`} class="card__img" aria-label={d.nombre}>
-            <Image src={d.imagen} alt="" class="cover" widths={[500, 800, 1000]} sizes="(max-width: 760px) 85vw, 30vw" style={completa ? 'filter: grayscale(.35)' : ''} />
+            <Foto src={d.imagen} alt="" class="cover" widths={[500, 800, 1000]} sizes="(max-width: 760px) 85vw, 30vw" style={completa ? 'filter: grayscale(.35)' : ''} />
             {d.estado === 'ultimas' && <span class="badge badge--vino">Últimas plazas</span>}
             {completa && <span class="badge badge--tinta">Grupo completo</span>}
             {d.estado === 'proximamente' && <span class="badge badge--tinta">Próximamente</span>}

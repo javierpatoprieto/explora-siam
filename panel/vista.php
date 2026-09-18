@@ -64,6 +64,7 @@
 <?php elseif ($seccion === 'fotos'): ?>
   <h1>Fotos</h1>
   <p class="guia">Para cambiar una foto, elige la nueva debajo de la que quieres sustituir. Se queda en el mismo sitio de la web. Formatos JPG, PNG o WEBP, hasta 8 MB.</p>
+  <p class="guia">Cada foto tiene un <strong>título</strong> y una <strong>descripción</strong>. La descripción es lo que lee Google y lo que oyen las personas que navegan con lector de pantalla: cuenta en una frase qué se ve y dónde, por ejemplo «Amanecer sobre un mar de nubes desde el mirador de Phu Chi Fa». Si cambias una foto, revisa también sus textos.</p>
   <div class="fotos">
     <?php foreach ($fotos as $f): ?>
       <div class="foto">
@@ -75,6 +76,15 @@
             <input type="hidden" name="accion" value="foto">
             <input type="hidden" name="sustituye" value="<?= e($f['name']) ?>">
             <input type="file" name="archivo" accept="image/jpeg,image/png,image/webp" required onchange="this.form.submit()">
+          </form>
+          <?php $tx = $textosFotos[$f['name']] ?? []; ?>
+          <form method="post" class="textos-foto">
+            <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+            <input type="hidden" name="accion" value="foto_textos">
+            <input type="hidden" name="nombre" value="<?= e($f['name']) ?>">
+            <label><span>Título</span><input type="text" name="titulo" maxlength="120" value="<?= e((string) ($tx['titulo'] ?? '')) ?>"></label>
+            <label><span>Descripción</span><textarea name="descripcion" maxlength="300" rows="3"><?= e((string) ($tx['descripcion'] ?? '')) ?></textarea></label>
+            <button class="btn claro" type="submit">Guardar textos</button>
           </form>
         </div>
       </div>

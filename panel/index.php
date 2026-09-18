@@ -24,6 +24,7 @@ panel_arrancar();
 const HOME = 'content/home.json';
 const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
+const TEXTOS_FOTOS = 'content/fotos.json';
 const VIDEOS = 'public/video';
 
 // La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
@@ -315,6 +316,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
         }
     } elseif (($_POST['accion'] ?? '') === 'foto') {
         $aviso = subir_medio('foto');
+    } elseif (($_POST['accion'] ?? '') === 'foto_textos') {
+        $aviso = guardar_textos_foto();
     } elseif (($_POST['accion'] ?? '') === 'video') {
         $aviso = subir_medio('video');
     } elseif (($_POST['accion'] ?? '') === 'sonido') {
@@ -329,6 +332,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
     }
+}
+
+/** Guarda el título y la descripción de una foto en content/fotos.json. */
+function guardar_textos_foto(): array
+{
+    $nombre = basename((string) ($_POST['nombre'] ?? ''));
+    if ($nombre === '') {
+        return ['mal', 'No se ha indicado qué foto.'];
+    }
+    $nuevo = [
+        'titulo' => trim((string) ($_POST['titulo'] ?? '')),
+        'descripcion' => trim((string) preg_replace('/\s+/', ' ', (string) ($_POST['descripcion'] ?? ''))),
+    ];
+    $archivo = leer_json(TEXTOS_FOTOS);
+    $datos = $archivo['datos'] ?? [];
+    if (($datos[$nombre] ?? null) === $nuevo) {
+        return ['ok', 'No había nada que cambiar.'];
+    }
+    $datos[$nombre] = $nuevo;
+    ksort($datos);
+    [$ok, $err] = guardar_json(TEXTOS_FOTOS, $datos, $archivo['sha'] ?? null, 'Panel: textos de la foto ' . $nombre);
+    return $ok
+        ? ['ok', 'Textos de la foto guardados. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['mal', 'No se pudo guardar: ' . $err];
 }
 
 /** Sube una foto (sustituyendo otra) o un vídeo. */
@@ -385,6 +412,7 @@ $home = leer_json(HOME);
 $sitio = leer_json(SITIO);
 $sinConexion = !$home || !$sitio;
 $fotos = $sinConexion ? [] : array_values(array_filter(listar(IMGS), fn ($f) => ($f['type'] ?? '') === 'file'));
+$textosFotos = $sinConexion ? [] : ((leer_json(TEXTOS_FOTOS) ?? [])['datos'] ?? []);
 $salidas = $sinConexion ? [] : array_values(array_filter(listar('content/salidas'), fn ($f) => str_ends_with($f['name'] ?? '', '.json')));
 
 require __DIR__ . '/vista.php';

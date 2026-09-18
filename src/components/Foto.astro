@@ -1,0 +1,10 @@
+---
+// <Image> de Astro con el título y la descripción que Dani pone en el panel.
+// La descripción es el texto alternativo (Google Imágenes, lectores de pantalla);
+// si una foto no tiene, se usa el alt que venga del componente.
+import { Image } from 'astro:assets';
+import { textosFoto } from '../lib/fotos';
+const { src, alt = '', ...resto } = Astro.props;
+const t = textosFoto(src);
+---
+<Image src={src} alt={t.descripcion || alt} title={t.titulo || undefined} {...resto} />

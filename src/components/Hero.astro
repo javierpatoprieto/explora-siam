@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 import Wa from './Wa.astro';
 const { site, hero, proxima } = Astro.props;
 const hasVideo = Boolean(hero.videoMp4);
@@ -10,7 +10,7 @@ const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
     {hasVideo ? (
       <video class="cover" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>
     ) : (
-      <picture><source media="(max-width: 760px)" srcset={hero.posterMovil.src} /><Image src={hero.poster} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" /></picture>
+      <picture><source media="(max-width: 760px)" srcset={hero.posterMovil.src} /><Foto src={hero.poster} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" /></picture>
     )}
     <div class="hero__shade"></div>
   </div>

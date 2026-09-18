@@ -47,6 +47,12 @@
   .foto .pie { padding:10px 12px; display:flex; flex-direction:column; gap:8px; }
   .foto code { font-size:12px; color:var(--muted); word-break:break-all; }
   .foto input[type=file] { font-size:12px; width:100%; }
+  .fotos { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+  .textos-foto { display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--line); padding-top:10px; }
+  .textos-foto label { margin:0; }
+  .textos-foto input[type=text], .textos-foto textarea { font-size:13px; padding:8px 10px; }
+  .textos-foto textarea { min-height:72px; }
+  .textos-foto .btn { min-height:38px; font-size:13px; padding:0 14px; }
   .entrada { max-width:380px; margin:14vh auto; padding:0 24px; }
   .entrada img { width:56px; height:56px; border-radius:14px; margin-bottom:20px; }
   .tabla { width:100%; border-collapse:collapse; font-size:15px; }

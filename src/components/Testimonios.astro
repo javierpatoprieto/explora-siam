@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Foto from './Foto.astro';
 const { t, items } = Astro.props;
 const rot = [-6, 3, -2, 5, -4];
 ---
@@ -8,7 +8,7 @@ const rot = [-6, 3, -2, 5, -4];
   <div class="wrap tst__row" data-reveal>
     {items.map((r: any, i: number) => (
       <figure class="pol" style={`--r:${rot[i % rot.length]}deg`}>
-        <div class="pol__img">{r.data.foto && <Image src={r.data.foto} alt="" class="cover" widths={[400, 600]} sizes="240px" />}</div>
+        <div class="pol__img">{r.data.foto && <Foto src={r.data.foto} alt="" class="cover" widths={[400, 600]} sizes="240px" />}</div>
         <figcaption><strong>{r.data.nombre}{r.data.ciudad && `, ${r.data.ciudad}`}</strong><p>“{r.data.cita}”</p></figcaption>
       </figure>
     ))}
