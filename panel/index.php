@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Panel de Explora Siam.
  * Edita los textos, las fotos y los vídeos de la web. Cada cambio se guarda en el
- * repositorio y la web se vuelve a publicar sola en un par de minutos.
+ * repositorio y Vercel vuelve a publicar la web solo, en unos minutos.
  */
 
 if (!file_exists(__DIR__ . '/config.php')) {
@@ -12,7 +12,6 @@ if (!file_exists(__DIR__ . '/config.php')) {
 }
 require __DIR__ . '/config.php';
 require __DIR__ . '/lib.php';
-require __DIR__ . '/publicador.php';
 
 // Evita dejar el panel abierto con los valores de ejemplo.
 if (PANEL_PASSWORD === 'cambia-esta-contrasena' || str_starts_with(GITHUB_TOKEN, 'github_pat_...')) {
@@ -78,97 +77,54 @@ if (isset($_GET['foto'])) {
     exit;
 }
 
-/* ------------------------------------------------ publicación en el hosting */
-// La página llama aquí por tandas hasta que la web queda al día.
+/* ------------------------------------------------ estado de la web en Vercel */
+// La web la publica Vercel sola en cada cambio del repositorio. Aquí solo
+// preguntamos a GitHub cómo va el despliegue del último cambio, para que la
+// página pueda decir "publicando" o "publicado". El panel ya no copia la web
+// al hosting: eso era de antes de Vercel y era lo que daba errores.
 if (isset($_GET['api'])) {
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
-    $accion = (string) $_GET['api'];
-
-    if ($accion === 'estado') {
-        echo json_encode(estado_resumido(estado_publicacion()));
+    if ((string) $_GET['api'] === 'estado') {
+        echo json_encode(estado_web());
         exit;
     }
-
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_valido()) {
-        http_response_code(403);
-        echo json_encode(['estado' => 'error', 'mensaje' => 'Vuelve a cargar la página.']);
-        exit;
-    }
-
-    if ($accion === 'empezar') {
-        $estado = estado_publicacion(true);
-        if ($estado['estado'] === 'error') {
-            echo json_encode($estado);
-            exit;
-        }
-        $_SESSION['pub'] = [
-            'pendientes' => $estado['pendientes'],
-            'hashes' => $estado['hashes'] ?? [],
-            'commit' => $estado['commit'],
-            'total' => count($estado['pendientes']),
-            'hechos' => 0,
-            'fallos' => [],
-        ];
-        echo json_encode(estado_resumido($estado));
-        exit;
-    }
-
-    if ($accion === 'tanda') {
-        $pub = $_SESSION['pub'] ?? null;
-        if (!is_array($pub)) {
-            echo json_encode(['estado' => 'error', 'mensaje' => 'Empieza la publicación otra vez.']);
-            exit;
-        }
-        if ($pub['pendientes']) {
-            $r = publicar_tanda($pub['pendientes'], $pub['hashes'] ?? []);
-            $pub['pendientes'] = $r['quedan'];
-            $pub['hechos'] += count($r['hechos']);
-            $pub['fallos'] = array_merge($pub['fallos'], $r['fallos']);
-            $_SESSION['pub'] = $pub;
-        }
-        if ($pub['pendientes']) {
-            echo json_encode([
-                'estado' => 'en-marcha',
-                'hechos' => $pub['hechos'],
-                'total' => $pub['total'],
-                'quedan' => count($pub['pendientes']),
-            ]);
-            exit;
-        }
-        // Terminado: quitamos los _astro viejos y apuntamos la versión.
-        $manifiesto = manifiesto_remoto();
-        $limpiados = $manifiesto ? limpiar_sobrantes($manifiesto) : 0;
-        if (!$pub['fallos']) {
-            apuntar_version((string) $pub['commit'], (int) $pub['total']);
-        }
-        unset($_SESSION['pub']);
-        echo json_encode([
-            'estado' => $pub['fallos'] ? 'con-fallos' : 'listo',
-            'hechos' => $pub['hechos'],
-            'total' => $pub['total'],
-            'limpiados' => $limpiados,
-            'fallos' => array_slice($pub['fallos'], 0, 5),
-        ]);
-        exit;
-    }
-
     http_response_code(400);
     echo json_encode(['estado' => 'error', 'mensaje' => 'Acción desconocida.']);
     exit;
 }
 
-function estado_resumido(array $e): array
+/**
+ * Estado del despliegue del último cambio de la rama publicada.
+ * Vercel deja su resultado en GitHub como "status" del commit.
+ */
+function estado_web(): array
 {
-    // Ojo: los hashes se quedan en el servidor, no hacen falta en el navegador.
+    [$c1, $commit] = gh('GET', repo() . '/commits/' . GITHUB_BRANCH);
+    if ($c1 !== 200) {
+        return ['estado' => 'desconocido', 'mensaje' => 'No se ha podido preguntar a GitHub.'];
+    }
+    $sha = (string) ($commit['sha'] ?? '');
+    $cuando = (string) ($commit['commit']['committer']['date'] ?? '');
+    [$c2, $lista] = gh('GET', repo() . '/commits/' . $sha . '/statuses?per_page=30');
+    $vercel = array_values(array_filter(
+        $c2 === 200 && is_array($lista) ? $lista : [],
+        fn ($s) => stripos((string) ($s['context'] ?? ''), 'vercel') !== false
+    ));
+    $estados = array_map(fn ($s) => (string) ($s['state'] ?? ''), $vercel);
+    if (in_array('success', $estados, true)) {
+        $estado = 'al-dia';
+    } elseif (in_array('pending', $estados, true) || !$estados) {
+        // Sin noticias aún: Vercel a veces tarda en recoger el cambio o lo tiene en cola.
+        $estado = 'publicando';
+    } else {
+        $estado = 'error';
+    }
     return [
-        'estado' => $e['estado'],
-        'mensaje' => $e['mensaje'] ?? '',
-        'pendientes' => count($e['pendientes'] ?? []),
-        'bytes' => $e['bytes'] ?? 0,
-        'peso' => bytes_legibles((int) ($e['bytes'] ?? 0)),
-        'commit' => substr((string) ($e['commit'] ?? ''), 0, 7),
-        'generado' => $e['generado'] ?? '',
+        'estado' => $estado,
+        'commit' => substr($sha, 0, 7),
+        'minutos' => $cuando !== '' ? max(0, (int) floor((time() - strtotime($cuando)) / 60)) : null,
+        'mensaje' => $estado === 'error' ? 'Vercel no ha podido publicar el último cambio.' : '',
     ];
 }
 

@@ -25,7 +25,6 @@
 <div id="pub" class="pub" hidden>
   <span class="pub__luz"></span>
   <span class="pub__txt">Comprobando la web…</span>
-  <button type="button" class="pub__btn" id="pubBtn" hidden>Publicar ahora</button>
 </div>
 <?php if ($sinConexion): ?>
   <h1>No se puede leer el contenido</h1>
@@ -194,69 +193,36 @@
 </main>
 <script>
 (function () {
+  // Tras guardar, Vercel publica la web solo. Aquí solo enseñamos cómo va.
   const caja = document.getElementById('pub');
   const txt  = caja.querySelector('.pub__txt');
-  const btn  = document.getElementById('pubBtn');
-  const csrf = <?= json_encode(csrf()) ?>;
   const guardado = <?= json_encode(($aviso[0] ?? '') === 'ok') ?>;
 
-  const pinta = (clase, mensaje, boton) => {
+  const pinta = (clase, mensaje) => {
     caja.hidden = false;
     caja.className = 'pub ' + clase;
     txt.textContent = mensaje;
-    btn.hidden = !boton;
   };
+  const estado = () => fetch('index.php?api=estado', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ estado: 'desconocido' }));
+  const espera = ms => new Promise(r => setTimeout(r, ms));
 
-  const pide = (accion, post) => fetch('index.php?api=' + accion, post
-    ? { method: 'POST', body: new URLSearchParams({ csrf }) }
-    : {}).then(r => r.json());
-
-  async function publicar(reintento) {
-    btn.hidden = true;
-    let r = await pide('empezar', true);
-    if (r.estado === 'error')  return pinta('mal', r.mensaje, true);
-    if (r.estado === 'al-dia') return pinta('ok', 'La web ya está al día.', false);
-    const total = r.pendientes;
-    pinta('yendo', 'Publicando… 0 de ' + total);
-    for (let i = 0; i < 60; i++) {
-      const t = await pide('tanda', true);
-      if (t.estado === 'en-marcha') { pinta('yendo', 'Publicando… ' + t.hechos + ' de ' + t.total); continue; }
-      if (t.estado === 'listo')     return pinta('ok', '¡Listo! La web ya muestra tus cambios.', false);
-      if (t.estado === 'con-fallos') {
-        // Casi siempre es que GitHub aún no ha repartido la versión nueva.
-        // Se arregla solo esperando un poco, así que lo reintentamos una vez.
-        if (!reintento) {
-          pinta('yendo', 'Casi listo, terminando…');
-          await new Promise(r => setTimeout(r, 20000));
-          return publicar(true);
-        }
-        const m = (t.fallos && t.fallos[0]) ? ' (' + t.fallos[0].motivo + ')' : '';
-        return pinta('mal', 'Se han subido ' + t.hechos + ' de ' + t.total + ', pero algo ha fallado' + m + '. Prueba otra vez.', true);
-      }
-      return pinta('mal', t.mensaje || 'Algo ha fallado.', true);
+  async function seguir() {
+    // Hasta 25 minutos: si Vercel tiene cola, puede tardar.
+    for (let i = 0; i < 100; i++) {
+      const e = await estado();
+      if (e.estado === 'al-dia') return pinta('ok', 'Publicado. Ya se ve en explorasiam.com (si no, recarga la web).');
+      if (e.estado === 'error')  return pinta('mal', 'Vercel no ha podido publicar el último cambio. Tu cambio está guardado; avisa a Javi.');
+      pinta('yendo', 'Guardado. Publicando en la web… suele tardar 2-3 minutos, a veces más si hay cola.');
+      await espera(15000);
     }
-    pinta('mal', 'Está tardando demasiado. Vuelve a intentarlo.', true);
+    pinta('yendo', 'Guardado. La web está tardando más de lo normal en publicarse, pero saldrá sola.');
   }
 
-  btn.addEventListener('click', () => publicar(false));
-
-  // Tras guardar, GitHub tarda un par de minutos en dejar lista la version
-  // nueva. Vamos preguntando hasta que aparezca, y entonces la publicamos.
-  async function esperarYPublicar() {
-    pinta('yendo', 'Preparando la versión nueva… (tarda un par de minutos)');
-    for (let i = 0; i < 30; i++) {
-      await new Promise(r => setTimeout(r, 10000));
-      const e = await pide('estado');
-      if (e.estado === 'pendiente') return publicar(false);
-    }
-    pinta('mal', 'La versión nueva tarda más de lo normal.', true);
-  }
-
-  pide('estado').then(e => {
-    if (guardado)                 return esperarYPublicar();
-    if (e.estado === 'pendiente') { pinta('yendo', 'Hay cambios sin publicar (' + e.peso + ').', false); return publicar(false); }
-    if (e.estado === 'al-dia')    { caja.hidden = true; return; }
-    pinta('mal', e.mensaje || 'No se ha podido comprobar la web.', true);
+  if (guardado) { seguir(); return; }
+  estado().then(e => {
+    if (e.estado === 'publicando') return seguir();
+    if (e.estado === 'error') return pinta('mal', 'Vercel no pudo publicar el último cambio. Lo guardado no se pierde; avisa a Javi.');
+    caja.hidden = true;
   });
 })();
 </script>
