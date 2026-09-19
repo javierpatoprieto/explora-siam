@@ -63,18 +63,97 @@ if (!dentro()) {
 }
 
 /* ------------------------------------------------- imágenes del repositorio */
+// Vista previa de las fotos. GitHub solo devuelve el contenido por la API normal
+// si pesa menos de 1 MB (las fotos de Dani pesan 4-7 MB y salían rotas), así que
+// se piden en crudo y se sirve una miniatura ligera, guardada para la próxima vez.
+// Los nombres llevan fecha y hora, así que una foto nueva nunca pisa una miniatura vieja.
 if (isset($_GET['foto'])) {
-    $ruta = IMGS . '/' . basename((string) $_GET['foto']);
-    $archivo = leer_archivo($ruta);
-    if (!$archivo) {
-        http_response_code(404);
+    $nombre = basename((string) $_GET['foto']);
+    $cache = __DIR__ . '/.miniaturas/' . sha1($nombre) . '.jpg';
+    if (!is_file($cache)) {
+        $crudo = leer_foto_cruda(IMGS . '/' . $nombre);
+        if ($crudo === null) {
+            http_response_code(404);
+            exit;
+        }
+        $mini = miniatura($crudo, 900);
+        if ($mini === null) {
+            // GD no la entiende: se sirve tal cual.
+            header('Content-Type: ' . (str_ends_with($nombre, '.png') ? 'image/png' : (str_ends_with($nombre, '.webp') ? 'image/webp' : 'image/jpeg')));
+            header('Cache-Control: private, max-age=300');
+            echo $crudo;
+            exit;
+        }
+        if (!is_dir(dirname($cache))) {
+            @mkdir(dirname($cache), 0755, true);
+        }
+        @file_put_contents($cache, $mini);
+        header('Content-Type: image/jpeg');
+        header('Cache-Control: private, max-age=86400');
+        echo $mini;
         exit;
     }
-    $tipo = str_ends_with($ruta, '.png') ? 'image/png' : 'image/jpeg';
-    header('Content-Type: ' . $tipo);
-    header('Cache-Control: private, max-age=300');
-    echo $archivo['contenido'];
+    header('Content-Type: image/jpeg');
+    header('Cache-Control: private, max-age=86400');
+    readfile($cache);
     exit;
+}
+
+/** Descarga un archivo del repositorio en crudo (vale hasta 100 MB). */
+function leer_foto_cruda(string $ruta): ?string
+{
+    $ch = curl_init('https://api.github.com' . repo() . '/contents/' . rawurlencode_ruta($ruta) . '?ref=' . GITHUB_BRANCH);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . GITHUB_TOKEN,
+            'Accept: application/vnd.github.raw',
+            'X-GitHub-Api-Version: 2022-11-28',
+            'User-Agent: panel-explora-siam',
+        ],
+    ]);
+    $datos = curl_exec($ch);
+    $codigo = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return ($codigo === 200 && is_string($datos) && $datos !== '') ? $datos : null;
+}
+
+/** Reduce una imagen a $lado píxeles como mucho y la devuelve en JPEG, derecha según EXIF. */
+function miniatura(string $crudo, int $lado): ?string
+{
+    if (!function_exists('imagecreatefromstring')) {
+        return null;
+    }
+    $img = @imagecreatefromstring($crudo);
+    if ($img === false) {
+        return null;
+    }
+    if (function_exists('exif_read_data') && str_starts_with($crudo, "\xFF\xD8")) {
+        $exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($crudo));
+        $giro = [3 => 180, 6 => -90, 8 => 90][(int) ($exif['Orientation'] ?? 1)] ?? 0;
+        if ($giro !== 0) {
+            $girada = imagerotate($img, $giro, 0);
+            if ($girada !== false) {
+                imagedestroy($img);
+                $img = $girada;
+            }
+        }
+    }
+    $w = imagesx($img);
+    $h = imagesy($img);
+    $f = min(1, $lado / max($w, $h));
+    $nw = max(1, (int) round($w * $f));
+    $nh = max(1, (int) round($h * $f));
+    $mini = imagecreatetruecolor($nw, $nh);
+    imagefill($mini, 0, 0, imagecolorallocate($mini, 255, 255, 255)); // fondo para los PNG transparentes
+    imagecopyresampled($mini, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+    imagedestroy($img);
+    ob_start();
+    imagejpeg($mini, null, 82);
+    imagedestroy($mini);
+    return (string) ob_get_clean();
 }
 
 /* ------------------------------------------------ estado de la web en Vercel */
