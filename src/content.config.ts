@@ -9,6 +9,7 @@ const site = defineCollection({
     whatsapp: z.string(),
     email: z.string(),
     instagram: z.string().url(),
+    instagramFeed: z.string().optional().default(''),
     ubicacion: z.string(),
     licencia: z.string().optional().default(''),
     horario: z.string().optional().default(''),

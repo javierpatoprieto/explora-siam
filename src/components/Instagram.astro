@@ -1,11 +1,14 @@
 ---
-// Carrusel de Instagram hecho a mano: las fotos las elige Dani en el panel
-// y cada una lleva a su publicación (o al perfil si no tiene enlace).
+// Carrusel de Instagram. Si en el panel hay un feed de Behold (site.instagramFeed),
+// el navegador trae los últimos posts de Dani y los pone delante; las fotos
+// elegidas a mano completan la tira y son lo que se ve si el feed falla.
 // Sin scripts de Meta, así que no necesita consentimiento de cookies.
 import Foto from './Foto.astro';
 import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, ig } = Astro.props;
 const usuario = igUsuario(site.instagram);
+const feed = (site.instagramFeed || '').trim();
+const feedUrl = feed === '' ? '' : feed.startsWith('http') ? feed : `https://feeds.behold.so/${feed}`;
 const vueltas = [false, true]; // la segunda copia solo sirve para que el bucle no tenga corte
 const REEL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
 ---
@@ -22,7 +25,7 @@ const REEL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor
       <span class="btn btn--sm"><Fragment set:html={IG_ICON} />{ig.boton}</span>
     </a>
   </div>
-  <div class="ig__rail" data-reveal>
+  <div class="ig__rail" data-reveal data-feed={feedUrl || undefined}>
     <div class="ig__track">
       {vueltas.map((copia) => ig.fotos.map((f: any) => (
         <a href={f.enlace || site.instagram} class="ig__foto" target="_blank" rel="noopener" data-ig="carrusel-foto" aria-hidden={copia ? 'true' : undefined} tabindex={copia ? -1 : undefined}>
@@ -71,3 +74,54 @@ const REEL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor
     .ig__track > [aria-hidden='true'] { display: none; }
   }
 </style>
+<script>
+  // Posts automáticos desde Behold. Se clona una tarjeta hecha a mano como plantilla,
+  // así los estilos del componente se aplican igual.
+  const rail = document.querySelector<HTMLElement>('.ig__rail[data-feed]');
+  const MAX = 12;
+  const codigo = (url: string) => (url.match(/\/(?:p|reel|tv)\/([^/?#]+)/) || [])[1] || url;
+  if (rail) {
+    fetch(rail.dataset.feed!, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((data) => {
+        const posts = (Array.isArray(data?.posts) ? data.posts : []).filter((p: any) => p?.permalink);
+        if (!posts.length) return;
+        const track = rail.querySelector<HTMLElement>('.ig__track')!;
+        const propias = [...track.querySelectorAll<HTMLAnchorElement>('.ig__foto:not([aria-hidden])')];
+        const plantilla = propias[0];
+        const reel = track.querySelector('.ig__reel');
+        if (!plantilla) return;
+        const vistos = new Set<string>();
+        const tarjetas: HTMLAnchorElement[] = [];
+        for (const p of posts) {
+          const id = codigo(p.permalink);
+          if (vistos.has(id)) continue;
+          const img = p.sizes?.medium?.mediaUrl || p.sizes?.large?.mediaUrl || p.thumbnailUrl || p.mediaUrl;
+          if (!img) continue;
+          vistos.add(id);
+          const a = plantilla.cloneNode(true) as HTMLAnchorElement;
+          a.href = p.permalink;
+          const im = a.querySelector('img')!;
+          im.removeAttribute('srcset'); im.removeAttribute('sizes');
+          im.src = img; im.loading = 'lazy';
+          const texto = String(p.prunedCaption || p.caption || '').split(/\r?\n/).map((l: string) => l.replace(/[#@][\p{L}\p{N}_.]+/gu, '').trim()).find(Boolean) || 'Ver en Instagram';
+          const corto = texto.length > 70 ? texto.slice(0, 68).trimEnd() + '…' : texto;
+          im.alt = corto;
+          let pie = a.querySelector('.ig__pie');
+          if (!pie) { pie = document.createElement('span'); pie.className = 'ig__pie'; a.append(pie); }
+          pie.textContent = corto;
+          a.querySelector('.ig__reel')?.remove();
+          if (p.mediaType === 'VIDEO' && reel) a.prepend(reel.cloneNode(true));
+          tarjetas.push(a);
+        }
+        // Completan las elegidas a mano que no estén ya en el feed.
+        for (const a of propias) {
+          if (tarjetas.length >= MAX) break;
+          if (!vistos.has(codigo(a.href))) { vistos.add(codigo(a.href)); tarjetas.push(a.cloneNode(true) as HTMLAnchorElement); }
+        }
+        const copia = tarjetas.map((a) => { const c = a.cloneNode(true) as HTMLAnchorElement; c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; return c; });
+        track.replaceChildren(...tarjetas.slice(0, MAX), ...copia.slice(0, MAX));
+      })
+      .catch(() => { /* sin feed: se queda el carrusel hecho a mano */ });
+  }
+</script>
