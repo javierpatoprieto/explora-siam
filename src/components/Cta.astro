@@ -1,6 +1,7 @@
 ---
 import Foto from './Foto.astro';
 import Wa from './Wa.astro';
+import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, cta } = Astro.props;
 ---
 <section class="cta wrap section" id="contacto">
@@ -12,6 +13,7 @@ const { site, cta } = Astro.props;
       <p>{cta.subtitulo}</p>
       <div class="cta__row"><Wa site={site} origen="final" class="btn btn--light btn--lg">{cta.boton}</Wa>{site.formulario && <a href={site.formulario} class="btn btn--ghost cta__ghost btn--lg" target="_blank" rel="noopener">Rellenar el formulario</a>}</div>
       <span class="cta__micro">{cta.microcopy} · <a href={`mailto:${site.email}`}>{site.email}</a></span>
+      {site.instagram && <a href={site.instagram} class="cta__ig" target="_blank" rel="noopener" data-ig="final"><Fragment set:html={IG_ICON} /><span>Sígueme en Instagram <strong>{igUsuario(site.instagram)}</strong></span></a>}
     </div>
   </div>
 </section>
@@ -26,4 +28,7 @@ const { site, cta } = Astro.props;
   .cta :global(.cta__ghost):hover { background: rgba(255,255,255,.14); color: #fff; }
   .cta__micro { font-size: 13px; color: rgba(255,255,255,.7); }
   .cta__micro a { color: inherit; text-decoration: underline; }
+  .cta__ig { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: #fff; opacity: .9; transition: opacity .2s; }
+  .cta__ig:hover { opacity: 1; }
+  .cta__ig strong { font-weight: 600; }
 </style>

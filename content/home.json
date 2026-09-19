@@ -200,65 +200,6 @@
         "titulo": "Momentos que se quedan.",
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
-    "instagram": {
-        "mostrar": true,
-        "etiqueta": "En Instagram",
-        "titulo": "El viaje, en directo desde el norte.",
-        "texto": "Fotos, vídeos y rutas en tiempo real. Si quieres ver cómo es antes de venirte, pásate por el perfil.",
-        "boton": "Seguir en Instagram",
-        "fotos": [
-            {
-                "imagen": "../src/assets/img/ig-DdbhxA2yMMm.jpg",
-                "pie": "Doi Inthanon",
-                "enlace": "https://www.instagram.com/reel/DdbhxA2yMMm/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DdEKafOSpoD.jpg",
-                "pie": "Templo de madera de Pattaya",
-                "enlace": "https://www.instagram.com/reel/DdEKafOSpoD/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DdO1MxrSd2T.jpg",
-                "pie": "Trekking en Phu Chi Fa",
-                "enlace": "https://www.instagram.com/reel/DdO1MxrSd2T/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DdWOWZLSDhT.jpg",
-                "pie": "Noodles en Chiang Mai",
-                "enlace": "https://www.instagram.com/reel/DdWOWZLSDhT/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DbJIv4eNmNa.jpg",
-                "pie": "100% thai",
-                "enlace": "https://www.instagram.com/reel/DbJIv4eNmNa/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DdLQ5ZiSsp2.jpg",
-                "pie": "Chiang Rai",
-                "enlace": "https://www.instagram.com/reel/DdLQ5ZiSsp2/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-DcMrvlkAtK4.jpg",
-                "pie": "Si tuvieras que elegir algo de Tailandia…",
-                "enlace": "https://www.instagram.com/p/DcMrvlkAtK4/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-Dc1mWqJRJ3t.jpg",
-                "pie": "¿Es insegura Tailandia?",
-                "enlace": "https://www.instagram.com/reel/Dc1mWqJRJ3t/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-Da8INvUC8R4.jpg",
-                "pie": "Alquilar moto en Tailandia",
-                "enlace": "https://www.instagram.com/reel/Da8INvUC8R4/"
-            },
-            {
-                "imagen": "../src/assets/img/ig-Dbv_lbvxhfO.jpg",
-                "pie": "Vienen cositas muy interesantes…",
-                "enlace": "https://www.instagram.com/reel/Dbv_lbvxhfO/"
-            }
-        ]
-    },
     "incluye": {
         "titulo": "Todo resuelto.",
         "microcopy": "Tú solo te preocupas de disfrutar. Si quieres el dossier completo, con el presupuesto y la forma de pago, pídemelo por WhatsApp y te lo mando.",
