@@ -59,9 +59,9 @@
         "parrafos": [
             "Una mañana, tomando un café helado en Phuket, vi a un turista enfadado porque la camarera tardaba en servirle. Él resoplaba y ella, a su ritmo, seguía trabajando y decía en voz baja: Sabai sabai, sabai sabai…",
             "Más tarde entendí lo que significa: estar tranquilo, recibir cada momento tal y como viene. Descubrir una sociedad donde la sonrisa es la principal divisa te recuerda que todos llevamos dentro un niño libre y feliz.",
-            "Cada olor a comida, flores o incienso. Cada sabor, del picante de un plato típico a un polo de maracuyá que te devuelve a la infancia. \r\nCada conversación con la gente local. Cada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok."
+            "Cada olor a comida callejera, flores de los puestos o incienso de los templos. \r\nCada sabor, desde el picante de un plato típico o un polo de maracuyá que te devuelve a la infancia. \r\nCada conversación con la gente local o turistas que como tú están descubriendo Tailandia. \r\nCada sonido, desde el cuco indochino hasta los tuk tuk a escape libre en la caótica Bangkok."
         ],
-        "pregunta": "¿Te gustaría sentir todo esto a la vez?",
+        "pregunta": "¿Te gustaría sentir todo esto a la vez? Puede que te explote la cabeza...",
         "boton": "Más información",
         "imagen": "../src/assets/img/70254-260918173157.jpg",
         "pie": "Mercado de Chiang Mai",
@@ -362,11 +362,11 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "antes": "No solo es viajar y hacer check en una lista,",
+        "antes": "No solo es viajar y hacer check en una lista de destinos",
         "imagen1": "../src/assets/img/moto-curva-169.jpg",
         "medio": "es volver a casa",
         "imagen2": "../src/assets/img/phuchifa-169.jpg",
-        "despues": "con una versión distinta de ti. Con más apertura.",
+        "despues": "con una versión distinta de ti. Con más apertura y una gran experiencia.",
         "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!"
     },
     "ventajas": {
