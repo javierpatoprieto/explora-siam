@@ -38,15 +38,15 @@
         "bloques": [
             {
                 "titulo": "No hace falta ni el objetivo es ser piloto de MotoGP",
-                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. \r\nHonda NX500, curvas, etapas de menos de 150 km y ritmo lento, disfrutando del entorno y acompañado de un equipo que se cuida."
+                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. \r\nSe propone rodar con la Honda NX500, curvas, etapas de menos de 150 km y ritmo lento, disfrutando del entorno y acompañado de un equipo que hace equipo."
             },
             {
-                "titulo": "Para gente a la que le mueve algo por dentro.",
-                "texto": "Trabajas duro en tu día a día y eres responsable con lo tuyo. Pero sabes que desconectar de la rutina y descubrir cosas nuevas te motiva. El mundo tiene mucho que ofrecerte y no eres de quedarte viendo la vida pasar."
+                "titulo": "¿Te gustaría hacer una ruta en moto increíble y no tienes con quién hacerlo?",
+                "texto": "Si tienes el gusanillo de hacer una de las mejores rutas del sudeste asiático, donde vas a disfrutar de sacacorchos interminables, paellas, paisajes de montaña con bosques tropicales y mucha naturaleza...Has llegado al lugar correcto!"
             },
             {
                 "titulo": "Aquí hacemos equipo",
-                "texto": "Nadie se queda atrás. Todos codo con codo, apoyándonos unos a otros. \r\nNo hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. \r\nUn grupo con las mismas ganas de conocer mundo."
+                "texto": "Nadie se queda atrás. Todos codo con codo, apoyándonos unos a otros. En el equipo todos somos uno.\r\nNo hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. \r\nUn grupo con las mismas ganas de rodar y conocer mundo."
             }
         ],
         "imagen": "../src/assets/img/phuchifa-169.jpg",
