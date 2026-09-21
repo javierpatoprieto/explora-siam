@@ -284,7 +284,7 @@
     "moto": {
         "etiqueta": "La ruta en moto",
         "titulo": "Seis días rodando el Mae Hong Son Loop.",
-        "texto": "El corazón del viaje. Salimos de Chiang Mai en Honda NX500 y cerramos el círculo por las montañas de la frontera birmana: etapas de menos de 150 km, guía habilitado TAT delante y la furgoneta detrás con las mochilas.",
+        "texto": "El punto de partida será Chiang Mai, rodamos en Honda NX500 y cerramos el círculo por las montañas de la frontera birmana: etapas de menos de 150 km, guía habilitado TAT delante y la furgoneta detrás con las mochilas.",
         "datos": [
             {
                 "valor": "6",
@@ -331,7 +331,7 @@
             },
             {
                 "titulo": "Pai → Chiang Mai",
-                "texto": "La carretera de las 762 curvas para cerrar el círculo. Al día siguiente, elefantes en libertad en un santuario ético.",
+                "texto": "La carretera de las 762 curvas para cerrar el círculo.",
                 "imagen": "../src/assets/img/moto-curva-45.jpg"
             }
         ],
