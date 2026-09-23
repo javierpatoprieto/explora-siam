@@ -1,8 +1,8 @@
 {
     "hero": {
         "badge": "Ruta en moto · Norte de Tailandia",
-        "titulo": "Descubre rodando en moto la Tailandia que",
-        "destacado": "pocos llegan a conocer.",
+        "titulo": "Descubre rodando en moto la Tailandia",
+        "destacado": "que pocos llegan a conocer.",
         "subtitulo": "¿Te imaginas rodar por el Mae Hong Son Loop con un grupo reducido de amigos? Montañas, arrozales, cascadas, templos junto a la frontera con Birmania... y mucha cultura thai.",
         "botonPrimario": "Más información.",
         "microcopy": "Te contesta Dani.",
@@ -38,15 +38,15 @@
         "bloques": [
             {
                 "titulo": "No hace falta ni el objetivo es ser piloto de MotoGP",
-                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. \r\nSe propone rodar con la Honda NX500, curvas, etapas de menos de 150 km y ritmo lento, disfrutando del entorno y acompañado de un equipo que hace equipo."
+                "texto": "Solo un mínimo de experiencia, el carnet A2 y muchas ganas de rodar y descubrir mundo. \r\nNo es una competición para ver quién es el primero ni quién pilota mejor, tan solo un grupo que rueda en compañía, compartiendo una misma experiencia. \r\nSe propone llevar la Honda NX500, curvas, etapas de menos de 150 km y ritmo lento, disfrutando del entorno."
             },
             {
-                "titulo": "¿Te gustaría hacer una ruta en moto increíble y no tienes con quién hacerlo?",
+                "titulo": "¿Te gustaría hacer una ruta increíble en moto por el sudeste asiático?",
                 "texto": "Si tienes el gusanillo de hacer una de las mejores rutas del sudeste asiático, donde vas a disfrutar de sacacorchos interminables, paellas, paisajes de montaña con bosques tropicales y mucha naturaleza...Has llegado al lugar correcto!"
             },
             {
-                "titulo": "Aquí hacemos equipo",
-                "texto": "Nadie se queda atrás. Todos codo con codo, apoyándonos unos a otros. En el equipo todos somos uno.\r\nNo hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. \r\nUn grupo con las mismas ganas de rodar y conocer mundo."
+                "titulo": "¿Llevas tiempo pensando en una ruta como ésta y no tienes con quién hacerla?",
+                "texto": "Vamos todos juntos y nadie se queda atrás. Todos codo con codo, apoyándonos unos a otros. En el equipo todos somos uno.\r\nNo hay nada como encontrar un espacio con un ambiente agradable en el que charlar tranquilamente, disfrutando, compartiendo risas y vivencias. \r\nUn grupo con las mismas ganas de rodar y conocer mundo."
             }
         ],
         "imagen": "../src/assets/img/phuchifa-169.jpg",
