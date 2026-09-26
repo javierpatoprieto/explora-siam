@@ -16,6 +16,7 @@
     <a href="?s=fotos" class="<?= $seccion === 'fotos' ? 'on' : '' ?>">Fotos</a>
     <a href="?s=videos" class="<?= $seccion === 'videos' ? 'on' : '' ?>">Vídeos</a>
     <a href="?s=viaje" class="<?= $seccion === 'viaje' ? 'on' : '' ?>">Viaje</a>
+    <a href="?s=preguntas" class="<?= $seccion === 'preguntas' ? 'on' : '' ?>">Preguntas</a>
   </nav>
   <div><a href="https://explorasiam.com" target="_blank" rel="noopener" class="salir">Ver la web</a> · <a href="?salir=1" class="salir">Salir</a></div>
 </header>
@@ -143,11 +144,60 @@
     </fieldset>
   <?php endforeach; ?>
 
+<?php elseif ($seccion === 'preguntas'): ?>
+  <h1>Preguntas frecuentes</h1>
+  <p class="guia">Cambia el texto de cualquier pregunta, añade las que quieras o quita las que sobren. Las marcadas como «en la portada» salen también en la home; el resto, solo en la página de preguntas. El número de orden decide en qué orden aparecen.</p>
+  <form method="post">
+    <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+    <input type="hidden" name="accion" value="preguntas">
+    <?php foreach ($preguntas as $p):
+        $a = $p['archivo'];
+        $d = $p['datos'];
+        $env = ($aviso[0] ?? '') === 'mal' ? ($_POST['p'][$a] ?? null) : null; ?>
+      <fieldset>
+        <legend><?= e((string) ($d['pregunta'] ?? $a)) ?></legend>
+        <label>
+          <span>Pregunta</span>
+          <input type="text" name="p[<?= e($a) ?>][pregunta]" value="<?= e((string) ($env['pregunta'] ?? $d['pregunta'] ?? '')) ?>">
+        </label>
+        <label>
+          <span>Respuesta</span>
+          <textarea name="p[<?= e($a) ?>][respuesta]"><?= e((string) ($env['respuesta'] ?? $d['respuesta'] ?? '')) ?></textarea>
+        </label>
+        <label>
+          <span>Orden</span>
+          <input type="number" name="p[<?= e($a) ?>][orden]" value="<?= e((string) ($env['orden'] ?? $d['orden'] ?? 99)) ?>" min="1">
+        </label>
+        <label class="fila">
+          <input type="checkbox" name="p[<?= e($a) ?>][enHome]" <?= ($env !== null ? isset($env['enHome']) : !empty($d['enHome'])) ? 'checked' : '' ?>>
+          <span>Mostrarla también en la portada</span>
+        </label>
+        <button class="btn claro" type="submit" name="borrar" value="<?= e($a) ?>" onclick="return confirm('¿Seguro que quieres borrar esta pregunta?')">Borrar esta pregunta</button>
+      </fieldset>
+    <?php endforeach; ?>
+    <fieldset>
+      <legend>Añadir una pregunta nueva</legend>
+      <label>
+        <span>Pregunta</span>
+        <input type="text" name="nueva[pregunta]" value="">
+      </label>
+      <label>
+        <span>Respuesta</span>
+        <textarea name="nueva[respuesta]"></textarea>
+      </label>
+      <label class="fila">
+        <input type="checkbox" name="nueva[enHome]">
+        <span>Mostrarla también en la portada</span>
+      </label>
+    </fieldset>
+    <div class="guardar"><button class="btn" type="submit">Guardar cambios</button></div>
+  </form>
+
 <?php else:
   $archivo = basename((string) ($_GET['a'] ?? ($salidas[0]['name'] ?? '')));
   $salida = $archivo ? leer_json('content/salidas/' . $archivo) : null; ?>
   <h1>Datos del viaje</h1>
-  <p class="guia">Duración, plazas, descripción e itinerario día a día. El precio y las fechas no se muestran en la web: se dan por WhatsApp con el dossier.</p>
+  <p class="guia">Todos los datos del viaje: duración, plazas, descripción, puntos fuertes e itinerario etapa por etapa. El precio y las fechas no se muestran en la web: se dan por WhatsApp con el dossier.</p>
   <?php if (count($salidas) > 1): ?>
     <p><?php foreach ($salidas as $s): ?>
       <a class="btn claro" href="?s=viaje&a=<?= e(rawurlencode($s['name'])) ?>"><?= e(str_replace('.json', '', $s['name'])) ?></a>
@@ -160,10 +210,10 @@
       <input type="hidden" name="archivo" value="<?= e($archivo) ?>">
       <fieldset>
         <legend><?= e((string) ($salida['datos']['nombre'] ?? 'Viaje')) ?></legend>
-        <?php foreach ($VIAJE as [$clave, $etiqueta, $tipo]):
+        <?php foreach (array_merge($VIAJE, campos_viaje($salida['datos'], $VIAJE)) as [$clave, $etiqueta, $tipo]):
             $actual = ($aviso[0] ?? '') === 'mal' && isset($_POST['v'][$clave])
                 ? (string) $_POST['v'][$clave]
-                : (string) ($salida['datos'][$clave] ?? ''); ?>
+                : valor($salida['datos'], $clave); ?>
           <label>
             <span><?= e($etiqueta) ?></span>
             <?php if ($tipo === 'parrafo'): ?>

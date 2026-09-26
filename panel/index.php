@@ -24,6 +24,7 @@ const HOME = 'content/home.json';
 const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
 const TEXTOS_FOTOS = 'content/fotos.json';
+const FAQS = 'content/faqs';
 const VIDEOS = 'public/video';
 
 // La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
@@ -307,6 +308,280 @@ $CAMPOS = [
     ],
 ];
 
+/* ------------------------------------------------------------- preguntas */
+// Cada pregunta es un archivo suelto en content/faqs. Aquí se pueden cambiar,
+// añadir y borrar. Solo se guardan las que cambian, para no llenar el historial.
+
+/** Lee todas las preguntas con su sha, ordenadas como salen en la web. */
+function leer_preguntas(): array
+{
+    $lista = [];
+    foreach (listar(FAQS) as $f) {
+        $nombre = (string) ($f['name'] ?? '');
+        if (!str_ends_with($nombre, '.json')) {
+            continue;
+        }
+        $doc = leer_json(FAQS . '/' . $nombre);
+        if ($doc) {
+            $lista[] = ['archivo' => $nombre, 'datos' => $doc['datos'], 'sha' => $doc['sha']];
+        }
+    }
+    usort($lista, fn ($a, $b) => ((int) ($a['datos']['orden'] ?? 99)) <=> ((int) ($b['datos']['orden'] ?? 99)));
+    return $lista;
+}
+
+/** Nombre de archivo a partir de la pregunta: «¿Qué carnet necesito?» → carnet.json */
+function nombre_archivo_pregunta(string $pregunta, array $ocupados): string
+{
+    $base = strtolower(strtr($pregunta, [
+        'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ü' => 'u', 'ñ' => 'n',
+        'Á' => 'a', 'É' => 'e', 'Í' => 'i', 'Ó' => 'o', 'Ú' => 'u', 'Ñ' => 'n',
+    ]));
+    $base = trim((string) preg_replace('/[^a-z0-9]+/', '-', $base), '-');
+    $base = $base === '' ? 'pregunta' : substr($base, 0, 40);
+    $nombre = $base . '.json';
+    $n = 2;
+    while (in_array($nombre, $ocupados, true)) {
+        $nombre = $base . '-' . $n++ . '.json';
+    }
+    return $nombre;
+}
+
+/** Guarda los cambios de la sección de preguntas. Devuelve el aviso. */
+function guardar_preguntas(): array
+{
+    $preguntas = leer_preguntas();
+    if (!$preguntas && listar(FAQS)) {
+        return ['mal', 'No se han podido leer las preguntas. Revisa el token de GitHub.'];
+    }
+
+    // Borrar
+    $borrar = basename((string) ($_POST['borrar'] ?? ''));
+    if ($borrar !== '') {
+        foreach ($preguntas as $p) {
+            if ($p['archivo'] === $borrar) {
+                [$codigo, $datos] = gh('DELETE', repo() . '/contents/' . rawurlencode_ruta(FAQS . '/' . $borrar), [
+                    'message' => 'Panel: quitar la pregunta ' . $borrar,
+                    'sha' => $p['sha'],
+                    'branch' => GITHUB_BRANCH,
+                ]);
+                return $codigo === 200
+                    ? ['ok', 'Pregunta borrada. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+                    : ['mal', 'No se pudo borrar: ' . mensaje_github($codigo, $datos)];
+            }
+        }
+        return ['mal', 'Esa pregunta ya no está.'];
+    }
+
+    $cambios = 0;
+    $fallo = '';
+
+    // Cambios en las que ya existen
+    foreach ($preguntas as $p) {
+        $enviado = $_POST['p'][$p['archivo']] ?? null;
+        if (!is_array($enviado)) {
+            continue;
+        }
+        $antes = $p['datos'];
+        $p['datos']['pregunta'] = trim((string) ($enviado['pregunta'] ?? ''));
+        $p['datos']['respuesta'] = trim((string) ($enviado['respuesta'] ?? ''));
+        $p['datos']['orden'] = (int) ($enviado['orden'] ?? 99);
+        $p['datos']['enHome'] = isset($enviado['enHome']);
+        if ($p['datos'] === $antes) {
+            continue;
+        }
+        if ($p['datos']['pregunta'] === '' || $p['datos']['respuesta'] === '') {
+            $fallo = 'Una pregunta se ha quedado sin texto: no se ha guardado.';
+            continue;
+        }
+        [$ok, $err] = guardar_json(FAQS . '/' . $p['archivo'], $p['datos'], $p['sha'], 'Panel: pregunta ' . $p['datos']['pregunta']);
+        $ok ? $cambios++ : $fallo = $err;
+    }
+
+    // Pregunta nueva
+    $nueva = trim((string) ($_POST['nueva']['pregunta'] ?? ''));
+    $respuesta = trim((string) ($_POST['nueva']['respuesta'] ?? ''));
+    if ($nueva !== '' && $respuesta !== '') {
+        $archivo = nombre_archivo_pregunta($nueva, array_column($preguntas, 'archivo'));
+        $orden = 1 + max([0] + array_map(fn ($p) => (int) ($p['datos']['orden'] ?? 0), $preguntas));
+        [$ok, $err] = guardar_json(FAQS . '/' . $archivo, [
+            'pregunta' => $nueva,
+            'respuesta' => $respuesta,
+            'enHome' => isset($_POST['nueva']['enHome']),
+            'orden' => $orden,
+        ], null, 'Panel: pregunta nueva ' . $nueva);
+        $ok ? $cambios++ : $fallo = $err;
+    } elseif ($nueva !== '' || $respuesta !== '') {
+        $fallo = 'Para añadir una pregunta hacen falta la pregunta y la respuesta.';
+    }
+
+    if ($fallo !== '') {
+        return ['mal', ($cambios > 0 ? 'Se guardaron ' . $cambios . ', pero ' : '') . $fallo];
+    }
+    return $cambios === 0
+        ? ['ok', 'No había nada que cambiar.']
+        : ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.'];
+}
+
+/* --------------------------------------------- campos automáticos de texto */
+// El panel enseña primero los campos con nombre bonito de $CAMPOS. Para que no
+// se quede ningún texto sin poder tocar, estas funciones recorren el contenido
+// y añaden todo lo que falte, agrupado por sección.
+
+/** Secciones del contenido que la web ya no usa: no se enseñan. */
+const SECCIONES_MUERTAS = ['galeria', 'dia', 'precio', 'salidas', 'instagram'];
+
+/** Campos que no son texto que Dani deba escribir (fotos, rutas, medición). */
+function camino_tecnico(string $camino): bool
+{
+    return (bool) preg_match(
+        '#(^|\.)(imagen|imagenes|imagen1|imagen2|poster|posterMovil|retrato|archivo|fondo|mp4|slug|foco|focos|icono|analytics|verificacionGoogle|videoFecha|indexar|autor|licencia)(\.|$)#',
+        $camino
+    );
+}
+
+/** Todos los textos de un documento, como 'camino.con.puntos' => texto. */
+function hojas_de_texto(array $datos, string $prefijo = ''): array
+{
+    $hojas = [];
+    foreach ($datos as $clave => $valor) {
+        $camino = $prefijo === '' ? (string) $clave : $prefijo . '.' . $clave;
+        if (is_array($valor)) {
+            $hojas += hojas_de_texto($valor, $camino);
+        } elseif (is_string($valor) && trim($valor) !== '') {
+            $hojas[$camino] = $valor;
+        }
+    }
+    return $hojas;
+}
+
+/** Nombre en cristiano de la sección a la que pertenece un campo. */
+function nombre_seccion(string $donde, string $camino): string
+{
+    if ($donde === 'sitio') {
+        return str_starts_with($camino, 'plantillas.') ? 'Mensajes de WhatsApp' : 'Contacto y medición · más campos';
+    }
+    $nombres = [
+        'hero' => 'Portada',
+        'hechos' => 'Datos rápidos de la portada',
+        'manifiesto' => '¿Y si esta vez Tailandia fuera diferente?',
+        'sabai' => 'Sabai sabai',
+        'cifras' => 'Cifras',
+        'cifrasTexto' => 'Cifras',
+        'ruta' => 'El viaje',
+        'moto' => 'La ruta en moto',
+        'video' => 'Vídeo del viaje',
+        'statement' => 'Frase destacada',
+        'ventajas' => 'Por qué conmigo',
+        'fundador' => 'Quién te acompaña',
+        'incluye' => 'Qué incluye',
+        'testimonios' => 'Testimonios',
+        'faq' => 'Bloque de preguntas',
+        'cta' => 'Cierre',
+        'footer' => 'Pie de página',
+    ];
+    $raiz = explode('.', $camino)[0];
+    return ($nombres[$raiz] ?? ucfirst($raiz)) . ' · más textos';
+}
+
+/** Nombre en cristiano de un campo a partir de su camino. */
+function nombre_campo(string $camino): string
+{
+    $palabras = [
+        'titulo' => 'Titular',
+        'subtitulo' => 'Subtítulo',
+        'texto' => 'Texto',
+        'etiqueta' => 'Etiqueta',
+        'boton' => 'Botón',
+        'botonPrimario' => 'Botón principal',
+        'botonSecundario' => 'Botón secundario',
+        'microcopy' => 'Frase pequeña',
+        'intro' => 'Entradilla',
+        'nota' => 'Nota',
+        'pie' => 'Pie',
+        'cierre' => 'Frase final',
+        'cierreBoton' => 'Botón final',
+        'valor' => 'Cifra',
+        'unidad' => 'Unidad',
+        'badge' => 'Etiqueta pequeña',
+        'destacado' => 'Final del titular (en color)',
+        'frase' => 'Frase',
+        'enlace' => 'Texto del enlace',
+        'verTodas' => 'Texto de «ver todas»',
+        'antes' => 'Frase, primera parte',
+        'medio' => 'Frase, parte central',
+        'despues' => 'Frase, parte final',
+        'pregunta' => 'Pregunta',
+        'respuesta' => 'Respuesta',
+        'retratoPie' => 'Pie del retrato',
+        'videoTitulo' => 'Título del vídeo',
+        'videoDescripcion' => 'Descripción del vídeo',
+        'hora' => 'Hora',
+        'cinta' => 'Cinta de sitios',
+        'parrafos' => 'Párrafo',
+        'bloques' => 'Bloque',
+        'items' => 'Punto',
+        'dias' => 'Día',
+        'datos' => 'Dato',
+        'paradas' => 'Parada',
+        'pies' => 'Pie de foto',
+        'highlights' => 'Punto fuerte',
+    ];
+    $partes = explode('.', $camino);
+    array_shift($partes); // la sección ya da nombre al grupo
+    $trozos = [];
+    foreach ($partes as $p) {
+        if (ctype_digit($p)) {
+            $ultimo = count($trozos) - 1;
+            $trozos[$ultimo] = ($trozos[$ultimo] ?? 'Elemento') . ' ' . ((int) $p + 1);
+            continue;
+        }
+        $trozos[] = $palabras[$p] ?? ucfirst((string) preg_replace('/(?<!^)[A-Z]/', ' $0', $p));
+    }
+    return $trozos ? implode(' · ', $trozos) : 'Texto';
+}
+
+/** Grupos de campos que faltan por cubrir, para añadirlos detrás de $CAMPOS. */
+function campos_auto(array $home, array $sitio, array $CAMPOS): array
+{
+    $ya = [];
+    foreach ($CAMPOS as $campos) {
+        foreach ($campos as [$donde, $camino, , ]) {
+            $ya[$donde . '|' . $camino] = true;
+        }
+    }
+    $extra = [];
+    foreach ([['home', $home], ['sitio', $sitio]] as [$donde, $datos]) {
+        foreach (hojas_de_texto($datos) as $camino => $texto) {
+            if (isset($ya[$donde . '|' . $camino]) || camino_tecnico($camino)) {
+                continue;
+            }
+            if ($donde === 'home' && in_array(explode('.', $camino)[0], SECCIONES_MUERTAS, true)) {
+                continue;
+            }
+            $largo = mb_strlen($texto) > 80 || str_contains($texto, "\n");
+            $extra[nombre_seccion($donde, $camino)][] = [$donde, $camino, nombre_campo($camino), $largo ? 'parrafo' : 'linea'];
+        }
+    }
+    return $extra;
+}
+
+/** Campos del viaje que no están en $VIAJE, para que se pueda editar todo. */
+function campos_viaje(array $datos, array $VIAJE): array
+{
+    $ya = array_column($VIAJE, 0);
+    $ya[] = 'estado';
+    $extra = [];
+    foreach (hojas_de_texto($datos) as $camino => $texto) {
+        if (in_array($camino, $ya, true) || camino_tecnico($camino)) {
+            continue;
+        }
+        $largo = mb_strlen($texto) > 80 || str_contains($texto, "\n");
+        $extra[] = [$camino, nombre_campo('viaje.' . $camino), $largo ? 'parrafo' : 'linea'];
+    }
+    return $extra;
+}
+
 $VIAJE = [
     ['fechas', 'Fechas (de momento no se muestran en la web)', 'linea'],
     ['duracion', 'Duración', 'linea'],
@@ -331,6 +606,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
             $aviso = ['mal', 'No se ha podido leer el contenido. Revisa el token de GitHub.'];
         } else {
             $cambios = 0;
+            $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
             foreach ($CAMPOS as $campos) {
                 foreach ($campos as [$donde, $camino, , ]) {
                     $clave = $donde . '|' . $camino;
@@ -365,10 +641,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
         if (!$salida) {
             $aviso = ['mal', 'No se ha encontrado el viaje.'];
         } else {
-            foreach ($VIAJE as [$clave, , $tipo]) {
+            foreach (array_merge($VIAJE, campos_viaje($salida['datos'], $VIAJE)) as [$clave, , $tipo]) {
                 if (isset($_POST['v'][$clave])) {
-                    $valor = trim((string) $_POST['v'][$clave]);
-                    $salida['datos'][$clave] = $tipo === 'numero' ? (int) $valor : $valor;
+                    $nuevo = trim((string) $_POST['v'][$clave]);
+                    fijar($salida['datos'], $clave, $tipo === 'numero' ? (int) $nuevo : $nuevo);
                 }
             }
             if (isset($_POST['v']['estado'])) {
@@ -379,6 +655,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
+    } elseif (($_POST['accion'] ?? '') === 'preguntas') {
+        $aviso = guardar_preguntas();
     } elseif (($_POST['accion'] ?? '') === 'hueco') {
         $aviso = guardar_hueco();
     } elseif (($_POST['accion'] ?? '') === 'video') {
@@ -598,6 +876,10 @@ $sitio = leer_json(SITIO);
 $sinConexion = !$home || !$sitio;
 $textosFotos = $sinConexion ? [] : ((leer_json(TEXTOS_FOTOS) ?? [])['datos'] ?? []);
 $salidas = $sinConexion ? [] : array_values(array_filter(listar('content/salidas'), fn ($f) => str_ends_with($f['name'] ?? '', '.json')));
+if (!$sinConexion) {
+    $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
+}
+$preguntas = (!$sinConexion && $seccion === 'preguntas') ? leer_preguntas() : [];
 
 require __DIR__ . '/vista.php';
 

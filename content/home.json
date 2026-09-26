@@ -236,12 +236,12 @@
     },
     "cifras": [
         {
-            "valor": "650",
+            "valor": "750",
             "unidad": "km",
             "etiqueta": "de ruta en moto"
         },
         {
-            "valor": "1.800",
+            "valor": "1.860",
             "unidad": "curvas",
             "etiqueta": "junto a la frontera birmana"
         },
