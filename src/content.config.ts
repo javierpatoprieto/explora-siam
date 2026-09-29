@@ -21,6 +21,11 @@ const site = defineCollection({
     seoDescripcion: z.string(),
     autor: z.object({ texto: z.string(), url: z.string().url() }).optional(),
     plantillas: z.record(z.string()),
+    estilo: z.object({
+      acento: z.string().optional().default('#dd8a72'),
+      acentoSuave: z.string().optional().default('#f6e4dc'),
+      tinta: z.string().optional().default('#17181a'),
+    }).optional().default({}),
   }),
 });
 
@@ -166,9 +171,16 @@ const faqs = defineCollection({
   schema: z.object({ pregunta: z.string(), respuesta: z.string(), enHome: z.boolean().default(false), orden: z.number().default(99) }),
 });
 
+const secciones = defineCollection({
+  loader: glob({ pattern: 'secciones.json', base: './content' }),
+  schema: z.object({
+    orden: z.array(z.object({ id: z.string(), mostrar: z.boolean().default(true) })).default([]),
+  }),
+});
+
 const legal = defineCollection({
   loader: glob({ pattern: '*.md', base: './content/legal' }),
   schema: z.object({ titulo: z.string() }),
 });
 
-export const collections = { site, home, salidas, testimonios, faqs, legal };
+export const collections = { site, home, salidas, testimonios, faqs, legal, secciones };

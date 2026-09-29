@@ -26,6 +26,14 @@ const proxima = abiertas[0]?.data;
 const testimonios = (await getCollection('testimonios')).sort((a, b) => a.data.orden - b.data.orden);
 const faqs = (await getCollection('faqs', (f) => f.data.enHome)).sort((a, b) => a.data.orden - b.data.orden);
 
+// Qué secciones se ven y en qué orden: lo decide Dani desde el panel.
+const porDefecto = ['manifiesto', 'sabai', 'cifras', 'viaje', 'moto', 'statement', 'ventajas', 'fundador', 'incluye', 'testimonios', 'faq', 'cta'];
+const guardadas = (await getEntry('secciones', 'secciones'))?.data.orden ?? [];
+const bloques = [
+  ...guardadas.filter((s) => porDefecto.includes(s.id)),
+  ...porDefecto.filter((id) => !guardadas.some((s) => s.id === id)).map((id) => ({ id, mostrar: true })),
+].filter((s) => s.mostrar);
+
 // Vídeos para Google: solo si hay archivo y fecha de subida (la pone el panel al subirlo).
 const videosLd = [
   { url: home.hero.videoMp4, titulo: home.hero.videoTitulo, desc: home.hero.videoDescripcion, fecha: home.hero.videoFecha, poster: home.hero.poster },
@@ -69,19 +77,22 @@ const jsonLd = [
   <Nav site={site} />
   <main>
     <Hero site={site} hero={home.hero} proxima={proxima} />
-    <Manifiesto m={home.manifiesto} />
-    <Sabai site={site} s={home.sabai} />
-    <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />
-    <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} moto={home.moto} />
-    {home.moto && <Moto site={site} moto={home.moto} />}
-    <Statement st={home.statement} />
-    <Ventajas v={home.ventajas} />
-    <Fundador site={site} f={home.fundador} />
-    <Incluye site={site} inc={home.incluye} />
-    {/* Oculto hasta que Dani tenga testimonios reales: se enciende con home.testimonios.mostrar */}
-    {home.testimonios.mostrar && <Testimonios t={home.testimonios} items={testimonios} />}
-    <Faq site={site} faq={home.faq} items={faqs} />
-    <Cta site={site} cta={home.cta} />
+    {bloques.map((b) => (
+      <Fragment>
+        {b.id === 'manifiesto' && <Manifiesto m={home.manifiesto} />}
+        {b.id === 'sabai' && <Sabai site={site} s={home.sabai} />}
+        {b.id === 'cifras' && <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />}
+        {b.id === 'viaje' && <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} moto={home.moto} />}
+        {b.id === 'moto' && home.moto && <Moto site={site} moto={home.moto} />}
+        {b.id === 'statement' && <Statement st={home.statement} />}
+        {b.id === 'ventajas' && <Ventajas v={home.ventajas} />}
+        {b.id === 'fundador' && <Fundador site={site} f={home.fundador} />}
+        {b.id === 'incluye' && <Incluye site={site} inc={home.incluye} />}
+        {b.id === 'testimonios' && testimonios.length > 0 && <Testimonios t={home.testimonios} items={testimonios} />}
+        {b.id === 'faq' && <Faq site={site} faq={home.faq} items={faqs} />}
+        {b.id === 'cta' && <Cta site={site} cta={home.cta} />}
+      </Fragment>
+    ))}
   </main>
   <Footer site={site} frase={home.footer.frase} />
   <Flotante site={site} proxima={proxima} />

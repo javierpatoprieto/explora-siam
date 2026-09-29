@@ -17,6 +17,10 @@
   legend { font-weight:600; font-size:15px; padding:0 8px; }
   label { display:block; margin:0 0 16px; }
   label.fila { display:flex; align-items:center; gap:10px; }
+  .lista { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 14px; padding:10px 12px; background:#f7f6f3; border-radius:10px; }
+  .lista strong { flex:1 1 220px; font-weight:600; }
+  .lista select { width:auto; max-width:260px; }
+  .lista .btn { padding:6px 12px; font-size:14px; }
   label.fila input { width:auto; margin:0; }
   label span { display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
   input[type=text], input[type=number], textarea, select { width:100%; font:inherit; font-size:15px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }

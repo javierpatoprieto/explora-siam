@@ -17,6 +17,7 @@
     <a href="?s=videos" class="<?= $seccion === 'videos' ? 'on' : '' ?>">Vídeos</a>
     <a href="?s=viaje" class="<?= $seccion === 'viaje' ? 'on' : '' ?>">Viaje</a>
     <a href="?s=preguntas" class="<?= $seccion === 'preguntas' ? 'on' : '' ?>">Preguntas</a>
+    <a href="?s=secciones" class="<?= $seccion === 'secciones' ? 'on' : '' ?>">Secciones</a>
   </nav>
   <div><a href="https://explorasiam.com" target="_blank" rel="noopener" class="salir">Ver la web</a> · <a href="?salir=1" class="salir">Salir</a></div>
 </header>
@@ -58,6 +59,25 @@
         <?php endforeach; ?>
       </fieldset>
     <?php endforeach; ?>
+    <fieldset>
+      <legend>Añadir o quitar elementos</legend>
+      <p class="guia">Elige el elemento y pulsa el botón. Al añadir uno nuevo aparece vacío arriba, en su sección, listo para escribirlo. Lo que hayas escrito se guarda también.</p>
+      <?php foreach (listas_editables() as [$ruta, $nombreLista, ]):
+          $elementos = lista_actual($home['datos'], $ruta); ?>
+        <div class="lista">
+          <strong><?= e($nombreLista) ?></strong>
+          <select name="lista_idx[<?= e($ruta) ?>]">
+            <?php foreach ($elementos as $i => $el): ?>
+              <option value="<?= (int) $i ?>"><?= e(resumen_elemento($el, (int) $i)) ?></option>
+            <?php endforeach; ?>
+          </select>
+          <button class="btn claro" type="submit" name="lista_sube" value="<?= e($ruta) ?>">Subir</button>
+          <button class="btn claro" type="submit" name="lista_baja" value="<?= e($ruta) ?>">Bajar</button>
+          <button class="btn claro" type="submit" name="lista_del" value="<?= e($ruta) ?>" onclick="return confirm('¿Quitar el elemento elegido?')">Quitar</button>
+          <button class="btn claro" type="submit" name="lista_add" value="<?= e($ruta) ?>">Añadir otro</button>
+        </div>
+      <?php endforeach; ?>
+    </fieldset>
     <div class="guardar"><button class="btn" type="submit">Guardar cambios</button></div>
   </form>
 
@@ -143,6 +163,25 @@
       </form>
     </fieldset>
   <?php endforeach; ?>
+
+<?php elseif ($seccion === 'secciones'): ?>
+  <h1>Secciones de la portada</h1>
+  <p class="guia">Quita la marca a una sección para que deje de verse, o muévela de sitio con Subir y Bajar. La portada de arriba y el pie de página no se mueven.</p>
+  <form method="post">
+    <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+    <input type="hidden" name="accion" value="secciones">
+    <?php foreach ($secciones as $i => $s): ?>
+      <div class="lista">
+        <label class="fila">
+          <input type="checkbox" name="mostrar[<?= e($s['id']) ?>]" <?= $s['mostrar'] ? 'checked' : '' ?>>
+          <span><?= e(nombres_secciones()[$s['id']] ?? $s['id']) ?></span>
+        </label>
+        <button class="btn claro" type="submit" name="sube" value="<?= e($s['id']) ?>" <?= $i === 0 ? 'disabled' : '' ?>>Subir</button>
+        <button class="btn claro" type="submit" name="baja" value="<?= e($s['id']) ?>" <?= $i === count($secciones) - 1 ? 'disabled' : '' ?>>Bajar</button>
+      </div>
+    <?php endforeach; ?>
+    <div class="guardar"><button class="btn" type="submit">Guardar cambios</button></div>
+  </form>
 
 <?php elseif ($seccion === 'preguntas'): ?>
   <h1>Preguntas frecuentes</h1>

@@ -1,0 +1,52 @@
+{
+    "orden": [
+        {
+            "id": "manifiesto",
+            "mostrar": true
+        },
+        {
+            "id": "sabai",
+            "mostrar": true
+        },
+        {
+            "id": "cifras",
+            "mostrar": true
+        },
+        {
+            "id": "viaje",
+            "mostrar": true
+        },
+        {
+            "id": "moto",
+            "mostrar": true
+        },
+        {
+            "id": "statement",
+            "mostrar": true
+        },
+        {
+            "id": "ventajas",
+            "mostrar": true
+        },
+        {
+            "id": "fundador",
+            "mostrar": true
+        },
+        {
+            "id": "incluye",
+            "mostrar": true
+        },
+        {
+            "id": "testimonios",
+            "mostrar": false
+        },
+        {
+            "id": "faq",
+            "mostrar": true
+        },
+        {
+            "id": "cta",
+            "mostrar": true
+        }
+    ]
+}

@@ -29,6 +29,11 @@
         "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
         "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
     },
+    "estilo": {
+        "acento": "#dd8a72",
+        "acentoSuave": "#f6e4dc",
+        "tinta": "#17181a"
+    },
     "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform",
     "dossier": "/dossier-mae-hong-son-loop.pdf",
     "analytics": "G-0NDM8BR5NF",

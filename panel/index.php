@@ -25,6 +25,7 @@ const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
 const TEXTOS_FOTOS = 'content/fotos.json';
 const FAQS = 'content/faqs';
+const SECCIONES = 'content/secciones.json';
 const VIDEOS = 'public/video';
 
 // La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
@@ -298,6 +299,11 @@ $CAMPOS = [
         ['home', 'cta.boton', 'Botón', 'linea'],
         ['home', 'cta.microcopy', 'Frase bajo el botón', 'linea'],
     ],
+    'Colores de la web' => [
+        ['sitio', 'estilo.acento', 'Color principal (botones y detalles), en formato #rrggbb', 'linea'],
+        ['sitio', 'estilo.acentoSuave', 'Color principal suave (fondos)', 'linea'],
+        ['sitio', 'estilo.tinta', 'Color del texto y los fondos oscuros', 'linea'],
+    ],
     'Contacto y medición' => [
         ['sitio', 'whatsapp', 'WhatsApp (internacional, sin +)', 'linea'],
         ['sitio', 'email', 'Email', 'linea'],
@@ -307,6 +313,178 @@ $CAMPOS = [
         ['sitio', 'verificacionGoogle', 'Verificación de Google Search Console', 'linea'],
     ],
 ];
+
+/* ------------------------------------------------- listas y secciones */
+// Además de cambiar textos, Dani puede añadir y quitar elementos de las listas
+// (cifras, puntos de «qué incluye», días de la ruta…) y decidir qué secciones
+// se ven y en qué orden.
+
+/** Listas que se pueden alargar o acortar desde el panel. */
+function listas_editables(): array
+{
+    return [
+        ['hechos', 'Datos rápidos de la portada', 'texto'],
+        ['hero.cinta', 'Cinta de sitios de la portada', 'texto'],
+        ['cifras', 'Cifras', ['valor' => '', 'unidad' => '', 'etiqueta' => '']],
+        ['manifiesto.bloques', 'Bloques del texto', ['titulo' => '', 'texto' => '']],
+        ['ventajas.items', 'Puntos de «Por qué conmigo»', ['icono' => 'guia', 'titulo' => '', 'texto' => '']],
+        ['incluye.incluido', 'Lo que incluye', 'texto'],
+        ['incluye.noIncluido', 'Lo que no incluye', 'texto'],
+        ['fundador.parrafos', 'Párrafos de la carta', 'texto'],
+        ['fundador.datos', 'Datos junto al retrato', 'texto'],
+        ['moto.datos', 'Cifras de la ruta en moto', ['valor' => '', 'etiqueta' => '']],
+        ['moto.dias', 'Días de la ruta en moto', ['titulo' => '', 'texto' => '', 'imagen' => '']],
+    ];
+}
+
+/** La lista tal y como está guardada. */
+function lista_actual(array $datos, string $camino): array
+{
+    foreach (explode('.', $camino) as $parte) {
+        if (!is_array($datos) || !array_key_exists($parte, $datos)) {
+            return [];
+        }
+        $datos = $datos[$parte];
+    }
+    return is_array($datos) ? $datos : [];
+}
+
+/**
+ * Añade, quita o mueve un elemento de una lista de la home.
+ * Devuelve [cambió, mensaje de error].
+ */
+function tocar_lista(array &$home, string $orden, string $camino, int $indice): array
+{
+    $molde = null;
+    $nombre = $camino;
+    foreach (listas_editables() as [$ruta, $etiqueta, $tipo]) {
+        if ($ruta === $camino) {
+            $molde = $tipo;
+            $nombre = $etiqueta;
+        }
+    }
+    if ($molde === null) {
+        return [false, 'Esa lista no se puede cambiar desde aquí.'];
+    }
+    $lista = array_values(lista_actual($home, $camino));
+
+    if ($orden === 'add') {
+        if ($molde === 'texto') {
+            $lista[] = '';
+        } else {
+            $nuevo = $molde;
+            // Las fotos se heredan del último, para que no quede ningún hueco sin imagen.
+            $ultimo = $lista ? (array) end($lista) : [];
+            foreach ($nuevo as $k => $v) {
+                if ($v === '' && str_contains(strtolower($k), 'imagen') && isset($ultimo[$k])) {
+                    $nuevo[$k] = $ultimo[$k];
+                }
+            }
+            $lista[] = $nuevo;
+        }
+        fijar($home, $camino, $lista);
+        return [true, ''];
+    }
+
+    if (!array_key_exists($indice, $lista)) {
+        return [false, 'Ese elemento ya no está.'];
+    }
+
+    if ($orden === 'del') {
+        if (count($lista) <= 1) {
+            return [false, 'No se puede quedar vacía «' . $nombre . '».'];
+        }
+        array_splice($lista, $indice, 1);
+        fijar($home, $camino, $lista);
+        return [true, ''];
+    }
+
+    $destino = $orden === 'sube' ? $indice - 1 : $indice + 1;
+    if ($destino < 0 || $destino >= count($lista)) {
+        return [false, ''];
+    }
+    [$lista[$indice], $lista[$destino]] = [$lista[$destino], $lista[$indice]];
+    fijar($home, $camino, $lista);
+    return [true, ''];
+}
+
+/** Nombre corto de cada elemento de una lista, para el desplegable. */
+function resumen_elemento($elemento, int $i): string
+{
+    $texto = is_array($elemento)
+        ? (string) ($elemento['titulo'] ?? $elemento['valor'] ?? $elemento['texto'] ?? '')
+        : (string) $elemento;
+    $texto = trim((string) preg_replace('/\s+/', ' ', $texto));
+    if ($texto === '') {
+        return ($i + 1) . '. (vacío)';
+    }
+    return ($i + 1) . '. ' . (mb_strlen($texto) > 40 ? mb_substr($texto, 0, 38) . '…' : $texto);
+}
+
+/** Secciones de la home, con el nombre que ve Dani. */
+function nombres_secciones(): array
+{
+    return [
+        'manifiesto' => '¿Y si esta vez Tailandia fuera diferente?',
+        'sabai' => 'Sabai sabai',
+        'cifras' => 'Cifras',
+        'viaje' => 'El viaje (etapas por zonas)',
+        'moto' => 'La ruta en moto',
+        'statement' => 'Frase destacada',
+        'ventajas' => 'Por qué conmigo',
+        'fundador' => 'Quién te acompaña',
+        'incluye' => 'Qué incluye',
+        'testimonios' => 'Testimonios',
+        'faq' => 'Preguntas frecuentes',
+        'cta' => 'Cierre',
+    ];
+}
+
+/** Orden guardado, completado con las secciones que falten. */
+function orden_secciones(?array $doc): array
+{
+    $orden = [];
+    foreach ((($doc['datos'] ?? [])['orden'] ?? []) as $s) {
+        $id = (string) ($s['id'] ?? '');
+        if (isset(nombres_secciones()[$id])) {
+            $orden[$id] = ['id' => $id, 'mostrar' => (bool) ($s['mostrar'] ?? true)];
+        }
+    }
+    foreach (nombres_secciones() as $id => $nombre) {
+        $orden[$id] ??= ['id' => $id, 'mostrar' => true];
+    }
+    return array_values($orden);
+}
+
+/** Guarda la sección de secciones: qué se ve y en qué orden. */
+function guardar_secciones(): array
+{
+    $doc = leer_json(SECCIONES);
+    $orden = orden_secciones($doc);
+    $mover = (string) ($_POST['sube'] ?? $_POST['baja'] ?? '');
+    if ($mover !== '') {
+        $arriba = isset($_POST['sube']);
+        foreach ($orden as $i => $s) {
+            if ($s['id'] !== $mover) {
+                continue;
+            }
+            $destino = $arriba ? $i - 1 : $i + 1;
+            if ($destino < 0 || $destino >= count($orden)) {
+                return ['ok', 'Ya estaba en el extremo.'];
+            }
+            [$orden[$i], $orden[$destino]] = [$orden[$destino], $orden[$i]];
+            break;
+        }
+    } else {
+        foreach ($orden as $i => $s) {
+            $orden[$i]['mostrar'] = isset($_POST['mostrar'][$s['id']]);
+        }
+    }
+    [$ok, $err] = guardar_json(SECCIONES, ['orden' => $orden], $doc['sha'] ?? null, 'Panel: secciones de la web');
+    return $ok
+        ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['mal', 'No se pudo guardar: ' . $err];
+}
 
 /* ------------------------------------------------------------- preguntas */
 // Cada pregunta es un archivo suelto en content/faqs. Aquí se pueden cambiar,
@@ -625,8 +803,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                     }
                 }
             }
+            // Añadir, quitar o mover un elemento de una lista, si se ha pulsado uno de esos botones.
+            $ordenLista = '';
+            $caminoLista = '';
+            foreach (['add', 'del', 'sube', 'baja'] as $op) {
+                if (isset($_POST['lista_' . $op]) && $_POST['lista_' . $op] !== '') {
+                    $ordenLista = $op;
+                    $caminoLista = (string) $_POST['lista_' . $op];
+                }
+            }
+            $errorLista = '';
+            if ($ordenLista !== '') {
+                $indice = (int) ($_POST['lista_idx'][$caminoLista] ?? 0);
+                [$hecho, $errorLista] = tocar_lista($home['datos'], $ordenLista, $caminoLista, $indice);
+                if ($hecho) {
+                    $cambios++;
+                }
+            }
             if ($cambios === 0) {
-                $aviso = ['ok', 'No había nada que cambiar.'];
+                $aviso = ['ok', $errorLista !== '' ? $errorLista : 'No había nada que cambiar.'];
             } else {
                 [$ok1] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: textos de la home');
                 [$ok2, $err] = guardar_json(SITIO, $sitio['datos'], $sitio['sha'], 'Panel: datos de contacto');
@@ -655,6 +850,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
+    } elseif (($_POST['accion'] ?? '') === 'secciones') {
+        $aviso = guardar_secciones();
     } elseif (($_POST['accion'] ?? '') === 'preguntas') {
         $aviso = guardar_preguntas();
     } elseif (($_POST['accion'] ?? '') === 'hueco') {
@@ -880,6 +1077,7 @@ if (!$sinConexion) {
     $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
 }
 $preguntas = (!$sinConexion && $seccion === 'preguntas') ? leer_preguntas() : [];
+$secciones = (!$sinConexion && $seccion === 'secciones') ? orden_secciones(leer_json(SECCIONES)) : [];
 
 require __DIR__ . '/vista.php';
 

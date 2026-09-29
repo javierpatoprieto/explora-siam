@@ -11,6 +11,12 @@ const { title = site.seoTitulo, description = site.seoDescripcion, ogImage = '/o
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const robots = site.indexar && !noindex ? 'index, follow' : 'noindex, nofollow';
 const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
+// Colores que Dani puede cambiar desde el panel. Si no toca nada, quedan los de siempre.
+const estilo = site.estilo ?? {};
+const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': estilo.acentoSuave, '--ink': estilo.tinta })
+  .filter(([, v]) => typeof v === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(v))
+  .map(([k, v]) => `${k}:${v}`)
+  .join(';');
 ---
 <!doctype html>
 <html lang="es">
@@ -23,6 +29,7 @@ const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <meta name="theme-color" content="#17181a" />
+    {colores && <style set:html={`:root{${colores}}`}></style>}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.marca} />
     <meta property="og:title" content={title} />
