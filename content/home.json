@@ -9,9 +9,9 @@
         "botonSecundario": "Ver la ruta",
         "poster": "../src/assets/img/moto-curva-169.jpg",
         "posterMovil": "../src/assets/img/moto-curva-45.jpg",
-        "videoMp4": "",
+        "videoMp4": "https://media.explorasiam.com/portada.mp4",
         "videoWebm": "",
-        "videoSonido": false,
+        "videoSonido": true,
         "mostrarProximaSalida": false,
         "cinta": [
             "Bangkok",
@@ -23,7 +23,10 @@
             "Ban Rak Thai",
             "Ban Ja Bo",
             "Pai"
-        ]
+        ],
+        "videoFecha": "2026-09-29",
+        "videoTitulo": "Camino a Mae Hong Son",
+        "videoDescripcion": "Dia soleado de camino a Mae Hong Son"
     },
     "hechos": [
         "Grupos de 6 a 8 personas",
