@@ -10,7 +10,7 @@
         },
         {
             "id": "cifras",
-            "mostrar": true
+            "mostrar": false
         },
         {
             "id": "viaje",
