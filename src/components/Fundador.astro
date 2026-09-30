@@ -4,7 +4,7 @@ import Wa from './Wa.astro';
 import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, f } = Astro.props;
 ---
-<section class="fund wrap section" id="dani">
+<section class="fund wrap section" id="dani" data-editar="textos#c-fundador-titulo" data-editar-fotos="fotos#f-home-fundador-retrato">
   <div class="fund__img" data-reveal>
     <Foto src={f.retrato} alt={site.fundador} class="cover" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 45vw" />
     {f.retratoPie && <span class="cap">{f.retratoPie}</span>}

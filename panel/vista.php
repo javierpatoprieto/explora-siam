@@ -19,7 +19,7 @@
     <a href="?s=preguntas" class="<?= $seccion === 'preguntas' ? 'on' : '' ?>">Preguntas</a>
     <a href="?s=secciones" class="<?= $seccion === 'secciones' ? 'on' : '' ?>">Secciones</a>
   </nav>
-  <div><a href="https://explorasiam.com" target="_blank" rel="noopener" class="salir">Ver la web</a> · <a href="?salir=1" class="salir">Salir</a></div>
+  <div><a href="https://explorasiam.com/?editar" target="_blank" rel="noopener" class="salir">Editar sobre la web</a> · <a href="https://explorasiam.com" target="_blank" rel="noopener" class="salir">Ver la web</a> · <a href="?salir=1" class="salir">Salir</a></div>
 </header>
 
 <main>
@@ -48,7 +48,7 @@
             $actual = ($aviso[0] ?? '') === 'mal' && isset($_POST['c'][$clave])
                 ? (string) $_POST['c'][$clave]
                 : valor($datos, $camino); ?>
-          <label>
+          <label id="c-<?= e(($donde === 'sitio' ? 'sitio-' : '') . str_replace('.', '-', $camino)) ?>">
             <span><?= e($etiqueta) ?></span>
             <?php if ($tipo === 'parrafo'): ?>
               <textarea name="c[<?= e($clave) ?>]"><?= e($actual) ?></textarea>
@@ -112,7 +112,7 @@
     <?php endif;
     $tx = $textosFotos[$h['archivo']] ?? [];
     $otros = array_values(array_filter($usos[$h['archivo']] ?? [], fn ($u) => $u !== $h['grupo'] . ' · ' . $h['etiqueta'])); ?>
-    <div class="foto">
+    <div class="foto" id="f-<?= e(str_replace(['|', '.'], '-', $h['id'])) ?>">
       <?php if ($h['archivo'] !== ''): ?><img src="?foto=<?= e(rawurlencode($h['archivo'])) ?>" alt="" loading="lazy"><?php endif; ?>
       <form method="post" enctype="multipart/form-data" class="pie">
         <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
@@ -144,7 +144,7 @@
   <?php endif; ?>
   <?php foreach (huecos_videos() as [$donde, $grupo, $etiqueta, $pre, $campoUrl]):
     $actual = valor($home['datos'], $campoUrl); ?>
-    <h2 class="grupo-fotos"><?= e($grupo) ?></h2>
+    <h2 class="grupo-fotos" id="v-<?= e($donde) ?>"><?= e($grupo) ?></h2>
     <fieldset>
       <legend><?= e($etiqueta) ?></legend>
       <p class="guia"><?= $actual ? 'Ahora mismo: <code>' . e($actual) . '</code>' : ($donde === 'hero' ? 'Ahora mismo no hay vídeo: se ve la foto de fondo.' : 'Ahora mismo no hay vídeo: la tarjeta muestra solo la foto.') ?></p>

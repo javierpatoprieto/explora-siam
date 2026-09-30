@@ -5,7 +5,7 @@ const { site, hero, proxima } = Astro.props;
 const hasVideo = Boolean(hero.videoMp4);
 const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
 ---
-<section class="hero" id="hero">
+<section class="hero" id="hero" data-editar="textos#c-hero-titulo" data-editar-fotos="fotos#f-home-hero-poster" data-editar-videos="videos#v-hero">
   <div class="hero__media">
     {hasVideo ? (
       <video class="cover" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src} title={hero.videoTitulo || undefined} aria-label={hero.videoDescripcion || hero.videoTitulo || undefined}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>

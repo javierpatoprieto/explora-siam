@@ -2,7 +2,7 @@
 import Foto from './Foto.astro';
 const { m } = Astro.props;
 ---
-<section class="mani section" id="manifiesto">
+<section class="mani section" id="manifiesto" data-editar="textos#c-manifiesto-titulo" data-editar-fotos="fotos#f-home-manifiesto-imagen">
   <div class="wrap mani__grid">
     <h2 class="mani__h" data-reveal>{m.titulo} <em>{m.destacado}</em> {m.cierre}</h2>
     <div class="mani__blocks">

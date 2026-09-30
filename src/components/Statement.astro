@@ -2,7 +2,7 @@
 import Foto from './Foto.astro';
 const { st } = Astro.props;
 ---
-<section class="st wrap section center" data-reveal>
+<section class="st wrap section center" data-reveal data-editar="textos#c-statement-antes" data-editar-fotos="fotos#f-home-statement-imagen1">
   <h2 class="st__h">{st.antes} <span class="pill"><Foto src={st.imagen1} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.medio} <span class="pill"><Foto src={st.imagen2} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.despues}</h2>
   <p class="sub">{st.texto}</p>
 </section>
