@@ -26,7 +26,7 @@
         },
         {
             "id": "ventajas",
-            "mostrar": true
+            "mostrar": false
         },
         {
             "id": "fundador",
