@@ -3,7 +3,7 @@ import Foto from './Foto.astro';
 const { t, items } = Astro.props;
 const rot = [-6, 3, -2, 5, -4];
 ---
-<section class="tst section" id="testimonios">
+<section class="tst section" id="testimonios" data-editar="textos#c-testimonios-titulo">
   <div class="wrap center tst__head" data-reveal><span class="eyebrow">Historias reales</span><h2>{t.titulo}</h2></div>
   <div class="wrap tst__row" data-reveal>
     {items.map((r: any, i: number) => (

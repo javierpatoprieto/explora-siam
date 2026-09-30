@@ -4,6 +4,7 @@ import '@fontsource-variable/inter-tight';
 import '../styles/global.css';
 import { getEntry } from 'astro:content';
 import Cookies from '../components/Cookies.astro';
+import Editar from '../components/Editar.astro';
 
 interface Props { title?: string; description?: string; ogImage?: string; noindex?: boolean; jsonLd?: unknown[] }
 const site = (await getEntry('site', 'site'))!.data;
@@ -46,6 +47,7 @@ const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': est
   <body>
     <slot />
     <Cookies ga={ga} />
+    <Editar />
     <script>
       // Revelado suave al hacer scroll
       const io = new IntersectionObserver(

@@ -5,7 +5,7 @@ const d = salida?.data;
 const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '', foco: ruta.focos?.[i] || '50% 50%' }));
 const sizes = ['a', 'b', 'c', 'd', 'e'];
 ---
-<section class="dest section" id="viaje">
+<section class="dest section" id="viaje" data-editar="textos#c-ruta-titulo" data-editar-fotos="fotos#f-home-ruta-imagenes-0" data-editar-videos="videos#v-banda">
   <div class="wrap center dest__head" data-reveal><span class="eyebrow">{ruta.etiqueta}</span><h2>{ruta.titulo}</h2><p class="sub">{d?.descripcion}</p></div>
   <div class="wrap bento" data-reveal>
     {etapas.map((e: any, i: number) => (

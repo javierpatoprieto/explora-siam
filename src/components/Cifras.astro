@@ -1,7 +1,7 @@
 ---
 const { cifras, titulo, texto } = Astro.props;
 ---
-<section class="stats wrap section">
+<section class="stats wrap section" data-editar="textos#c-cifrasTexto-titulo">
   <div class="stats__txt" data-reveal><h2>{titulo}</h2><p class="sub">{texto}</p></div>
   <dl class="stats__list" data-reveal>
     {cifras.map((c: any) => (<div class="stat"><dt>{c.valor}<small>{c.unidad}</small></dt><dd>{c.etiqueta}</dd></div>))}

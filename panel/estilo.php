@@ -54,6 +54,9 @@
   .foto code { font-size:12px; color:var(--muted); word-break:break-all; }
   .foto input[type=file] { font-size:12px; width:100%; }
   .fotos { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+  label:target, .foto:target, h2:target { animation: destacar 2.5s ease; scroll-margin-top: 90px; }
+  label:target span { color: var(--ink); font-weight: 600; }
+  @keyframes destacar { 0%, 60% { background: #fff3cd; box-shadow: 0 0 0 6px #fff3cd; border-radius: 8px; } 100% { background: transparent; box-shadow: none; } }
   .grupo-fotos { font-size:19px; font-weight:600; letter-spacing:-.02em; margin:36px 0 12px; }
   .foto .pie label { margin:0; }
   .foto .pie input[type=text], .foto .pie textarea { font-size:13px; padding:8px 10px; }
