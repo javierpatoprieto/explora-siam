@@ -11,7 +11,7 @@
         "posterMovil": "../src/assets/img/moto-curva-45.jpg",
         "videoMp4": "https://media.explorasiam.com/portada.mp4",
         "videoWebm": "",
-        "videoSonido": true,
+        "videoSonido": false,
         "mostrarProximaSalida": false,
         "cinta": [
             "Bangkok",
