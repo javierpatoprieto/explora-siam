@@ -25,7 +25,6 @@ const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
 const TEXTOS_FOTOS = 'content/fotos.json';
 const FAQS = 'content/faqs';
-const SECCIONES = 'content/secciones.json';
 const VIDEOS = 'public/video';
 
 // La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
@@ -218,6 +217,11 @@ $CAMPOS = [
         ['home', 'hero.subtitulo', 'Texto bajo el titular', 'parrafo'],
         ['home', 'hero.botonPrimario', 'Botón de WhatsApp', 'linea'],
         ['home', 'hero.microcopy', 'Frase bajo el botón', 'linea'],
+        ['home', 'hero.botonSecundario', 'Segundo botón (lleva a la ruta)', 'linea'],
+    ],
+    'Cifras de la portada' => [
+        ['home', 'cifrasTexto.titulo', 'Titular junto a las cifras', 'linea'],
+        ['home', 'cifrasTexto.texto', 'Texto junto a las cifras', 'parrafo'],
     ],
     '¿Y si esta vez…?' => [
         ['home', 'manifiesto.titulo', 'Titular, inicio', 'linea'],
@@ -239,6 +243,8 @@ $CAMPOS = [
         ['home', 'sabai.parrafos.2', 'Tercer párrafo', 'parrafo'],
         ['home', 'sabai.pregunta', 'Pregunta final', 'linea'],
         ['home', 'sabai.boton', 'Botón de WhatsApp', 'linea'],
+        ['home', 'sabai.pie', 'Pie de la foto principal', 'linea'],
+        ['home', 'sabai.pie2', 'Pie de la foto pequeña', 'linea'],
     ],
     'Frase destacada' => [
         ['home', 'statement.antes', 'Frase, primera parte', 'linea'],
@@ -279,7 +285,12 @@ $CAMPOS = [
         ['home', 'moto.cierre', 'Frase de la última tarjeta', 'linea'],
         ['home', 'moto.cierreBoton', 'Botón de la última tarjeta', 'linea'],
     ],
+    'Por qué conmigo' => [
+        ['home', 'ventajas.titulo', 'Titular', 'linea'],
+        ['home', 'ventajas.texto', 'Texto de entrada', 'parrafo'],
+    ],
     'Quién te acompaña' => [
+        ['home', 'fundador.etiqueta', 'Etiqueta', 'linea'],
         ['home', 'fundador.titulo', 'Titular', 'linea'],
         ['home', 'fundador.parrafos.0', 'Primer párrafo', 'parrafo'],
         ['home', 'fundador.parrafos.1', 'Segundo párrafo', 'parrafo'],
@@ -293,11 +304,20 @@ $CAMPOS = [
         ['home', 'incluye.microcopy', 'Texto', 'parrafo'],
         ['home', 'incluye.enlace', 'Texto del enlace a WhatsApp', 'linea'],
     ],
+    'Preguntas frecuentes' => [
+        ['home', 'faq.titulo', 'Titular', 'linea'],
+        ['home', 'faq.intro', 'Texto de entrada', 'parrafo'],
+        ['home', 'faq.enlace', 'Texto del enlace a WhatsApp', 'linea'],
+        ['home', 'faq.verTodas', 'Texto del enlace a todas las preguntas', 'linea'],
+    ],
     'Cierre' => [
         ['home', 'cta.titulo', 'Titular', 'linea'],
         ['home', 'cta.subtitulo', 'Texto', 'parrafo'],
         ['home', 'cta.boton', 'Botón', 'linea'],
         ['home', 'cta.microcopy', 'Frase bajo el botón', 'linea'],
+    ],
+    'Pie de página' => [
+        ['home', 'footer.frase', 'Frase del pie', 'linea'],
     ],
     'Colores de la web' => [
         ['sitio', 'estilo.acento', 'Color principal (botones y detalles), en formato #rrggbb', 'linea'],
@@ -314,10 +334,11 @@ $CAMPOS = [
     ],
 ];
 
-/* ------------------------------------------------- listas y secciones */
+/* ------------------------------------------------------------ listas */
 // Además de cambiar textos, Dani puede añadir y quitar elementos de las listas
-// (cifras, puntos de «qué incluye», días de la ruta…) y decidir qué secciones
-// se ven y en qué orden.
+// (cifras, puntos de «qué incluye», días de la ruta…). El orden de las
+// secciones y la estructura de la web no se tocan desde aquí: los decide el
+// diseño, en content/secciones.json.
 
 /** Listas que se pueden alargar o acortar desde el panel. */
 function listas_editables(): array
@@ -421,70 +442,8 @@ function resumen_elemento($elemento, int $i): string
     return ($i + 1) . '. ' . (mb_strlen($texto) > 40 ? mb_substr($texto, 0, 38) . '…' : $texto);
 }
 
-/** Secciones de la home, con el nombre que ve Dani. */
-function nombres_secciones(): array
-{
-    return [
-        'manifiesto' => '¿Y si esta vez Tailandia fuera diferente?',
-        'sabai' => 'Sabai sabai',
-        'cifras' => 'Cifras',
-        'viaje' => 'El viaje (etapas por zonas)',
-        'moto' => 'La ruta en moto',
-        'statement' => 'Frase destacada',
-        'ventajas' => 'Por qué conmigo',
-        'fundador' => 'Quién te acompaña',
-        'incluye' => 'Qué incluye',
-        'testimonios' => 'Testimonios',
-        'faq' => 'Preguntas frecuentes',
-        'cta' => 'Cierre',
-    ];
-}
 
-/** Orden guardado, completado con las secciones que falten. */
-function orden_secciones(?array $doc): array
-{
-    $orden = [];
-    foreach ((($doc['datos'] ?? [])['orden'] ?? []) as $s) {
-        $id = (string) ($s['id'] ?? '');
-        if (isset(nombres_secciones()[$id])) {
-            $orden[$id] = ['id' => $id, 'mostrar' => (bool) ($s['mostrar'] ?? true)];
-        }
-    }
-    foreach (nombres_secciones() as $id => $nombre) {
-        $orden[$id] ??= ['id' => $id, 'mostrar' => true];
-    }
-    return array_values($orden);
-}
 
-/** Guarda la sección de secciones: qué se ve y en qué orden. */
-function guardar_secciones(): array
-{
-    $doc = leer_json(SECCIONES);
-    $orden = orden_secciones($doc);
-    $mover = (string) ($_POST['sube'] ?? $_POST['baja'] ?? '');
-    if ($mover !== '') {
-        $arriba = isset($_POST['sube']);
-        foreach ($orden as $i => $s) {
-            if ($s['id'] !== $mover) {
-                continue;
-            }
-            $destino = $arriba ? $i - 1 : $i + 1;
-            if ($destino < 0 || $destino >= count($orden)) {
-                return ['ok', 'Ya estaba en el extremo.'];
-            }
-            [$orden[$i], $orden[$destino]] = [$orden[$destino], $orden[$i]];
-            break;
-        }
-    } else {
-        foreach ($orden as $i => $s) {
-            $orden[$i]['mostrar'] = isset($_POST['mostrar'][$s['id']]);
-        }
-    }
-    [$ok, $err] = guardar_json(SECCIONES, ['orden' => $orden], $doc['sha'] ?? null, 'Panel: secciones de la web');
-    return $ok
-        ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
-        : ['mal', 'No se pudo guardar: ' . $err];
-}
 
 /* ------------------------------------------------------------- preguntas */
 // Cada pregunta es un archivo suelto en content/faqs. Aquí se pueden cambiar,
@@ -850,8 +809,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
-    } elseif (($_POST['accion'] ?? '') === 'secciones') {
-        $aviso = guardar_secciones();
     } elseif (($_POST['accion'] ?? '') === 'preguntas') {
         $aviso = guardar_preguntas();
     } elseif (($_POST['accion'] ?? '') === 'hueco') {
@@ -867,8 +824,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
  * de un hueco sube un archivo nuevo y solo cambia ese sitio, aunque la foto
  * anterior se usara también en otros.
  */
-function huecos_fotos(array $viajes = [], array $etapas = []): array
+function huecos_fotos(array $viajes = [], array $etapas = [], array $home = []): array
 {
+    // Cuántas etapas y cuántos días hay ahora mismo: si Dani añade o quita en
+    // las listas, aquí aparecen o desaparecen sus fotos.
+    $nEtapas = $home ? count($home['ruta']['imagenes'] ?? []) : 5;
+    $nDias = $home ? count($home['moto']['dias'] ?? []) : 6;
     $lista = [
         ['Portada', 'Foto de fondo en ordenador', 'home', 'hero.poster'],
         ['Portada', 'Foto de fondo en móvil', 'home', 'hero.posterMovil'],
@@ -876,11 +837,11 @@ function huecos_fotos(array $viajes = [], array $etapas = []): array
         ['Sabai sabai', 'Foto principal', 'home', 'sabai.imagen'],
         ['Sabai sabai', 'Foto pequeña superpuesta', 'home', 'sabai.imagen2'],
     ];
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < $nEtapas; $i++) {
         $lista[] = ['El viaje', 'Etapa ' . ($i + 1) . (isset($etapas[$i]) && $etapas[$i] !== '' ? ' · ' . $etapas[$i] : ''), 'home', 'ruta.imagenes.' . $i];
     }
     $lista[] = ['El viaje', 'Portada del vídeo', 'home', 'video.poster'];
-    for ($i = 0; $i < 6; $i++) {
+    for ($i = 0; $i < $nDias; $i++) {
         $lista[] = ['La ruta en moto', 'Día ' . ($i + 1), 'home', 'moto.dias.' . $i . '.imagen'];
     }
     $lista[] = ['Frase «No solo es viajar…»', 'Primera foto redonda', 'home', 'statement.imagen1'];
@@ -938,8 +899,9 @@ function validar_foto(): array
 function guardar_hueco(): array
 {
     $id = (string) ($_POST['hueco'] ?? '');
+    $hogar = leer_json(HOME);
     $hueco = null;
-    foreach (huecos_fotos(nombres_viajes()) as $h) {
+    foreach (huecos_fotos(nombres_viajes(), [], $hogar['datos'] ?? []) as $h) {
         if ($h['id'] === $id) {
             $hueco = $h;
         }
@@ -1077,7 +1039,6 @@ if (!$sinConexion) {
     $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
 }
 $preguntas = (!$sinConexion && $seccion === 'preguntas') ? leer_preguntas() : [];
-$secciones = (!$sinConexion && $seccion === 'secciones') ? orden_secciones(leer_json(SECCIONES)) : [];
 
 require __DIR__ . '/vista.php';
 
