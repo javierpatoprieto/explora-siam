@@ -1,6 +1,6 @@
 {
-  "pregunta": "¿Qué tipo de gente viene?",
-  "respuesta": "Un grupo de personas que compartan aficiones y forma de vivir el viaje, y sobre todo con muchas ganas de pasarlo bien y conocer mundo. Mínimo 6, máximo 8.",
-  "enHome": true,
-  "orden": 3
+    "pregunta": "¿Qué tipo de gente viene?",
+    "respuesta": "Éste es uno de los aspectos más importantes y en los que más incide la filosofía de Explora Siam.\r\nEl grupo se va a formar estrictamente por personas con las mismas inquietudes y valores. \r\nNo se va a agregar a nadie que no esté en consonancia con la esencia del viaje sólo por llenar un grupo.",
+    "enHome": true,
+    "orden": 3
 }
