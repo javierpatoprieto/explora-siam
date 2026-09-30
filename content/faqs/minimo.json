@@ -1,6 +1,6 @@
 {
-  "pregunta": "¿Hay grupo mínimo?",
-  "respuesta": "Sí: mínimo 6 personas y máximo 8, para que la experiencia sea la que propongo.",
-  "enHome": false,
-  "orden": 5
+    "pregunta": "¿Hay grupo mínimo?",
+    "respuesta": "Sí, el grupo mínimo será de 6 personas y máximo 8, para que la experiencia sea llevada a cabo de la forma que propone Explora Siam.",
+    "enHome": false,
+    "orden": 5
 }
