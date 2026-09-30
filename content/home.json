@@ -219,7 +219,7 @@
             "Entradas a las actividades y comidas no incluidas",
             "Masajes, extras, ocio y propinas"
         ],
-        "enlace": "Pídeme el dossier completo"
+        "enlace": "Información completa del viaje"
     },
     "faq": {
         "titulo": "Lo que me preguntáis por WhatsApp.",
@@ -379,7 +379,7 @@
             {
                 "icono": "guia",
                 "titulo": "Guía local certificado",
-                "texto": "Un guía habilitado por la TAT nos acompaña durante todo el loop."
+                "texto": "Un rider guía habilitado por la TAT nos acompaña durante todo el loop."
             },
             {
                 "icono": "furgo",
