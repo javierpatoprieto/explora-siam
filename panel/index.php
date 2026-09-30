@@ -25,6 +25,7 @@ const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
 const TEXTOS_FOTOS = 'content/fotos.json';
 const FAQS = 'content/faqs';
+const SECCIONES = 'content/secciones.json';
 const VIDEOS = 'public/video';
 
 // La web vive en Vercel y no ve la carpeta public_html/video del hosting, asi
@@ -334,11 +335,10 @@ $CAMPOS = [
     ],
 ];
 
-/* ------------------------------------------------------------ listas */
+/* ------------------------------------------------- listas y secciones */
 // Además de cambiar textos, Dani puede añadir y quitar elementos de las listas
-// (cifras, puntos de «qué incluye», días de la ruta…). El orden de las
-// secciones y la estructura de la web no se tocan desde aquí: los decide el
-// diseño, en content/secciones.json.
+// (cifras, puntos de «qué incluye», días de la ruta…) y decidir qué secciones
+// se ven y en qué orden.
 
 /** Listas que se pueden alargar o acortar desde el panel. */
 function listas_editables(): array
@@ -442,8 +442,70 @@ function resumen_elemento($elemento, int $i): string
     return ($i + 1) . '. ' . (mb_strlen($texto) > 40 ? mb_substr($texto, 0, 38) . '…' : $texto);
 }
 
+/** Secciones de la home, con el nombre que ve Dani. */
+function nombres_secciones(): array
+{
+    return [
+        'manifiesto' => '¿Y si esta vez Tailandia fuera diferente?',
+        'sabai' => 'Sabai sabai',
+        'cifras' => 'Cifras',
+        'viaje' => 'El viaje (etapas por zonas)',
+        'moto' => 'La ruta en moto',
+        'statement' => 'Frase destacada',
+        'ventajas' => 'Por qué conmigo',
+        'fundador' => 'Quién te acompaña',
+        'incluye' => 'Qué incluye',
+        'testimonios' => 'Testimonios',
+        'faq' => 'Preguntas frecuentes',
+        'cta' => 'Cierre',
+    ];
+}
 
+/** Orden guardado, completado con las secciones que falten. */
+function orden_secciones(?array $doc): array
+{
+    $orden = [];
+    foreach ((($doc['datos'] ?? [])['orden'] ?? []) as $s) {
+        $id = (string) ($s['id'] ?? '');
+        if (isset(nombres_secciones()[$id])) {
+            $orden[$id] = ['id' => $id, 'mostrar' => (bool) ($s['mostrar'] ?? true)];
+        }
+    }
+    foreach (nombres_secciones() as $id => $nombre) {
+        $orden[$id] ??= ['id' => $id, 'mostrar' => true];
+    }
+    return array_values($orden);
+}
 
+/** Guarda la sección de secciones: qué se ve y en qué orden. */
+function guardar_secciones(): array
+{
+    $doc = leer_json(SECCIONES);
+    $orden = orden_secciones($doc);
+    $mover = (string) ($_POST['sube'] ?? $_POST['baja'] ?? '');
+    if ($mover !== '') {
+        $arriba = isset($_POST['sube']);
+        foreach ($orden as $i => $s) {
+            if ($s['id'] !== $mover) {
+                continue;
+            }
+            $destino = $arriba ? $i - 1 : $i + 1;
+            if ($destino < 0 || $destino >= count($orden)) {
+                return ['ok', 'Ya estaba en el extremo.'];
+            }
+            [$orden[$i], $orden[$destino]] = [$orden[$destino], $orden[$i]];
+            break;
+        }
+    } else {
+        foreach ($orden as $i => $s) {
+            $orden[$i]['mostrar'] = isset($_POST['mostrar'][$s['id']]);
+        }
+    }
+    [$ok, $err] = guardar_json(SECCIONES, ['orden' => $orden], $doc['sha'] ?? null, 'Panel: secciones de la web');
+    return $ok
+        ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['mal', 'No se pudo guardar: ' . $err];
+}
 
 /* ------------------------------------------------------------- preguntas */
 // Cada pregunta es un archivo suelto en content/faqs. Aquí se pueden cambiar,
@@ -809,6 +871,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
+    } elseif (($_POST['accion'] ?? '') === 'secciones') {
+        $aviso = guardar_secciones();
     } elseif (($_POST['accion'] ?? '') === 'preguntas') {
         $aviso = guardar_preguntas();
     } elseif (($_POST['accion'] ?? '') === 'hueco') {
@@ -1039,6 +1103,7 @@ if (!$sinConexion) {
     $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
 }
 $preguntas = (!$sinConexion && $seccion === 'preguntas') ? leer_preguntas() : [];
+$secciones = (!$sinConexion && $seccion === 'secciones') ? orden_secciones(leer_json(SECCIONES)) : [];
 
 require __DIR__ . '/vista.php';
 
