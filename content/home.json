@@ -309,7 +309,7 @@
         "dias": [
             {
                 "titulo": "Chiang Mai → Mae Chaem",
-                "texto": "Subida al parque nacional de Doi Inthanon, el pico más alto de Tailandia, trekking suave por Pha Dok Sieu entre cascadas y arrozales hasta llegar a Mae Klang Luang, poblado de la etnia Karen. \r\nVisita a las pagodas reales en el pico Inthanon.\r\nDescendemos entre arrozales hasta Mae Chaem.",
+                "texto": "Subida al parque nacional de Doi Inthanon por la 1009, el pico más alto de Tailandia, después trekking suave por Pha Dok Sieu entre cascadas y arrozales hasta llegar a Mae Klang Luang, poblado de la etnia Karen. \r\nVisita a las pagodas reales en el pico Inthanon.\r\nDescendemos entre arrozales hasta Mae Chaem.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-22-16-32-260921171802.jpg"
             },
             {
@@ -324,17 +324,17 @@
             },
             {
                 "titulo": "Ban Rak Thai → Ban Ja Bo",
-                "texto": "Empezamos con un paseo temprano por el lago en barca china, descenderemos por la 4001 hasta Pha Sua para ver su cascada y más adelante el Fish Cave en su parque natural. \r\nSeguimos ruta por la 1095 con parada en Wat Pa Tam Wua y en el mirador de Ban Luk Khao Lam.\r\n\r\n Ban Ja Bo, colgado sobre el valle.",
+                "texto": "Empezamos con un paseo temprano por el lago en barca china, descenderemos por la 4001 hasta Pha Sua para ver su cascada y más adelante el Fish Cave en su parque natural. \r\nSeguimos ruta por la 1095 con parada en Wat Pa Tam Wua y en el mirador de Ban Luk Khao Lam.\r\nTerminamos en Ban Ja Bo, el pueblo colgado sobre el valle.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-21-57-43-260921170431.jpg"
             },
             {
                 "titulo": "Ban Ja Bo → Pai",
-                "texto": "Amanecer sobre un mar de nubes y curvas de montaña hasta Pai, el pueblo más bohemio del norte.",
+                "texto": "Amanecer sobre un mar de nubes y arrancamos por la 1095 visitando las cuevas de Tham Lot.\r\nContinuamos hasta el mirador de Kiew Lom para tomar un café tranquilamente y curvas de montaña hasta Pai, el pueblo más bohemio del norte. Atardecer en Wat Phra That Mae Yen y night market.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-25-at-18-43-18-260925134520.jpg"
             },
             {
                 "titulo": "Pai → Chiang Mai",
-                "texto": "La carretera de las 762 curvas para cerrar el círculo. Un imprescindible en nuestra ruta motera.",
+                "texto": "La carretera de las 762 curvas para cerrar el círculo en la 1095. Un imprescindible en nuestra ruta motera.\r\nParada en la cascada Mok Fa y Wan Ba Den.\r\nRegreso a Chiang Mai",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-25-at-18-51-25-260925135158.jpg"
             }
         ],
