@@ -223,14 +223,14 @@
         "enlace": "Información completa del viaje"
     },
     "faq": {
-        "titulo": "Lo que me preguntáis por WhatsApp.",
-        "intro": "Lo que me preguntan antes de reservar. Si tu duda no está, escríbeme.",
+        "titulo": "Lo que necesitas saber antes de empezar esta aventura",
+        "intro": "Si tu duda no está aquí, escríbeme",
         "enlace": "Hacer otra pregunta",
         "verTodas": "Ver todas las preguntas"
     },
     "cta": {
         "titulo": "¿Quieres formar parte de esta aventura?",
-        "subtitulo": "Cuéntame por WhatsApp y nos conocernos.",
+        "subtitulo": "Cuéntame por WhatsApp y nos conocemos\r\nO rellena el formulario para agendar una llamada",
         "boton": "Más información.",
         "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
         "imagen": "../src/assets/img/whatsapp-image-2026-09-25-at-18-54-23-260925135454.jpg"
