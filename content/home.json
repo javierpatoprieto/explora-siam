@@ -230,9 +230,9 @@
     },
     "cta": {
         "titulo": "¿Quieres formar parte de esta aventura?",
-        "subtitulo": "Cuéntame por WhatsApp y nos conocemos\r\nO rellena el formulario para agendar una llamada",
+        "subtitulo": "Cuéntame por WhatsApp y nos conocemos o rellena el formulario para agendar una llamada",
         "boton": "Más información.",
-        "microcopy": "Escribir no reserva nada. Solo empieza la conversación.",
+        "microcopy": "",
         "imagen": "../src/assets/img/whatsapp-image-2026-09-25-at-18-54-23-260925135454.jpg"
     },
     "footer": {
