@@ -71,7 +71,10 @@ jobs:
           cp -r prueba/repo/content/. content/
           cp -r prueba/repo/src/assets/img/. src/assets/img/
           npm ci
-          npm run build:static
+          set +e
+          npm run build:static > prueba/compilacion.log 2>&1
+          echo $? > prueba/compilacion.estado
+          tail -n 25 prueba/compilacion.log
         env:
           SITE_URL: https://explorasiam.com
 
@@ -83,6 +86,14 @@ jobs:
             echo "commit: ${{ github.sha }}"
             echo
             cat prueba/resultado.txt 2>/dev/null || echo "(no hubo recorrido)"
+            echo
+            echo "## Compilar la web con lo que escribió el panel"
+            if [ "$(cat prueba/compilacion.estado 2>/dev/null)" = "0" ]; then
+              echo "compila correctamente"
+            else
+              echo "FALLA la compilación:"
+              tail -n 25 prueba/compilacion.log 2>/dev/null
+            fi
             echo
             echo "## Registro del servidor"
             grep -E "PHP (Warning|Notice|Deprecated|Fatal)" prueba/servidor.log || echo "sin avisos"
