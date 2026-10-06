@@ -157,6 +157,9 @@ comprobar "el vídeo de prueba es un mp4" "$tipo" "ftyp"
 vid=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=videos" \
   -F "csrf=$(csrf "?s=videos")" -F "accion=video" -F "donde=banda" \
   -F "archivo=@$DIR/video.mp4;type=video/mp4" -F "titulo=Vídeo de prueba" -F "descripcion=Rodando")
+echo "  · respuesta del panel: $(grep -o 'class="aviso[^"]*">[^<]*' <<< "$vid" | head -1 | sed 's/.*>//')"
+echo "  · carpeta de vídeos: $(ls -la "$DIR/video" 2>/dev/null | tail -n +2 | tr -s ' ' | cut -d' ' -f5,9 | tr '
+' ' ')"
 contiene "la subida del vídeo responde sin error" "Guardado." "$vid"
 if ls "$DIR/video"/*.mp4 > /dev/null 2>&1; then ok "el vídeo queda en la carpeta del hosting"; else falla "el vídeo no se guardó"; fi
 case "$(dato "$CONTENIDO/home.json" video.mp4)" in https://media.explorasiam.com/*video*.mp4) ok "la web apunta al vídeo recién subido";; *) falla "la dirección del vídeo no se actualizó · hay «$(dato "$CONTENIDO/home.json" video.mp4)»";; esac
