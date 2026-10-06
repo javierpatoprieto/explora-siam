@@ -1,0 +1,93 @@
+name: Probar el panel
+
+# Levanta una copia del panel contra una carpeta local (sin tocar la web ni
+# necesitar el token) y lo recorre como lo haría Dani: entrar, cambiar textos,
+# añadir y quitar elementos, preguntas, secciones y viaje. Después compila la
+# web con el contenido ya cambiado, para asegurarse de que nada se rompe.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'panel/**'
+      - 'scripts/prueba-panel/**'
+      - '.github/workflows/probar-panel.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probar:
+    name: Recorrer el panel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, mbstring, gd, exif
+
+      - name: Comprobar la sintaxis del panel
+        run: for f in panel/*.php; do php -l "$f"; done
+
+      - name: Montar el panel de prueba
+        run: python3 scripts/prueba-panel/preparar.py . prueba
+
+      - name: Arrancar el panel
+        run: |
+          php -S 127.0.0.1:8111 -t prueba/panel > prueba/servidor.log 2>&1 &
+          for i in $(seq 1 20); do
+            curl -sf http://127.0.0.1:8111/index.php > /dev/null && break
+            sleep 1
+          done
+
+      - name: Recorrerlo como Dani
+        id: recorrido
+        run: |
+          set -o pipefail
+          bash scripts/prueba-panel/probar.sh prueba 2>&1 | tee prueba/resultado.txt
+
+      - name: Ver si PHP se quejó por lo bajo
+        if: always()
+        run: |
+          if grep -nE "PHP (Warning|Notice|Deprecated|Fatal)" prueba/servidor.log; then
+            echo "::warning::PHP ha dejado avisos en el registro del servidor"
+          else
+            echo "Sin avisos de PHP en el registro"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: always()
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Compilar la web con el contenido ya tocado
+        if: always()
+        run: |
+          cp -r prueba/repo/content/. content/
+          npm ci
+          npm run build:static
+        env:
+          SITE_URL: https://explorasiam.com
+
+      - name: Dejar el resultado donde se pueda leer
+        if: always()
+        run: |
+          {
+            echo "# Prueba del panel · $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo "commit: ${{ github.sha }}"
+            echo
+            cat prueba/resultado.txt 2>/dev/null || echo "(no hubo recorrido)"
+            echo
+            echo "## Registro del servidor"
+            grep -E "PHP (Warning|Notice|Deprecated|Fatal)" prueba/servidor.log || echo "sin avisos"
+          } > resultado-panel.md
+          cat resultado-panel.md >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git checkout --orphan pruebas-panel
+          git rm -rq --cached . || true
+          git add -f resultado-panel.md
+          git commit -qm "Resultado de la prueba del panel"
+          git push -f origin pruebas-panel
