@@ -115,6 +115,45 @@ comprobar "cambia el titular del itinerario" "$(dato "$CONTENIDO/site.json" pagi
 guardar textos -d "c[sitio|estilo.acento]=#b85c3c"
 comprobar "cambia el color principal" "$(dato "$CONTENIDO/site.json" estilo.acento)" "#b85c3c"
 
+echo "== Subir una foto =="
+python3 - "$DIR/foto.jpg" <<'PY'
+import struct, sys, zlib
+# JPEG mínimo de 1x1 válido para getimagesize/finfo
+datos = bytes.fromhex(
+    'ffd8ffe000104a46494600010100000100010000ffdb004300ffffffffffffffffffffffffffffffffff'
+    'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+    'ffffffffffffffffffffffffffffffffffffffffffc2000b080001000101011100ffc40014000100000000'
+    '00000000000000000000000bffda0008010100000000d2cfffd9')
+open(sys.argv[1], 'wb').write(datos)
+PY
+fotos_antes=$(ls "$DIR/repo/src/assets/img" | wc -l)
+subida=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
+  -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
+  -F "archivo=@$DIR/foto.jpg;type=image/jpeg" -F "titulo=Foto de prueba" -F "descripcion=Una foto de prueba")
+contiene "la subida responde sin error" "Guardado" "$subida"
+fotos_despues=$(ls "$DIR/repo/src/assets/img" | wc -l)
+comprobar "la foto nueva se guarda en el repositorio" "$fotos_despues" "$((fotos_antes + 1))"
+nueva=$(dato "$CONTENIDO/home.json" hero.poster)
+case "$nueva" in *foto-*) ok "la portada apunta a la foto nueva";; *) falla "la portada no cambió (hay «$nueva»)";; esac
+contiene "guarda el título de la foto" "Foto de prueba" "$(cat "$CONTENIDO/fotos.json")"
+
+echo "== Rechazar un archivo que no es foto =="
+printf 'esto no es una imagen' > "$DIR/falso.jpg"
+malo=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
+  -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
+  -F "archivo=@$DIR/falso.jpg;type=image/jpeg")
+no_contiene "no acepta un archivo que no es imagen" "Guardado." "$malo"
+
+echo "== Subir un vídeo =="
+head -c 2048 /dev/urandom > "$DIR/video.mp4"
+vid=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=videos" \
+  -F "csrf=$(csrf "?s=videos")" -F "accion=video" -F "donde=banda" \
+  -F "archivo=@$DIR/video.mp4;type=video/mp4" -F "titulo=Vídeo de prueba" -F "descripcion=Rodando")
+contiene "la subida del vídeo responde sin error" "Guardado" "$vid"
+if ls "$DIR/video"/*.mp4 > /dev/null 2>&1; then ok "el vídeo queda en la carpeta del hosting"; else falla "el vídeo no se guardó"; fi
+case "$(dato "$CONTENIDO/home.json" video.mp4)" in https://media.explorasiam.com/*) ok "la web apunta al subdominio de vídeos";; *) falla "la dirección del vídeo no es la del subdominio";; esac
+comprobar "guarda el título del vídeo" "$(dato "$CONTENIDO/home.json" video.videoTitulo)" "Vídeo de prueba"
+
 echo "== Sesión y seguridad =="
 suelto=$(curl -s -X POST "$BASE/index.php?s=textos" -d "accion=textos" -d "c[home|hero.titulo]=sin permiso")
 contiene "sin sesión pide la contraseña" "clave" "$suelto"
