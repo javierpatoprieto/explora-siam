@@ -130,7 +130,7 @@ fotos_antes=$(ls "$DIR/repo/src/assets/img" | wc -l)
 subida=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
   -F "archivo=@$DIR/foto.jpg;type=image/jpeg" -F "titulo=Foto de prueba" -F "descripcion=Una foto de prueba")
-contiene "la subida responde sin error" "Guardado" "$subida"
+contiene "la subida responde sin error" "Guardado." "$subida"
 fotos_despues=$(ls "$DIR/repo/src/assets/img" | wc -l)
 comprobar "la foto nueva se guarda en el repositorio" "$fotos_despues" "$((fotos_antes + 1))"
 nueva=$(dato "$CONTENIDO/home.json" hero.poster)
@@ -142,16 +142,24 @@ printf 'esto no es una imagen' > "$DIR/falso.jpg"
 malo=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
   -F "archivo=@$DIR/falso.jpg;type=image/jpeg")
-no_contiene "no acepta un archivo que no es imagen" "Guardado." "$malo"
+contiene "avisa de que solo admite imágenes" "Solo se admiten imágenes" "$malo"
 
 echo "== Subir un vídeo =="
-head -c 2048 /dev/urandom > "$DIR/video.mp4"
+python3 - "$DIR/video.mp4" <<'PY'
+import sys
+# MP4 mínimo: cabecera ftyp + un moov vacío, suficiente para que PHP lo reconozca
+ftyp = bytes.fromhex('0000001c667479706973366d000002006973366d69736f32617663316d703431')
+moov = bytes.fromhex('0000000c6d6f6f76') + b'\x00' * 64
+open(sys.argv[1], 'wb').write(ftyp + moov)
+PY
+tipo=$(python3 -c "import sys;d=open(sys.argv[1],'rb').read(12);print(d[4:8].decode('latin1'))" "$DIR/video.mp4")
+comprobar "el vídeo de prueba es un mp4" "$tipo" "ftyp"
 vid=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=videos" \
   -F "csrf=$(csrf "?s=videos")" -F "accion=video" -F "donde=banda" \
   -F "archivo=@$DIR/video.mp4;type=video/mp4" -F "titulo=Vídeo de prueba" -F "descripcion=Rodando")
-contiene "la subida del vídeo responde sin error" "Guardado" "$vid"
+contiene "la subida del vídeo responde sin error" "Guardado." "$vid"
 if ls "$DIR/video"/*.mp4 > /dev/null 2>&1; then ok "el vídeo queda en la carpeta del hosting"; else falla "el vídeo no se guardó"; fi
-case "$(dato "$CONTENIDO/home.json" video.mp4)" in https://media.explorasiam.com/*) ok "la web apunta al subdominio de vídeos";; *) falla "la dirección del vídeo no es la del subdominio";; esac
+case "$(dato "$CONTENIDO/home.json" video.mp4)" in https://media.explorasiam.com/*video*.mp4) ok "la web apunta al vídeo recién subido";; *) falla "la dirección del vídeo no se actualizó · hay «$(dato "$CONTENIDO/home.json" video.mp4)»";; esac
 comprobar "guarda el título del vídeo" "$(dato "$CONTENIDO/home.json" video.videoTitulo)" "Vídeo de prueba"
 
 echo "== Sesión y seguridad =="
