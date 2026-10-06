@@ -1,9 +1,11 @@
 ---
 import Wa from './Wa.astro';
 const { site, faq, items, todas = false } = Astro.props;
+// En /preguntas este titular es el de la página, así que va como h1 (Google lo pide).
+const Titulo = todas ? 'h1' : 'h2';
 ---
 <section class="faq wrap section" id="preguntas" data-editar="textos#c-faq-titulo">
-  <div class="faq__head center" data-reveal><h2>{faq.titulo}</h2><p class="sub">{faq.intro}</p></div>
+  <div class="faq__head center" data-reveal><Titulo class="faq__titulo">{faq.titulo}</Titulo><p class="sub">{faq.intro}</p></div>
   <div class="faq__list" data-reveal>
     {items.map((f: any, i: number) => (
       <details class="q" open={i === 0}>
@@ -18,6 +20,7 @@ const { site, faq, items, todas = false } = Astro.props;
   </div>
 </section>
 <style>
+  .faq__titulo { font-size: clamp(30px, 3.6vw, 48px); }  /* el h1 de /preguntas se ve igual que el h2 de la home */
   .faq__head { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 32px; }
   .faq__list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
   .q { background: var(--bg-2); border-radius: 16px; padding: 0 20px; }
