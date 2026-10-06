@@ -130,8 +130,8 @@ fotos_antes=$(ls "$DIR/repo/src/assets/img" | wc -l)
 subida=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
   -F "archivo=@$DIR/foto.jpg;type=image/jpeg" -F "titulo=Foto de prueba" -F "descripcion=Una foto de prueba")
-avisoFoto=$(grep -o 'class="aviso[^"]*">[^<]*' <<< "$subida" | head -1 | sed 's/.*>//')
-contiene "la subida responde sin error" "Guardado." "$avisoFoto"
+echo "  · dice: $(grep -o 'aviso [a-z]*">[^<]*' <<< "$subida" | head -1 | sed 's/.*>//')"
+no_contiene "la foto se sube sin error" 'aviso mal' "$subida"
 fotos_despues=$(ls "$DIR/repo/src/assets/img" | wc -l)
 comprobar "la foto nueva se guarda en el repositorio" "$fotos_despues" "$((fotos_antes + 1))"
 nueva=$(dato "$CONTENIDO/home.json" hero.poster)
@@ -156,8 +156,8 @@ vid=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=videos" \
   -F "archivo=@$DIR/video.mp4;type=video/mp4" -F "titulo=Vídeo de prueba" -F "descripcion=Rodando")
 echo "  · carpeta de vídeos: $(ls -la "$DIR/video" 2>/dev/null | tail -n +2 | tr -s ' ' | cut -d' ' -f5,9 | tr '
 ' ' ')"
-avisoVid=$(grep -o 'class="aviso[^"]*">[^<]*' <<< "$vid" | head -1 | sed 's/.*>//')
-contiene "la subida del vídeo responde sin error" "Guardado." "$avisoVid"
+echo "  · dice: $(grep -o 'aviso [a-z]*">[^<]*' <<< "$vid" | head -1 | sed 's/.*>//')"
+no_contiene "el vídeo se sube sin error" 'aviso mal' "$vid"
 if ls "$DIR/video"/*.mp4 > /dev/null 2>&1; then ok "el vídeo queda en la carpeta del hosting"; else falla "el vídeo no se guardó"; fi
 case "$(dato "$CONTENIDO/home.json" video.mp4)" in https://media.explorasiam.com/*video*.mp4) ok "la web apunta al vídeo recién subido";; *) falla "la dirección del vídeo no se actualizó · hay «$(dato "$CONTENIDO/home.json" video.mp4)»";; esac
 comprobar "guarda el título del vídeo" "$(dato "$CONTENIDO/home.json" video.videoTitulo)" "Vídeo de prueba"

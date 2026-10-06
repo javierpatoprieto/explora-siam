@@ -30,6 +30,9 @@ jobs:
       - name: Comprobar la sintaxis del panel
         run: for f in panel/*.php; do php -l "$f"; done
 
+      - name: Tener ffmpeg para fabricar el vídeo de prueba
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
       - name: Montar el panel de prueba
         run: python3 scripts/prueba-panel/preparar.py . prueba
 
