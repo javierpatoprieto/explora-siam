@@ -69,6 +69,7 @@ jobs:
         if: always()
         run: |
           cp -r prueba/repo/content/. content/
+          cp -r prueba/repo/src/assets/img/. src/assets/img/
           npm ci
           npm run build:static
         env:

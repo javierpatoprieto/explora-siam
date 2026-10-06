@@ -12,10 +12,8 @@ shutil.rmtree(PRUEBA, ignore_errors=True)
 os.makedirs(PRUEBA)
 shutil.copytree(RAIZ + '/panel', PRUEBA + '/panel')
 shutil.copytree(RAIZ + '/content', PRUEBA + '/repo/content')
-os.makedirs(PRUEBA + '/repo/src/assets/img', exist_ok=True)
-for f in os.listdir(RAIZ + '/src/assets/img'):
-    if f.lower().endswith(('.jpg', '.png', '.webp')):
-        open(PRUEBA + '/repo/src/assets/img/' + f, 'wb').write(b'')
+# las fotos van de verdad: así se puede compilar la web con lo que escriba el panel
+shutil.copytree(RAIZ + '/src/assets/img', PRUEBA + '/repo/src/assets/img')
 os.makedirs(PRUEBA + '/video', exist_ok=True)
 
 io.open(PRUEBA + '/panel/config.php', 'w', encoding='utf-8', newline='\n').write("""<?php
