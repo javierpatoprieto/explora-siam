@@ -318,6 +318,19 @@ $CAMPOS = [
     'Pie de página' => [
         ['home', 'footer.frase', 'Frase del pie', 'linea'],
     ],
+    'Página de cada viaje' => [
+        ['sitio', 'paginaViaje.ultimas', 'Aviso de «últimas plazas»', 'linea'],
+        ['sitio', 'paginaViaje.completa', 'Aviso de «grupo completo»', 'linea'],
+        ['sitio', 'paginaViaje.grupo', 'Línea bajo el título ({plazas} se cambia por el número)', 'linea'],
+        ['sitio', 'paginaViaje.diaADia', 'Titular del itinerario', 'linea'],
+        ['sitio', 'paginaViaje.etapa', 'Palabra para cada etapa', 'linea'],
+        ['sitio', 'paginaViaje.sinItinerario', 'Texto cuando aún no hay itinerario', 'parrafo'],
+        ['sitio', 'paginaViaje.botonQuiero', 'Botón principal', 'linea'],
+        ['sitio', 'paginaViaje.botonAvisame', 'Botón cuando el grupo está completo', 'linea'],
+        ['sitio', 'paginaViaje.microcopy', 'Frase bajo el botón', 'linea'],
+        ['sitio', 'paginaViaje.botonFormulario', 'Botón del formulario', 'linea'],
+        ['sitio', 'paginaViaje.enlaceDossier', 'Enlace del dossier', 'linea'],
+    ],
     'Colores de la web' => [
         ['sitio', 'estilo.acento', 'Color principal (botones y detalles), en formato #rrggbb', 'linea'],
         ['sitio', 'estilo.acentoSuave', 'Color principal suave (fondos)', 'linea'],

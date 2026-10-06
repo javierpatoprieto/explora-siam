@@ -29,6 +29,19 @@
         "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
         "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
     },
+    "paginaViaje": {
+        "ultimas": "Últimas plazas",
+        "completa": "Grupo completo",
+        "grupo": "grupo de 6 a {plazas}",
+        "diaADia": "Día a día",
+        "etapa": "Etapa",
+        "sinItinerario": "El itinerario detallado día a día está en preparación. Pídemelo por WhatsApp y te lo mando.",
+        "botonAvisame": "Avísame de la próxima",
+        "botonQuiero": "Quiero este viaje",
+        "microcopy": "Sin compromiso. Te cuento y decides.",
+        "botonFormulario": "Rellenar el formulario",
+        "enlaceDossier": "Pídeme el dossier completo →"
+    },
     "estilo": {
         "acento": "#dd8a72",
         "acentoSuave": "#f6e4dc",
