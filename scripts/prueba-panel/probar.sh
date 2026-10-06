@@ -132,13 +132,25 @@ contiene "guarda el título de la foto" "Foto de prueba" "$(cat "$CONTENIDO/foto
 
 echo "== Rechazar un archivo que no es foto =="
 printf 'esto no es una imagen' > "$DIR/falso.jpg"
-printf 'ÿØÿà JFIF ' > "$DIR/rota.jpg"
+python3 -c "
+import sys
+# JPEG que PHP reconoce por el tipo pero que no se puede leer como imagen:
+# es justo el caso que se colaba y luego impedia publicar la web.
+datos = bytes.fromhex(
+    'ffd8ffe000104a46494600010100000100010000ffdb004300ffffffffffffffffffffffffffffffffff'
+    'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+    'ffffffffffffffffffffffffffffffffffffffffffc2000b080001000101011100ffc40014000100000000'
+    '00000000000000000000000bffda0008010100000000d2cfffd9')
+open(sys.argv[1], 'wb').write(datos)
+" "$DIR/rota.jpg"
+comprobar "la imagen rota pasa por jpeg" "$(file -b --mime-type "$DIR/rota.jpg")" "image/jpeg"
 malo=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
   -F "archivo=@$DIR/falso.jpg;type=image/jpeg")
 contiene "avisa de que solo admite imágenes" "Solo se admiten imágenes" "$malo"
 rota=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos"   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster"   -F "archivo=@$DIR/rota.jpg;type=image/jpeg")
-contiene "rechaza una imagen rota (si no, la web no se publicaría)" "dañada" "$rota"
+echo "  . dice: $(grep -o 'aviso [a-z]*">[^<]*' <<< "$rota" | head -1 | sed 's/.*>//')"
+contiene "rechaza una imagen rota (si no, la web no se publicaria)" 'aviso mal' "$rota"
 
 echo "== Subir un vídeo =="
 if command -v ffmpeg > /dev/null; then
