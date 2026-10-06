@@ -53,7 +53,7 @@ const home = defineCollection({
         cinta: z.array(z.string()).default([]),
       }),
       cifrasTexto: z.object({ titulo: z.string(), texto: z.string() }),
-      statement: z.object({ antes: z.string(), imagen1: image(), medio: z.string(), imagen2: image(), despues: z.string(), texto: z.string().optional().default('') }),
+      statement: z.object({ frase: z.string(), imagen1: image(), imagen2: image(), texto: z.string().optional().default('') }),
       ventajas: z.object({ titulo: z.string(), texto: z.string().optional().default(''), items: z.array(z.object({ icono: z.string(), titulo: z.string(), texto: z.string() })) }),
       cifras: z.array(z.object({ valor: z.string(), unidad: z.string().optional().default(''), etiqueta: z.string() })).default([]),
       ruta: z.object({ etiqueta: z.string(), titulo: z.string(), imagenes: z.array(image()), pies: z.array(z.string()).default([]), focos: z.array(z.string()).default([]) }),

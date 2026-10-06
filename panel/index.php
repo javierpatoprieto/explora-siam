@@ -248,10 +248,8 @@ $CAMPOS = [
         ['home', 'sabai.pie2', 'Pie de la foto pequeña', 'linea'],
     ],
     'Frase destacada' => [
-        ['home', 'statement.antes', 'Frase, primera parte', 'linea'],
-        ['home', 'statement.medio', 'Frase, parte central', 'linea'],
-        ['home', 'statement.despues', 'Frase, parte final', 'linea'],
-        ['home', 'statement.texto', 'Texto pequeño debajo', 'parrafo'],
+        ['home', 'statement.frase', 'Frase', 'parrafo'],
+        ['home', 'statement.texto', 'Texto pequeño debajo', 'linea'],
     ],
     'El viaje (las etapas por zonas)' => [
         ['home', 'ruta.etiqueta', 'Etiqueta', 'linea'],
@@ -634,7 +632,7 @@ const SECCIONES_MUERTAS = ['galeria', 'dia', 'precio', 'salidas', 'instagram'];
 function camino_tecnico(string $camino): bool
 {
     return (bool) preg_match(
-        '#(^|\.)(imagen|imagenes|imagen1|imagen2|poster|posterMovil|retrato|archivo|fondo|mp4|slug|foco|focos|icono|analytics|verificacionGoogle|videoFecha|indexar|autor|licencia)(\.|$)#',
+        '#(^|\.)(imagen|imagenes|imagen1|imagen2|poster|posterMovil|retrato|archivo|fondo|mp4|slug|foco|focos|icono|analytics|verificacionGoogle|videoFecha|videoMp4|videoWebm|indexar|autor|licencia)(\.|$)#',
         $camino
     );
 }
@@ -647,7 +645,8 @@ function hojas_de_texto(array $datos, string $prefijo = ''): array
         $camino = $prefijo === '' ? (string) $clave : $prefijo . '.' . $clave;
         if (is_array($valor)) {
             $hojas += hojas_de_texto($valor, $camino);
-        } elseif (is_string($valor) && trim($valor) !== '') {
+        } elseif (is_string($valor)) {
+            // Ojo: también los vacíos. Si no, al añadir un hueco nuevo no salía dónde escribirlo.
             $hojas[$camino] = $valor;
         }
     }

@@ -1,13 +1,35 @@
 ---
+// Frase destacada: una foto a cada lado y el texto en medio.
 import Foto from './Foto.astro';
 const { st } = Astro.props;
+const frase = (st.frase ?? [st.antes, st.medio, st.despues].filter(Boolean).join(' ')).trim();
 ---
-<section class="st wrap section center" data-reveal data-editar="textos#c-statement-antes" data-editar-fotos="fotos#f-home-statement-imagen1">
-  <h2 class="st__h">{st.antes} <span class="pill"><Foto src={st.imagen1} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.medio} <span class="pill"><Foto src={st.imagen2} alt="" class="cover" widths={[300, 500]} sizes="140px" /></span> {st.despues}</h2>
-  <p class="sub">{st.texto}</p>
+<section class="st section" data-reveal data-editar="textos#c-statement-frase" data-editar-fotos="fotos#f-home-statement-imagen1">
+  <div class="wrap st__in">
+    <figure class="st__foto st__foto--i">
+      <Foto src={st.imagen1} alt="" class="cover" widths={[400, 700, 1000]} sizes="(max-width: 900px) 45vw, 26vw" />
+    </figure>
+    <div class="st__txt">
+      <h2>{frase}</h2>
+      {st.texto && <p class="st__pie">{st.texto}</p>}
+    </div>
+    <figure class="st__foto st__foto--d">
+      <Foto src={st.imagen2} alt="" class="cover" widths={[400, 700, 1000]} sizes="(max-width: 900px) 45vw, 26vw" />
+    </figure>
+  </div>
 </section>
 <style>
-  .st { display: flex; flex-direction: column; align-items: center; gap: 22px; }
-  .st__h { max-width: 22ch; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.18; font-weight: 400; }
-  .pill { position: relative; display: inline-block; vertical-align: middle; width: 2.6em; height: 1.05em; border-radius: 999px; overflow: hidden; margin: 0 .06em; transform: translateY(-.06em); }
+  .st { background: var(--bg-2); padding-bottom: clamp(64px, 8vw, 120px); }
+  .st__in { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr) minmax(0, 0.8fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+  .st__foto { position: relative; margin: 0; aspect-ratio: 3 / 4; border-radius: var(--r); overflow: hidden; background: var(--bg-3); }
+  .st__foto--i { transform: translateY(-18px); }
+  .st__foto--d { transform: translateY(18px); }
+  .st__txt { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .st__txt h2 { font-size: clamp(26px, 2.9vw, 40px); line-height: 1.22; font-weight: 400; letter-spacing: -0.02em; max-width: 24ch; }
+  .st__pie { font-size: 15px; color: var(--muted); max-width: 40ch; }
+  @media (max-width: 900px) {
+    .st__in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .st__txt { grid-column: 1 / -1; order: -1; gap: 14px; }
+    .st__foto { transform: none; aspect-ratio: 1; }
+  }
 </style>

@@ -366,12 +366,10 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "antes": "No solo es viajar y hacer check en una lista de destinos",
+        "frase": "No solo es viajar y hacer check en una lista de destinos: es volver a casa con una versión distinta de ti, con más apertura y una gran experiencia.",
+        "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!",
         "imagen1": "../src/assets/img/moto-curva-169.jpg",
-        "medio": "es volver a casa",
-        "imagen2": "../src/assets/img/phuchifa-169.jpg",
-        "despues": "con una versión distinta de ti. Con más apertura y una gran experiencia.",
-        "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!"
+        "imagen2": "../src/assets/img/phuchifa-169.jpg"
     },
     "ventajas": {
         "titulo": "Un buen viaje se nota en los detalles.",
