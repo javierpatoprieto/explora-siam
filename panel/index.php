@@ -968,6 +968,12 @@ function validar_foto(): array
     if (!isset($permitidos[$mime])) {
         return ['', 'Solo se admiten imágenes JPG, PNG o WEBP.'];
     }
+    // Una imagen con el tipo correcto pero rota tumbaría la publicación de la web,
+    // así que se comprueba que de verdad se puede leer y tiene tamaño.
+    $medidas = @getimagesize($_FILES['archivo']['tmp_name']);
+    if (!$medidas || (int) $medidas[0] < 2 || (int) $medidas[1] < 2) {
+        return ['', 'Esa imagen está dañada o es demasiado pequeña. Vuelve a exportarla y súbela otra vez.'];
+    }
     return [$permitidos[$mime], ''];
 }
 

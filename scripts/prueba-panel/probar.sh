@@ -116,16 +116,8 @@ guardar textos -d "c[sitio|estilo.acento]=#b85c3c"
 comprobar "cambia el color principal" "$(dato "$CONTENIDO/site.json" estilo.acento)" "#b85c3c"
 
 echo "== Subir una foto =="
-python3 - "$DIR/foto.jpg" <<'PY'
-import struct, sys, zlib
-# JPEG mínimo de 1x1 válido para getimagesize/finfo
-datos = bytes.fromhex(
-    'ffd8ffe000104a46494600010100000100010000ffdb004300ffffffffffffffffffffffffffffffffff'
-    'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-    'ffffffffffffffffffffffffffffffffffffffffffc2000b080001000101011100ffc40014000100000000'
-    '00000000000000000000000bffda0008010100000000d2cfffd9')
-open(sys.argv[1], 'wb').write(datos)
-PY
+ffmpeg -loglevel error -y -f lavfi -i color=c=red:s=96x96:d=1 -frames:v 1 "$DIR/foto.jpg"
+comprobar "la foto de prueba es un jpg de verdad" "$(file -b --mime-type "$DIR/foto.jpg")" "image/jpeg"
 fotos_antes=$(ls "$DIR/repo/src/assets/img" | wc -l)
 subida=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
@@ -140,10 +132,13 @@ contiene "guarda el título de la foto" "Foto de prueba" "$(cat "$CONTENIDO/foto
 
 echo "== Rechazar un archivo que no es foto =="
 printf 'esto no es una imagen' > "$DIR/falso.jpg"
+printf 'ÿØÿà JFIF ' > "$DIR/rota.jpg"
 malo=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos" \
   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster" \
   -F "archivo=@$DIR/falso.jpg;type=image/jpeg")
 contiene "avisa de que solo admite imágenes" "Solo se admiten imágenes" "$malo"
+rota=$(curl -s -b "$GALLETAS" -c "$GALLETAS" -X POST "$BASE/index.php?s=fotos"   -F "csrf=$(csrf "?s=fotos")" -F "accion=hueco" -F "hueco=home|hero.poster"   -F "archivo=@$DIR/rota.jpg;type=image/jpeg")
+contiene "rechaza una imagen rota (si no, la web no se publicaría)" "dañada" "$rota"
 
 echo "== Subir un vídeo =="
 if command -v ffmpeg > /dev/null; then
