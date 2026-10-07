@@ -1,0 +1,20 @@
+---
+const { cifras, titulo, texto } = Astro.props;
+---
+<section class="stats wrap section" data-editar="textos#c-cifrasTexto-titulo">
+  <div class="stats__txt" data-reveal><h2>{titulo}</h2><p class="sub">{texto}</p></div>
+  <dl class="stats__list" data-reveal>
+    {cifras.map((c: any) => (<div class="stat"><dt>{c.valor}<small>{c.unidad}</small></dt><dd>{c.etiqueta}</dd></div>))}
+  </dl>
+</section>
+<style>
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .stats__txt { display: flex; flex-direction: column; gap: 14px; }
+  .stats__list { margin: 0; display: flex; flex-direction: column; }
+  .stat { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .stat:last-child { border-bottom: 1px solid var(--line); }
+  .stat dt { font-family: var(--display); font-size: 32px; font-weight: 500; letter-spacing: -0.03em; }
+  .stat dt small { font-size: 14px; color: var(--muted); font-family: var(--texto); font-weight: 400; margin-left: 6px; letter-spacing: 0; }
+  .stat dd { margin: 0; font-size: 13px; color: var(--muted); text-align: right; }
+  @media (max-width: 900px) { .stats { grid-template-columns: 1fr; gap: 32px; } }
+</style>

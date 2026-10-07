@@ -1,0 +1,97 @@
+# Explora Siam · nueva web
+
+Viajes de autor a Tailandia en grupo reducido. Web en **Astro** con contenido editable desde **Keystatic** y despliegue en **Vercel**.
+
+## Estructura
+
+- `src/` componentes, páginas y estilos de la web.
+- `content/` todo lo que edita el cliente: `site.json` (datos de contacto, SEO, mensajes de WhatsApp), `home.json` (todos los bloques de la home), `salidas/`, `testimonios/`, `faqs/` y `legal/`.
+- `src/assets/img/` imágenes (Astro las optimiza en el build: AVIF/WebP y varios tamaños).
+- `public/video/` vídeos del hero y de la banda.
+- `public/preview/` la vista previa estática anterior (se puede borrar cuando la web esté validada).
+- `docs/` propuesta de rediseño, guía del panel para el cliente y mapa de accesos. `design/` artboards de diseño.
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev        # http://localhost:4321  ·  panel de edición en http://localhost:4321/keystatic
+npm run build      # genera dist/
+```
+
+En local, el panel de edición escribe directamente en los archivos de `content/` e `src/assets/img/`. Cada cambio se sube con un commit normal.
+
+## Cómo se publica
+
+> **Estado actual (septiembre 2026):** explorasiam.com apunta a **Vercel** (proyecto `explora-siam`); cada push a `main` sale a producción en un minuto. Las DNS siguen en Raiola. El panel del cliente es el PHP de `panel/`, alojado en Raiola en `panel.explorasiam.com`, y guarda con un token de GitHub de `panel/config.php` que caduca: si el panel deja de guardar, lo primero es renovar ese token. Los cambios en `panel/` hay que subirlos a mano al hosting. Lo que sigue describe la vía de Raiola, que se mantiene como alternativa.
+
+La web se sirve **estática desde el hosting del cliente (Raiola)** y el **panel de edición vive en Vercel**, porque necesita Node y un hosting clásico no lo tiene.
+
+```
+Cliente edita en el panel (Vercel /keystatic)
+        └─► commit automático en main
+                └─► GitHub Action: npm run build:static
+                        └─► sube dist/ por FTP a Raiola  →  explorasiam.com
+```
+
+Cada guardado del cliente actualiza la web en uno o dos minutos, sin tocar nada.
+
+### 1. Panel del cliente (PHP, en el propio hosting)
+
+`panel/` es un panel en PHP que corre en Raiola sin necesidad de Node. El cliente entra en `explorasiam.com/panel` con una contraseña y edita textos, fotos, vídeos y los datos del viaje. Cada cambio se guarda como un commit en este repositorio mediante la API de GitHub, lo que dispara el despliegue y actualiza la web en un par de minutos.
+
+Puesta en marcha, una sola vez:
+
+1. **Token de GitHub.** *Settings → Developer settings → Personal access tokens → Fine-grained tokens*. Acceso solo a este repositorio y permiso **Contents: Read and write**. Caducidad: la que prefieras, con recordatorio para renovarlo.
+2. **Configuración.** Copia `panel/config.example.php` como `panel/config.php` y rellena la contraseña del cliente y el token. Ese archivo no se versiona y el `.htaccess` impide leerlo desde fuera.
+3. **Subida.** La acción de despliegue sube la carpeta `panel/` junto con la web, y nunca sobrescribe `config.php`. La primera vez, si aún no hay FTP configurado, súbela a mano a `public_html/panel/`.
+
+Requisitos del hosting: PHP 8 con cURL, que es lo que trae Raiola de serie.
+
+El panel de desarrollo Keystatic sigue disponible en local con `npm run dev` y `/keystatic`, para trabajos del equipo.
+
+### 2. Hosting del cliente (Raiola)
+
+`npm run build:static` genera HTML plano en `dist/` (sin adaptador, con URLs tipo `preguntas.html` que el `.htaccess` sirve como `/preguntas`). Se puede subir a mano por FTP o dejar que lo haga la acción `.github/workflows/deploy-raiola.yml` en cada cambio.
+
+En **Settings → Secrets and variables → Actions** del repositorio:
+
+| Tipo | Nombre | Valor |
+|---|---|---|
+| Secret | `FTP_HOST` | servidor FTP de Raiola (por ejemplo `ftp.explorasiam.com`) |
+| Secret | `FTP_USER` | usuario FTP |
+| Secret | `FTP_PASSWORD` | contraseña |
+| Variable | `FTP_DIR` | carpeta pública, normalmente `/public_html/` |
+| Variable | `FTP_PROTOCOL` | `ftps` (o `sftp` si Raiola lo ofrece) |
+| Variable | `SITE_URL` | `https://explorasiam.com` |
+
+La acción tiene dos trabajos: **Copia del sitio actual** (descarga lo que haya en `public_html` y lo guarda como artefacto descargable durante 90 días, útil para conservar el WordPress antiguo del cliente) y **Compilar y subir**. Desde *Actions → Publicar en Raiola → Run workflow* se puede lanzar a mano y elegir si se hace solo la copia, solo la publicación o ambas.
+
+`public/.htaccess` ya lleva HTTPS forzado, dominio sin `www`, URLs limpias, página 404, compresión, caché de un año para imágenes y CSS, y las redirecciones desde las URLs de la web antigua en WordPress.
+
+Para subirlo a mano: `npm run build:static` y copiar **todo el contenido** de `dist/` (incluido el `.htaccess`, que está oculto) a `public_html`.
+
+### 3. Antes de dar el dominio por bueno
+
+- Poner `"indexar": true` en `content/site.json` para permitir a Google.
+- Comprobar que el certificado SSL de Raiola cubre el dominio con y sin `www`.
+
+## Otras variables
+
+- `PUBLIC_GA_ID`: ID de Google Analytics 4. Si está vacío no se carga ningún script. Los clics a WhatsApp se envían como evento `whatsapp_click` con el origen (hero, salida, fundador…).
+
+## Indexación
+
+`content/site.json` → `"indexar": false` mantiene la web fuera de Google mientras se valida. Cambiar a `true` en el lanzamiento.
+
+## Dossier en PDF
+
+`dossier/index.html` es el dossier comercial (A4, 9 páginas) con la misma estética de la web. Para regenerarlo tras editarlo:
+
+```bash
+node dossier/render.mjs   # escribe public/dossier-mae-hong-son-loop.pdf
+```
+
+En Windows: `CHROMIUM_PATH="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" node dossier/render.mjs`. Chromium guarda las fotos sin comprimir por los filtros CSS (unos 20 MB): conviene pasarlas a JPEG antes de subirlo (con PyMuPDF, `page.replace_image`) para dejarlo en unos 5 MB.
+
+Necesita Chromium; por defecto usa `/opt/pw-browsers/chromium`, y se puede indicar otro con la variable `CHROMIUM_PATH`. El PDF queda enlazado desde el hero y desde la ficha del viaje (campo "Dossier en PDF" en el panel de edición).

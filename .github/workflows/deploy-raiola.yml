@@ -1,0 +1,184 @@
+name: Publicar en Raiola (panel del cliente)
+
+# En cada cambio de main (incluidos los que hace el cliente desde el panel):
+#   1. descarga lo que hay ahora en el hosting y lo guarda como copia de seguridad
+#   2. compila la web estática
+#   3. la sube por FTP
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      respaldo:
+        description: Guardar copia de lo que hay ahora en el hosting
+        type: boolean
+        default: true
+      publicar:
+        description: Subir la web nueva
+        type: boolean
+        default: true
+
+concurrency:
+  group: deploy-raiola
+  cancel-in-progress: false
+
+jobs:
+  comprobar:
+    name: Comprobar credenciales
+    runs-on: ubuntu-latest
+    outputs:
+      hay_ftp: ${{ steps.secretos.outputs.hay_ftp }}
+    steps:
+      - name: Verificar que estan los secretos de FTP
+        id: secretos
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          FALTAN=""
+          if [ -z "$FTP_HOST" ];     then FALTAN="$FALTAN FTP_HOST"; fi
+          if [ -z "$FTP_USER" ];     then FALTAN="$FALTAN FTP_USER"; fi
+          if [ -z "$FTP_PASSWORD" ]; then FALTAN="$FALTAN FTP_PASSWORD"; fi
+          FALTAN="${FALTAN# }"
+          if [ -n "$FALTAN" ]; then
+            {
+              echo "## El panel del cliente NO se ha actualizado"
+              echo
+              echo "Faltan estos secretos: **$FALTAN**, así que no hay forma de subir nada al hosting."
+              echo
+              echo "Esto importa: la web se publica sola en Vercel, pero **el panel vive en Raiola**"
+              echo "y solo llega por FTP. Sin estos secretos, el cliente sigue usando la versión"
+              echo "antigua del panel aunque aquí esté arreglado."
+              echo
+              echo "Para arreglarlo: en cPanel, crear una cuenta FTP limitada a \`public_html\`, y"
+              echo "en GitHub: Settings → Secrets and variables → Actions → New repository secret"
+              echo
+              echo "| Secreto | Valor |"
+              echo "| --- | --- |"
+              echo "| \`FTP_HOST\` | el servidor FTP de Raiola (por ejemplo com1034.raiolanetworks.es) |"
+              echo "| \`FTP_USER\` | usuario de la cuenta FTP |"
+              echo "| \`FTP_PASSWORD\` | su contraseña |"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Sin credenciales de FTP: el panel del cliente se queda con la versión antigua."
+            exit 1
+          fi
+          echo "hay_ftp=true" >> "$GITHUB_OUTPUT"
+          echo "Credenciales presentes."
+
+  respaldo:
+    name: Copia del sitio actual
+    needs: comprobar
+    if: needs.comprobar.outputs.hay_ftp == 'true' && (github.event_name == 'push' || inputs.respaldo)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Descargar el contenido actual de public_html
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ vars.FTP_DIR || '/public_html/' }}
+        run: |
+          mkdir -p respaldo
+          lftp -c "
+            set ssl:verify-certificate no;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
+            mirror --parallel=4 --exclude-glob .well-known/ \"$FTP_DIR\" respaldo;
+          " || echo "Aviso: no se pudo descargar todo (¿carpeta vacía o sin permisos?). Se continúa."
+          N=$(find respaldo -type f | wc -l)
+          echo "Archivos descargados: $N"
+          if [ "$N" -eq 0 ]; then
+            echo "::warning::La copia de seguridad esta vacia: no se ha podido leer $FTP_DIR por FTP."
+            echo "Aviso: la copia de seguridad de esta ejecucion esta vacia." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guardar la copia como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-anterior-${{ github.run_number }}
+          path: respaldo
+          retention-days: 90
+          if-no-files-found: warn
+
+  publicar:
+    name: Compilar y subir
+    needs: [comprobar, respaldo]
+    if: always() && needs.comprobar.outputs.hay_ftp == 'true' && (github.event_name == 'push' || inputs.publicar)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:static
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://explorasiam.com' }}
+          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
+
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          port: ${{ fromJSON(vars.FTP_PORT || 21) }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_DIR || '/public_html/' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+
+      - name: Subir el panel del cliente
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          port: ${{ fromJSON(vars.FTP_PORT || 21) }}
+          local-dir: ./panel/
+          server-dir: ${{ vars.FTP_DIR || '/public_html/' }}panel/
+          dangerous-clean-slate: false
+          # El registro de sincronización se quedaba desfasado (hubo subidas a mano
+          # por cPanel) y el panel no se actualizaba aunque el paso diera por bueno.
+          # Con esta marca se compara contra el commit y se suben los cambios de verdad.
+          state-name: .panel-sync-${{ github.run_id }}.json
+          exclude: |
+            **/config.php
+            **/.intentos
+            **/.git*
+
+      - name: Comprobar que el panel subido es el de este commit
+        run: |
+          for i in 1 2 3 4 5; do
+            VERSION=$(curl -sI https://panel.explorasiam.com/ | grep -i '^x-panel-actualizado:' | tr -d '\r')
+            if [ -n "$VERSION" ]; then
+              echo "Panel en el hosting → $VERSION"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::El panel del hosting no responde con su marca de versión: la subida por FTP no ha llegado."
+          exit 1
+
+      - name: Comprobar que responde
+        run: |
+          URL="${{ vars.SITE_URL || 'https://explorasiam.com' }}"
+          for i in 1 2 3; do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' -L "$URL" || echo 000)
+            echo "Intento $i · $URL → $CODE"
+            [ "$CODE" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "La web todavía no responde con 200. Puede que el dominio aún no apunte a Raiola."

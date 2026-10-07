@@ -1,0 +1,109 @@
+---
+import Foto from './Foto.astro';
+import Wa from './Wa.astro';
+const { site, hero, proxima } = Astro.props;
+const hasVideo = Boolean(hero.videoMp4);
+const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
+---
+<section class="hero" id="hero" data-editar="textos#c-hero-titulo" data-editar-fotos="fotos#f-home-hero-poster" data-editar-videos="videos#v-hero">
+  <div class="hero__media">
+    {hasVideo ? (
+      <video class="cover" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster={hero.poster.src} title={hero.videoTitulo || undefined} aria-label={hero.videoDescripcion || hero.videoTitulo || undefined}>{hero.videoWebm && <source src={hero.videoWebm} type="video/webm" />}<source src={hero.videoMp4} type="video/mp4" /></video>
+    ) : (
+      <picture><source media="(max-width: 760px)" srcset={hero.posterMovil.src} /><Foto src={hero.poster} alt="" class="cover" widths={[800, 1200, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" /></picture>
+    )}
+    <div class="hero__shade"></div>
+  </div>
+  {hasVideo && hero.videoSonido && (
+    <button class="hero__snd" id="heroSnd" type="button" aria-pressed="false" aria-label="Activar el sonido del vídeo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"></path>
+        <path class="snd-x" d="M17 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path class="snd-o" d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4M19.3 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+      <span>Sonido</span>
+    </button>
+  )}
+  <div class="wrap hero__in">
+    <div class="hero__copy">
+      <span class="hero__badge">{hero.badge}</span>
+      <h1>{hero.titulo} <span>{hero.destacado}</span></h1>
+      <p class="hero__sub">{hero.subtitulo}</p>
+      <div class="hero__cta"><Wa site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Wa>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
+      {hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}
+    </div>
+    {conFicha && (
+      <aside class="widget" aria-label="El viaje">
+        <div class="widget__tabs"><span class="on">El viaje</span><span>Grupo reducido</span></div>
+        <dl class="widget__grid">
+          <div><dt>Ruta</dt><dd>{proxima.nombre.split(':')[0]}</dd></div>
+          <div><dt>Duración</dt><dd>{proxima.duracion}</dd></div>
+          <div><dt>Grupo</dt><dd>6 a {proxima.plazas} personas</dd></div>
+          <div><dt>Moto</dt><dd>Carnet A2</dd></div>
+        </dl>
+        <div class="widget__acts">
+          <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
+          {site.formulario && <a href={site.formulario} class="btn btn--ghost widget__btn" target="_blank" rel="noopener">Rellenar el formulario</a>}
+        </div>
+        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a><span>·</span><Wa site={site} origen="precio" class="" icon={false}>Pídeme el dossier</Wa></div>
+      </aside>
+    )}
+  </div>
+</section>
+<style>
+  .hero { position: relative; min-height: min(100svh, 900px); display: flex; align-items: center; color: #fff; padding: 120px 0 56px; }
+  .hero__media { position: absolute; inset: 0; overflow: hidden; border-radius: 0 0 var(--r-lg) var(--r-lg); background: var(--ink); }
+  .hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,24,26,.55) 0%, rgba(23,24,26,.15) 60%), linear-gradient(0deg, rgba(23,24,26,.45), rgba(23,24,26,0) 50%); }
+  .hero__snd { position: absolute; right: 24px; bottom: 24px; z-index: 4; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(23,24,26,.45); color: #fff; font-size: 13px; line-height: 1; cursor: pointer; backdrop-filter: blur(6px); transition: background .2s var(--ease), border-color .2s var(--ease); }
+  .hero__snd:hover { background: rgba(23,24,26,.72); border-color: rgba(255,255,255,.6); }
+  .hero__snd .snd-o { display: none; }
+  .hero__snd[aria-pressed='true'] .snd-x { display: none; }
+  .hero__snd[aria-pressed='true'] .snd-o { display: inline; }
+  .hero__in { position: relative; width: 100%; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .hero__in:not(:has(.widget)) { grid-template-columns: 1fr; }
+  .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero__badge { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(8px); font-size: 13px; font-weight: 500; }
+  .hero h1 { max-width: 14ch; font-weight: 400; }
+  .hero h1 span { color: rgba(255,255,255,.72); }
+  .hero__sub { max-width: 52ch; font-size: 18px; color: rgba(255,255,255,.9); }
+  .hero__cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .hero__micro { font-size: 13px; color: rgba(255,255,255,.75); }
+  .widget { justify-self: end; width: min(100%, 400px); background: #fff; color: var(--ink); border-radius: var(--r-lg); padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
+  .widget__tabs { display: flex; gap: 6px; background: var(--bg-2); border-radius: 999px; padding: 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+  .widget__tabs span { flex: 1; text-align: center; padding: 8px 10px; border-radius: 999px; }
+  .widget__tabs .on { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .widget__grid { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .widget__grid div { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; }
+  .widget__grid .wide { grid-column: 1 / -1; }
+  .widget__grid dt { font-size: 12px; color: var(--muted); }
+  .widget__grid dd { margin: 2px 0 0; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+  .widget__grid dd small { font-weight: 400; color: var(--muted); font-size: 12px; }
+  .widget__acts { display: flex; flex-direction: column; gap: 8px; }
+  .widget :global(.widget__btn) { width: 100%; }
+  .widget__links { display: flex; justify-content: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .widget__links a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .widget__links a:hover { color: var(--ink); }
+  @media (max-width: 900px) {
+    .hero { padding: 100px 0 32px; min-height: 0; }
+    .hero__in { grid-template-columns: 1fr; gap: 28px; }
+    .hero__media { border-radius: 0 0 20px 20px; }
+    .hero__snd { right: 14px; bottom: 14px; padding: 8px 12px; }
+    .widget { justify-self: stretch; width: 100%; }
+    .hero__cta :global(.btn) { width: 100%; }
+  }
+</style>
+
+<script>
+  // El vídeo entra siempre en silencio porque los navegadores bloquean el
+  // autoplay con sonido. Este botón es el gesto del visitante que lo desbloquea.
+  const sb = document.getElementById('heroSnd');
+  const hv = document.getElementById('heroVideo') as HTMLVideoElement | null;
+  if (sb && hv) {
+    sb.addEventListener('click', () => {
+      hv.muted = !hv.muted;
+      sb.setAttribute('aria-pressed', String(!hv.muted));
+      sb.setAttribute('aria-label', hv.muted ? 'Activar el sonido del vídeo' : 'Silenciar el vídeo');
+      if (!hv.muted) hv.play().catch(() => {});
+    });
+  }
+</script>

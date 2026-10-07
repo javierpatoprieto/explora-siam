@@ -1,0 +1,54 @@
+{
+    "marca": "Explora Siam",
+    "fundador": "Dani",
+    "whatsapp": "34605330654",
+    "email": "info@explorasiam.com",
+    "instagram": "https://www.instagram.com/explora_siam/",
+    "ubicacion": "",
+    "licencia": "Seguro de responsabilidad civil · Guías con certificado TAT",
+    "horario": "Lunes a viernes, de 9:00 a 20:00",
+    "indexar": true,
+    "seoTitulo": "Explora Siam · Mae Hong Son Loop en moto, grupo reducido",
+    "seoDescripcion": "Ruta en moto por el norte de Tailandia con Dani: Mae Hong Son Loop, 750 km y más de 1.860 curvas, en grupo de 6 a 8 personas, con guía local y furgoneta de apoyo. Habla con él por WhatsApp.",
+    "autor": {
+        "texto": "Hecho por javierpato.es",
+        "url": "https://javierpato.es"
+    },
+    "plantillas": {
+        "nav": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo.",
+        "hero": "Hola Dani, he visto la web de Explora Siam y me interesa la ruta en moto por el norte de Tailandia.",
+        "salida": "Hola Dani, me interesa el viaje \"{nombre}\". Me gustaría saber más.",
+        "avisame": "Hola Dani, me gustaría que me avisaras cuando abras la próxima edición de \"{nombre}\".",
+        "dia": "Hola Dani, me he imaginado ese martes cualquiera en el norte y quiero saber cómo sería el viaje completo.",
+        "moto": "Hola Dani, he visto la ruta en moto de seis días por el Mae Hong Son Loop y me gustaría saber más.",
+        "daniel": "Hola Dani, acabo de leer tu carta en la web. Me gustaría contarte el viaje que tengo en la cabeza.",
+        "galeria": "Hola Dani, he visto las fotos del último viaje y quiero saber cuándo es el siguiente.",
+        "sabai": "Hola Dani, he leído lo de sabai sabai y me gustaría vivirlo. ¿Me cuentas cómo es el viaje?",
+        "precio": "Hola Dani, ¿me mandas el dossier completo del viaje, con el presupuesto y lo que incluye?",
+        "faq": "Hola Dani, tengo una pregunta que no está en la web:",
+        "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
+        "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
+    },
+    "paginaViaje": {
+        "ultimas": "Últimas plazas",
+        "completa": "Grupo completo",
+        "grupo": "grupo de 6 a {plazas}",
+        "diaADia": "Día a día",
+        "etapa": "Etapa",
+        "sinItinerario": "El itinerario detallado día a día está en preparación. Pídemelo por WhatsApp y te lo mando.",
+        "botonAvisame": "Avísame de la próxima",
+        "botonQuiero": "Quiero este viaje",
+        "microcopy": "Sin compromiso. Te cuento y decides.",
+        "botonFormulario": "Rellenar el formulario",
+        "enlaceDossier": "Pídeme el dossier del viaje →"
+    },
+    "estilo": {
+        "acento": "#dd8a72",
+        "acentoSuave": "#f6e4dc",
+        "tinta": "#17181a"
+    },
+    "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform",
+    "dossier": "/dossier-mae-hong-son-loop.pdf",
+    "analytics": "G-0NDM8BR5NF",
+    "verificacionGoogle": ""
+}
