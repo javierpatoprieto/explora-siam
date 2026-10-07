@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /keystatic
+Disallow: /panel/
+
+Sitemap: https://explorasiam.com/sitemap-index.xml
