@@ -351,6 +351,80 @@ $CAMPOS = [
     ],
 ];
 
+/* --------------------------------------------- el panel se actualiza solo */
+// El panel vive en el hosting, no en Vercel, así que no se publica con la web.
+// Para no depender de subirlo a mano, se trae sus propios archivos de GitHub.
+// Nunca toca config.php (ahí están la contraseña y el token) y guarda una copia
+// de lo que sustituye, por si hubiera que volver atrás.
+
+const ARCHIVOS_PANEL = ['index.php', 'lib.php', 'vista.php', 'entrada.php', 'estilo.php'];
+
+/** Descarga un archivo del repositorio tal cual (sin pasar por base64). */
+function bajar_del_repo(string $ruta): ?string
+{
+    [$codigo, $datos] = gh('GET', repo() . '/contents/' . rawurlencode_ruta($ruta) . '?ref=' . GITHUB_BRANCH);
+    if ($codigo !== 200 || !isset($datos['content'])) {
+        return null;
+    }
+    $contenido = base64_decode(str_replace("\n", '', (string) $datos['content']));
+    return $contenido === '' ? null : $contenido;
+}
+
+/** Qué archivos del panel son distintos a los de GitHub. */
+function panel_pendiente(): array
+{
+    $distintos = [];
+    foreach (ARCHIVOS_PANEL as $archivo) {
+        $remoto = bajar_del_repo('panel/' . $archivo);
+        if ($remoto === null) {
+            continue;
+        }
+        $local = @file_get_contents(__DIR__ . '/' . $archivo);
+        if ($local === false || rtrim($local, "\r\n") !== rtrim($remoto, "\r\n")) {
+            $distintos[$archivo] = $remoto;
+        }
+    }
+    return $distintos;
+}
+
+/**
+ * Sustituye los archivos del panel por los de GitHub.
+ * Antes comprueba que lo descargado es PHP válido: si no, no toca nada.
+ */
+function actualizar_panel(): array
+{
+    $distintos = panel_pendiente();
+    if (!$distintos) {
+        return ['ok', 'El panel ya está al día.'];
+    }
+    foreach ($distintos as $archivo => $contenido) {
+        if (!str_starts_with(ltrim($contenido), '<?php') && !str_starts_with(ltrim($contenido), '<!doctype')) {
+            return ['mal', 'La descarga de ' . $archivo . ' no tiene buena pinta: no se ha cambiado nada.'];
+        }
+        if (@token_get_all($contenido, TOKEN_PARSE) === false) {
+            return ['mal', 'El archivo ' . $archivo . ' venía con errores: no se ha cambiado nada.'];
+        }
+    }
+    $copias = __DIR__ . '/.copias/' . date('ymd-His');
+    if (!@mkdir($copias, 0755, true) && !is_dir($copias)) {
+        return ['mal', 'No se ha podido crear la carpeta de copias. Revisa los permisos.'];
+    }
+    $hechos = [];
+    foreach ($distintos as $archivo => $contenido) {
+        $destino = __DIR__ . '/' . $archivo;
+        if (is_file($destino)) {
+            @copy($destino, $copias . '/' . $archivo);
+        }
+        $temporal = $destino . '.nuevo';
+        if (@file_put_contents($temporal, $contenido) === false || !@rename($temporal, $destino)) {
+            @unlink($temporal);
+            return ['mal', 'No se ha podido escribir ' . $archivo . '. Copia de seguridad en ' . basename($copias) . '.'];
+        }
+        $hechos[] = $archivo;
+    }
+    return ['ok', 'Panel actualizado (' . implode(', ', $hechos) . '). Recarga la página.'];
+}
+
 /* ------------------------------------------------- listas y secciones */
 // Además de cambiar textos, Dani puede añadir y quitar elementos de las listas
 // (cifras, puntos de «qué incluye», días de la ruta…) y decidir qué secciones
@@ -888,6 +962,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
+    } elseif (($_POST['accion'] ?? '') === 'actualizar') {
+        $aviso = actualizar_panel();
     } elseif (($_POST['accion'] ?? '') === 'secciones') {
         $aviso = guardar_secciones();
     } elseif (($_POST['accion'] ?? '') === 'preguntas') {
@@ -1127,6 +1203,8 @@ if (!$sinConexion) {
 }
 $preguntas = (!$sinConexion && $seccion === 'preguntas') ? leer_preguntas() : [];
 $secciones = (!$sinConexion && $seccion === 'secciones') ? orden_secciones(leer_json(SECCIONES)) : [];
+// Si el panel se ha quedado atrás respecto a GitHub, se avisa para poder ponerlo al día.
+$panelViejo = (!$sinConexion && $seccion === 'secciones') ? array_keys(panel_pendiente()) : [];
 
 require __DIR__ . '/vista.php';
 

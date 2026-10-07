@@ -75,4 +75,11 @@ falso = r'''function gh(string $metodo, string $ruta, ?array $cuerpo = null): ar
 '''
 s = s[:inicio] + falso + s[fin:]
 io.open(p, 'w', encoding='utf-8', newline='\n').write(s)
+
+# El "repositorio" guarda el panel ya preparado, para poder probar que el panel
+# se actualiza solo. La copia instalada se deja desfasada a propósito.
+shutil.copytree(PRUEBA + '/panel', PRUEBA + '/repo/panel')
+estilo = PRUEBA + '/panel/estilo.php'
+io.open(estilo, 'a', encoding='utf-8', newline='\n').write('\n<!-- version vieja -->\n')
+
 print('panel de prueba listo en', PRUEBA)

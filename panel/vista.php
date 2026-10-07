@@ -165,6 +165,14 @@
   <?php endforeach; ?>
 
 <?php elseif ($seccion === 'secciones'): ?>
+  <?php if ($panelViejo): ?>
+    <form method="post" class="aviso yendo" style="display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap">
+      <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+      <input type="hidden" name="accion" value="actualizar">
+      <span>Hay una versión más nueva de este panel (<?= e(implode(', ', $panelViejo)) ?>).</span>
+      <button class="btn" type="submit">Actualizar el panel</button>
+    </form>
+  <?php endif; ?>
   <h1>Secciones de la portada</h1>
   <p class="guia">Quita la marca a una sección para que deje de verse, o muévela de sitio con Subir y Bajar. La portada de arriba y el pie de página no se mueven.</p>
   <form method="post">

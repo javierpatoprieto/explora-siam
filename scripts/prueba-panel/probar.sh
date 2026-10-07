@@ -179,6 +179,16 @@ no_contiene "no enseña el token de GitHub" "token-de-prueba" "$(pagina "?s=text
 fuera=$(curl -s "$BASE/config.php")
 no_contiene "config.php no se sirve tal cual" "PANEL_PASSWORD" "$fuera"
 
+echo "== El panel se actualiza solo =="
+secciones=$(pagina "?s=secciones")
+contiene "avisa de que hay una versión más nueva" "versión más nueva" "$secciones"
+guardar actualizar
+if grep -q "version vieja" "$DIR/panel/estilo.php"; then falla "no se actualizó el archivo"; else ok "se pone al día solo desde GitHub"; fi
+if ls -d "$DIR/panel/.copias"/* > /dev/null 2>&1; then ok "guarda copia de lo que sustituye"; else falla "no guarda copia"; fi
+despues=$(pagina "?s=secciones")
+no_contiene "ya no avisa de versión nueva" "versión más nueva" "$despues"
+contiene "el panel sigue funcionando después" "Secciones de la portada" "$despues"
+
 echo
 echo "Guardados registrados (los últimos):"
 tail -n 8 "$DIR/repo/.commits.log" 2>/dev/null || echo "  (ninguno)"
