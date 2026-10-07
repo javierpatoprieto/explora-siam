@@ -25,11 +25,11 @@
             "mostrar": false
         },
         {
-            "id": "cifras",
+            "id": "fundador",
             "mostrar": true
         },
         {
-            "id": "fundador",
+            "id": "cifras",
             "mostrar": true
         },
         {
