@@ -151,10 +151,27 @@ jobs:
           local-dir: ./panel/
           server-dir: ${{ vars.FTP_DIR || '/public_html/' }}panel/
           dangerous-clean-slate: false
+          # El registro de sincronización se quedaba desfasado (hubo subidas a mano
+          # por cPanel) y el panel no se actualizaba aunque el paso diera por bueno.
+          # Con esta marca se compara contra el commit y se suben los cambios de verdad.
+          state-name: .panel-sync-${{ github.run_id }}.json
           exclude: |
             **/config.php
             **/.intentos
             **/.git*
+
+      - name: Comprobar que el panel subido es el de este commit
+        run: |
+          for i in 1 2 3 4 5; do
+            VERSION=$(curl -sI https://panel.explorasiam.com/ | grep -i '^x-panel-actualizado:' | tr -d '\r')
+            if [ -n "$VERSION" ]; then
+              echo "Panel en el hosting → $VERSION"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::El panel del hosting no responde con su marca de versión: la subida por FTP no ha llegado."
+          exit 1
 
       - name: Comprobar que responde
         run: |
