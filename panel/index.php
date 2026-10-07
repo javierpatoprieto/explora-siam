@@ -398,10 +398,14 @@ function actualizar_panel(): array
         return ['ok', 'El panel ya está al día.'];
     }
     foreach ($distintos as $archivo => $contenido) {
-        if (!str_starts_with(ltrim($contenido), '<?php') && !str_starts_with(ltrim($contenido), '<!doctype')) {
-            return ['mal', 'La descarga de ' . $archivo . ' no tiene buena pinta: no se ha cambiado nada.'];
+        // Dos redes: que no venga cortado y que PHP sepa leerlo. Si algo falla,
+        // no se toca ni un archivo, para no dejar el panel a medias.
+        if (strlen($contenido) < 200) {
+            return ['mal', 'La descarga de ' . $archivo . ' viene demasiado corta: no se ha cambiado nada.'];
         }
-        if (@token_get_all($contenido, TOKEN_PARSE) === false) {
+        try {
+            token_get_all($contenido, TOKEN_PARSE);
+        } catch (\Throwable $e) {
             return ['mal', 'El archivo ' . $archivo . ' venía con errores: no se ha cambiado nada.'];
         }
     }
