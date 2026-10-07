@@ -147,7 +147,7 @@
             "Voy en cada viaje"
         ],
         "boton": "Escríbeme",
-        "microcopy": "Respondo yo, normalmente en menos de 24 h."
+        "microcopy": ""
     },
     "galeria": {
         "etiqueta": "Todos los sentidos a la vez",
@@ -256,7 +256,7 @@
         {
             "valor": "8",
             "unidad": "plazas",
-            "etiqueta": "y ni una más"
+            "etiqueta": ""
         }
     ],
     "ruta": {
@@ -386,7 +386,7 @@
             },
             {
                 "icono": "grupo",
-                "titulo": "Grupo de 6 a 8",
+                "titulo": "Grupo de 8 personas",
                 "texto": "Cabemos en una mesa. Nadie se queda atrás y nadie espera de más."
             },
             {
