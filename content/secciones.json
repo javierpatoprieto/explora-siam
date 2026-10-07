@@ -21,12 +21,12 @@
             "mostrar": true
         },
         {
-            "id": "cifras",
-            "mostrar": true
-        },
-        {
             "id": "ventajas",
             "mostrar": false
+        },
+        {
+            "id": "cifras",
+            "mostrar": true
         },
         {
             "id": "fundador",
