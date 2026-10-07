@@ -20,6 +20,11 @@ if (PANEL_PASSWORD === 'cambia-esta-contrasena' || str_starts_with(GITHUB_TOKEN,
 
 panel_arrancar();
 
+// Para saber desde fuera qué versión del panel hay subida al hosting (y que el
+// navegador no sirva una página vieja con los campos de antes).
+header('X-Panel-Actualizado: ' . gmdate('Y-m-d H:i', (int) @filemtime(__FILE__)) . ' UTC');
+header('Cache-Control: no-store, must-revalidate');
+
 const HOME = 'content/home.json';
 const SITIO = 'content/site.json';
 const IMGS = 'src/assets/img';
