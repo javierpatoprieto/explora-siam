@@ -4,7 +4,7 @@
     "whatsapp": "34605330654",
     "email": "info@explorasiam.com",
     "instagram": "https://www.instagram.com/explora_siam/",
-    "ubicacion": "Santander · Chiang Mai",
+    "ubicacion": "",
     "licencia": "Seguro de responsabilidad civil · Guías con certificado TAT",
     "horario": "Lunes a viernes, de 9:00 a 20:00",
     "indexar": true,
@@ -40,7 +40,7 @@
         "botonQuiero": "Quiero este viaje",
         "microcopy": "Sin compromiso. Te cuento y decides.",
         "botonFormulario": "Rellenar el formulario",
-        "enlaceDossier": "Pídeme el dossier completo →"
+        "enlaceDossier": "Pídeme el dossier del viaje →"
     },
     "estilo": {
         "acento": "#dd8a72",
