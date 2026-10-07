@@ -370,6 +370,17 @@ function bajar_del_repo(string $ruta): ?string
     return $contenido === '' ? null : $contenido;
 }
 
+/**
+ * Deja un archivo listo para comparar: sin espacios de más y sin la etiqueta de
+ * codificación, que el gestor de archivos de cPanel recoloca al guardar y haría
+ * creer que el panel está desfasado cuando no lo está.
+ */
+function igualar(string $texto): string
+{
+    $texto = str_replace('<meta charset="utf-8">', '', $texto);
+    return (string) preg_replace('/\s+/', '', $texto);
+}
+
 /** Qué archivos del panel son distintos a los de GitHub. */
 function panel_pendiente(): array
 {
@@ -380,7 +391,7 @@ function panel_pendiente(): array
             continue;
         }
         $local = @file_get_contents(__DIR__ . '/' . $archivo);
-        if ($local === false || rtrim($local, "\r\n") !== rtrim($remoto, "\r\n")) {
+        if ($local === false || igualar($local) !== igualar($remoto)) {
             $distintos[$archivo] = $remoto;
         }
     }
