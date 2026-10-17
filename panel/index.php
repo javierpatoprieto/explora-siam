@@ -206,6 +206,18 @@ function estado_web(): array
     } else {
         $estado = 'error';
     }
+    $motivo = '';
+    foreach ($vercel as $v) {
+        $motivo = (string) ($v['description'] ?? '');
+        if ($motivo !== '') {
+            break;
+        }
+    }
+    // El plan gratuito corta a las 100 publicaciones diarias y se repone solo.
+    $tope = stripos($motivo, 'rate limit') !== false;
+    if ($tope) {
+        $estado = 'tope';
+    }
     return [
         'estado' => $estado,
         'commit' => substr($sha, 0, 7),
@@ -911,6 +923,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
             $aviso = ['mal', 'No se ha podido leer el contenido. Revisa el token de GitHub.'];
         } else {
             $cambios = 0;
+            // Cada archivo que se guarda es una publicación de la web, y el plan de
+            // Vercel tiene un tope diario: solo se escribe lo que de verdad cambia.
+            $homeAntes = $home['datos'];
+            $sitioAntes = $sitio['datos'];
             $CAMPOS = array_merge($CAMPOS, campos_auto($home['datos'], $sitio['datos'], $CAMPOS));
             foreach ($CAMPOS as $campos) {
                 foreach ($campos as [$donde, $camino, , ]) {
@@ -950,9 +966,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
             if ($cambios === 0) {
                 $aviso = ['ok', $errorLista !== '' ? $errorLista : 'No había nada que cambiar.'];
             } else {
-                [$ok1] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: textos de la home');
-                [$ok2, $err] = guardar_json(SITIO, $sitio['datos'], $sitio['sha'], 'Panel: datos de contacto');
-                $aviso = $ok1 && $ok2
+                $ok = true;
+                $err = '';
+                if ($home['datos'] !== $homeAntes) {
+                    [$ok, $err] = guardar_json(HOME, $home['datos'], $home['sha'], 'Panel: textos de la home');
+                }
+                if ($ok && $sitio['datos'] !== $sitioAntes) {
+                    [$ok, $err] = guardar_json(SITIO, $sitio['datos'], $sitio['sha'], 'Panel: datos de contacto');
+                }
+                $aviso = $ok
                     ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                     : ['mal', 'No se pudo guardar: ' . $err];
             }

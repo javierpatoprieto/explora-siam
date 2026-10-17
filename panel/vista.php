@@ -308,6 +308,7 @@
     for (let i = 0; i < 100; i++) {
       const e = await estado();
       if (e.estado === 'al-dia') return pinta('ok', 'Publicado. Ya se ve en explorasiam.com (si no, recarga la web).');
+      if (e.estado === 'tope')   return pinta('yendo', 'Guardado. Hoy se han hecho muchos cambios y la publicación está en pausa unas horas; la web se pondrá al día sola.');
       if (e.estado === 'error')  return pinta('mal', 'Vercel no ha podido publicar el último cambio. Tu cambio está guardado; avisa a Javi.');
       pinta('yendo', 'Guardado. Publicando en la web… suele tardar 2-3 minutos, a veces más si hay cola.');
       await espera(15000);
@@ -318,6 +319,7 @@
   if (guardado) { seguir(); return; }
   estado().then(e => {
     if (e.estado === 'publicando') return seguir();
+    if (e.estado === 'tope')  return pinta('yendo', 'Hoy se han hecho muchos cambios y la publicación está en pausa unas horas. Lo guardado no se pierde: la web se pondrá al día sola.');
     if (e.estado === 'error') return pinta('mal', 'Vercel no pudo publicar el último cambio. Lo guardado no se pierde; avisa a Javi.');
     caja.hidden = true;
   });
