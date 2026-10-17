@@ -1,0 +1,74 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/inter-tight';
+import '../styles/global.css';
+import { getEntry } from 'astro:content';
+import Cookies from '../components/Cookies.astro';
+import Editar from '../components/Editar.astro';
+
+interface Props { title?: string; description?: string; ogImage?: string; noindex?: boolean; jsonLd?: unknown[] }
+const site = (await getEntry('site', 'site'))!.data;
+const { title = site.seoTitulo, description = site.seoDescripcion, ogImage = '/og.jpg', noindex = false, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const robots = site.indexar && !noindex ? 'index, follow' : 'noindex, nofollow';
+const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
+// Colores que Dani puede cambiar desde el panel. Si no toca nada, quedan los de siempre.
+const estilo = site.estilo ?? {};
+const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': estilo.acentoSuave, '--ink': estilo.tinta })
+  .filter(([, v]) => typeof v === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(v))
+  .map(([k, v]) => `${k}:${v}`)
+  .join(';');
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <meta name="theme-color" content="#17181a" />
+    {colores && <style set:html={`:root{${colores}}`}></style>}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.marca} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {site.verificacionGoogle && <meta name="google-site-verification" content={site.verificacionGoogle} />}
+    {jsonLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <slot />
+    <Cookies ga={ga} />
+    <Editar />
+    <script>
+      // Revelado suave al hacer scroll
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+        { rootMargin: '0px 0px -10% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+      // Medición de clics a WhatsApp
+      document.addEventListener('click', (ev) => {
+        const a = (ev.target as HTMLElement).closest('a[data-wa]') as HTMLAnchorElement | null;
+        if (!a) return;
+        const g = (window as any).gtag;
+        if (typeof g === 'function') g('event', 'whatsapp_click', { origen: a.dataset.wa, salida: a.dataset.salida || '' });
+      });
+      // Y a Instagram
+      document.addEventListener('click', (ev) => {
+        const a = (ev.target as HTMLElement).closest('a[data-ig]') as HTMLAnchorElement | null;
+        if (!a) return;
+        const g = (window as any).gtag;
+        if (typeof g === 'function') g('event', 'instagram_click', { origen: a.dataset.ig });
+      });
+    </script>
+  </body>
+</html>

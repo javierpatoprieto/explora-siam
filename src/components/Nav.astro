@@ -1,0 +1,51 @@
+---
+import Wa from './Wa.astro';
+import { IG_ICON, igUsuario } from '../lib/ig';
+const { site, dark = true } = Astro.props;
+---
+<header class:list={['nav', { 'nav--dark': dark }]} id="nav">
+  <div class="wrap nav__in">
+    <a href="/" class="nav__brand" aria-label={site.marca}><img src="/logo.png" alt="" width="40" height="40" /><span>{site.marca}</span></a>
+    <nav class="nav__links" aria-label="Secciones"><a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
+    <div class="nav__cta"><a href={site.instagram} class="nav__ig" target="_blank" rel="noopener" aria-label={`Instagram ${igUsuario(site.instagram)}`} data-ig="nav"><Fragment set:html={IG_ICON} /></a><Wa site={site} origen="nav" class="btn btn--sm nav__btn" icon={true}>Hablemos</Wa></div>
+    <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
+    <a href={site.instagram} class="menu__ig" target="_blank" rel="noopener" data-ig="menu"><Fragment set:html={IG_ICON} />{igUsuario(site.instagram)}</a>
+    <Wa site={site} origen="nav">Hablemos por WhatsApp</Wa>
+  </div>
+</header>
+<style>
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; color: var(--ink); transition: background .25s, color .25s, box-shadow .25s; }
+  .nav--dark { color: #fff; }
+  .nav.solid { background: rgba(255,255,255,.86); backdrop-filter: blur(14px); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+  .nav__in { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 72px; }
+  .nav__brand { display: flex; align-items: center; gap: 10px; color: inherit; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+  .nav__links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+  .nav__links a { color: inherit; opacity: .9; }
+  .nav__links a:hover { opacity: 1; }
+  .nav__cta { display: flex; align-items: center; gap: 10px; }
+  .nav__ig { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; color: inherit; opacity: .9; transition: opacity .2s, background .2s; }
+  .nav__ig:hover { opacity: 1; background: rgba(127,127,127,.14); }
+  .menu__ig { display: inline-flex; align-items: center; gap: 10px; }
+  .nav--dark:not(.solid) :global(.nav__btn) { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.35); color: #fff; backdrop-filter: blur(8px); }
+  .nav.solid :global(.nav__btn) { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .nav__burger { display: none; width: 44px; height: 44px; background: none; border: 0; flex-direction: column; gap: 6px; align-items: center; justify-content: center; cursor: pointer; }
+  .nav__burger span { width: 22px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .3s var(--ease); }
+  .nav__burger[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
+  .nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  .menu[hidden] { display: none; }
+  .menu { display: flex; flex-direction: column; gap: 18px; padding: 16px var(--gutter) 28px; background: #fff; color: var(--ink); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; box-shadow: 0 1px 0 var(--line); }
+  .menu a { color: var(--ink); }
+  .menu :global(.btn) { font-size: 15px; }
+  @media (max-width: 900px) { .nav__in { height: 64px; } .nav__links, .nav__cta { display: none; } .nav__burger { display: flex; } }
+</style>
+<script>
+  const nav = document.getElementById('nav')!; const burger = document.getElementById('burger')!; const menu = document.getElementById('menu')!;
+  const update = () => nav.classList.toggle('solid', window.scrollY > 40 || !menu.hidden);
+  window.addEventListener('scroll', update, { passive: true });
+  burger.addEventListener('click', () => { const open = menu.hidden; menu.hidden = !open; burger.setAttribute('aria-expanded', String(open)); update(); });
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); update(); }));
+  update();
+</script>

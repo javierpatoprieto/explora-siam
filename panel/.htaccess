@@ -1,0 +1,29 @@
+# Subida de vídeos grandes desde el panel.
+<IfModule mod_php.c>
+  php_value upload_max_filesize 320M
+  php_value post_max_size 330M
+  php_value memory_limit 256M
+  php_value max_execution_time 600
+  php_value max_input_time 600
+</IfModule>
+<IfModule lsapi_module>
+  php_value upload_max_filesize 320M
+  php_value post_max_size 330M
+  php_value memory_limit 256M
+  php_value max_execution_time 600
+  php_value max_input_time 600
+</IfModule>
+
+Options -Indexes
+DirectoryIndex index.php
+
+# Solo index.php es una puerta de entrada. Todo lo demas se incluye desde el,
+# asi que servirlo suelto no aporta nada y puede filtrar detalles.
+<FilesMatch "^(config\.php|config\.example\.php|lib\.php|publicador\.php|vista\.php|entrada\.php|estilo\.php|\.intentos|\.publicado\.json)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
