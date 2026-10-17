@@ -357,6 +357,7 @@ $CAMPOS = [
         ['sitio', 'whatsapp', 'WhatsApp (internacional, sin +)', 'linea'],
         ['sitio', 'email', 'Email', 'linea'],
         ['sitio', 'instagram', 'Instagram', 'linea'],
+        ['sitio', 'barraTexto', 'Texto junto al botón de WhatsApp en móvil (déjalo vacío para quitarlo)', 'linea'],
         ['sitio', 'formulario', 'Enlace del formulario de inscripción', 'linea'],
         ['sitio', 'analytics', 'Google Analytics (G-...)', 'linea'],
         ['sitio', 'verificacionGoogle', 'Verificación de Google Search Console', 'linea'],
