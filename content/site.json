@@ -27,7 +27,7 @@
         "sabai": "Hola Dani, he leído lo de sabai sabai y me gustaría vivirlo. ¿Me cuentas cómo es el viaje?",
         "precio": "Hola Dani, ¿me mandas el dossier completo del viaje, con el presupuesto y lo que incluye?",
         "faq": "Hola Dani, tengo una pregunta que no está en la web:",
-        "final": "Hola Dani, quiero contarte el viaje que tengo en la cabeza. Somos [número] personas y pensábamos en [mes].",
+        "final": "Hola Dani, tengo el carnet A2 y quiero unirme a la experiencia del 21 de Noviembre. Me puedes mandar toda la información del viaje?",
         "flotante": "Hola Dani, estoy en la web de Explora Siam y me gustaría hablar contigo."
     },
     "paginaViaje": {
@@ -41,7 +41,7 @@
         "botonQuiero": "Quiero este viaje",
         "microcopy": "Sin compromiso. Te cuento y decides.",
         "botonFormulario": "Rellenar el formulario",
-        "enlaceDossier": "Pídeme el dossier del viaje →"
+        "enlaceDossier": "Pídeme el documento del viaje →"
     },
     "estilo": {
         "acento": "#dd8a72",
