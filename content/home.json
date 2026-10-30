@@ -208,14 +208,14 @@
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
     "incluye": {
-        "titulo": "PRECIO DE ESTA AVENTURA: 1980€ iva incluído.",
+        "titulo": "Precio de ésta aventura: 1980€ iva incluído.",
         "microcopy": "Antes de ponerte el casco, quiero conocerte. Tendremos una llamada para que nos cuentes qué buscas en este viaje, resolver cada una de tus dudas y, sobre todo, asegurarme de que la filosofía de Explora Siam y este grupo encajan con lo que necesitas.",
         "incluido": [
             "Creación, diseño y organización de toda la aventura.",
             "Acompañamiento y coordinación antes y durante todo el viaje.",
             "Moto y logística del Mae Hong Son Loop, guía rider local con certificado TAT y furgoneta de apoyo.",
             "Alojamiento en habitación doble y desayuno todos los días.",
-            "Santuario ético de elefantes y curso de cocina tailandesa.",
+            "Santuario ético de elefantes y curso de cocina tailandesa, ambos con almuerzo incluído.",
             "Creación y selección del grupo de viajeros con un mismo objetivo.",
             "Sesión individual previa por Zoom y sesión grupal, grupo de WhatsApp y guía en PDF del viaje con recomendaciones para el viaje y qué llevar en la mochila.",
             "Ayuda previa al viaje con trámites o dudas que puedan surgir.",
@@ -224,8 +224,8 @@
         ],
         "noIncluido": [
             "Vuelos internacionales y vuelo local: 910€ aprox (te ayudo a buscarlos).",
-            "Seguro de viaje particular 90€ aprox. y traslados 130€ aprox.",
-            "Entradas a las actividades no incluidas 190€ aprox. y comidas no incluidas 240€ aprox.",
+            "Seguro de viaje particular y traslados no incluídos.",
+            "Entradas a las actividades no incluidas y comidas no incluidas.",
             "Masajes, gastos extra, ocio y propinas",
             "Total gastos aproximados no incluídos 1560€"
         ],
