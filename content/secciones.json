@@ -30,7 +30,7 @@
         },
         {
             "id": "cifras",
-            "mostrar": false
+            "mostrar": true
         },
         {
             "id": "incluye",
