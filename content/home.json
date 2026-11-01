@@ -385,23 +385,23 @@
         "items": [
             {
                 "icono": "guia",
-                "titulo": "Guía local certificado",
+                "titulo": "Guía local certificado.",
                 "texto": "Un rider guía habilitado por la TAT nos acompaña durante todo el loop."
             },
             {
                 "icono": "furgo",
                 "titulo": "Furgoneta de apoyo",
-                "texto": "Lleva las mochilas de punto a punto. Tú vas ligero en la moto."
+                "texto": "Nos sigue llevando las mochilas a cada punto. Tú vas ligero y disfrutando en la moto."
             },
             {
                 "icono": "grupo",
-                "titulo": "Grupo de 8 personas",
-                "texto": "Cabemos en una mesa. Nadie se queda atrás y nadie espera de más."
+                "titulo": "Grupo de 6 a 8 personas",
+                "texto": "Somos pocos pero bien avenido, el equipo está compuesto de personas con idéntica perspectiva."
             },
             {
                 "icono": "seguro",
-                "titulo": "Todo en regla",
-                "texto": "Seguro de responsabilidad civil, proveedores certificados e impuestos incluidos."
+                "titulo": "",
+                "texto": ""
             }
         ]
     }
