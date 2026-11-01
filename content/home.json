@@ -387,11 +387,6 @@
                 "icono": "guia",
                 "titulo": "Guía local certificado.",
                 "texto": "Un rider guía habilitado por la TAT nos acompaña durante todo el loop."
-            },
-            {
-                "icono": "furgo",
-                "titulo": "Furgoneta de apoyo",
-                "texto": "Nos sigue llevando las mochilas a cada punto. Tú vas ligero y disfrutando en la moto."
             }
         ]
     }
