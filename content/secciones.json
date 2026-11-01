@@ -26,7 +26,7 @@
         },
         {
             "id": "ventajas",
-            "mostrar": false
+            "mostrar": true
         },
         {
             "id": "cifras",
