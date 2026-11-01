@@ -380,8 +380,8 @@
         "imagen2": "../src/assets/img/phuchifa-169.jpg"
     },
     "ventajas": {
-        "titulo": "Un buen viaje se nota en los detalles.",
-        "texto": "Lo que hace que la ruta sea cómoda y segura, para que tú solo pienses en rodar.",
+        "titulo": "La improvisación es una parte fundamental del viaje.",
+        "texto": "Aunque todo el recorrido esté diseñado con un propósito, hay ocasiones en las que pueden cambiar las cosas: Un retraso, un cambio inesperado, la climatología, necesidades del grupo...\r\nPor eso estamos preparados para encontrar alternativas y adaptarnos a cada situación.\r\nHemos venido hasta Tailandia para vivirla y eso no quiere decir que el programa se tenga que cumplir a rajatabla.",
         "items": [
             {
                 "icono": "guia",
