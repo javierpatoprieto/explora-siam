@@ -1,26 +1,26 @@
 {
-    "nombre": "Bangkok, Chiang Rai, Phu Chi Fa, Chiang Mai y seis días en moto rodando el Mae Hong Son loop",
+    "nombre": "Chiang Mai y 6 días en moto rodando el Mae Hong Son loop.",
     "slug": "mae-hong-son-loop-nov-2026",
-    "fechas": "21 nov – 7 dic 2026",
-    "inicio": "2026-11-21",
-    "duracion": "17 días",
+    "fechas": "4 al 18 de Febrero 2027",
+    "inicio": "2027-2-4",
+    "duracion": "14 días",
     "plazas": 8,
     "disponibles": 8,
     "estado": "abierta",
     "precio": 2000,
-    "notaPrecio": "1980€ IVA incluido · vuelos y gastos de viaje aparte (unos 1.500 €)",
+    "notaPrecio": "2190€ IVA incluido · vuelos y gastos de viaje aparte (unos 920€)",
     "highlights": [
-        "750 km y más de 1.860 curvas en Honda NX500",
-        "Amanecer sobre un mar de nubes en Phu Chi Fa",
-        "Yi Peng y Loy Krathong en Chiang Rai"
+        "Celebración del año nuevo chino y festival de las flores",
+        "650 km y más de 1.860 curvas en Honda NX500",
+        "Elefantes, cocina Thai, templos"
     ],
     "imagen": "../../src/assets/img/moto-curva-45.jpg",
-    "descripcion": "17 días desde Bangkok hasta Chiang Mai. Empezamos con los templos mas icónicos de Bangkok, barrios, night markets y Muay Thai en el Rajadamnern Stadium; seguimos con el festival Yi Peng y Loy Krathong en Chiang Rai, trekkings por varias cumbres de la frontera con Laos. Llegamos a Chiang Mai y cocinamos platos típicos. \r\nEtapa final: 6 días en moto por el Mae Hong Son Loop con guía rider local y furgoneta de apoyo.\r\nÚltimo día visitamos elefantes en libertad.",
+    "descripcion": "14 días para conocer el norte de Tailandia a fondo. Celebraremos en Chiang Mai el año nuevo chino y el festival de las flores en un mismo fin de semana. Haremos nuestra famosa ruta en moto por el Mae Hong Son loop durante 6 etapas y regresaremos otra vez a Chiang Mai, donde haremos actividades de todo tipo.",
     "itinerario": [
         {
             "dia": 1,
-            "titulo": "Bangkok, 3 noches",
-            "texto": "Palacio Real, Buda Esmeralda, Buda reclinado y un templo oculto. Barrio Talat Noi, Chinatown, Icon Siam y Asiatique. Velada de Muay Thai en el Rajadamnern, navegación por el Chao Phraya y sus canales, Wat Pak Nam o Buda gigante y el Monte Dorado."
+            "titulo": "Chiang Mai",
+            "texto": ""
         },
         {
             "dia": 2,
