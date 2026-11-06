@@ -220,12 +220,12 @@
             "Moto y logística del Mae Hong Son Loop, guía rider local con certificado TAT y furgoneta de apoyo.",
             "Alojamiento en habitación doble y desayuno todos los días.",
             "Campamento de elefantes en libertad y curso de cocina tailandesa, ambos con desplazamiento y almuerzo incluído.",
-            "Todos los desplazamiento a las actividades previstas y aeropuerto"
+            "Todos los desplazamiento a las actividades previstas y traslado al aeropuerto."
         ],
         "noIncluido": [
             "Vuelos internacionales (te ayudo a buscarlos).",
             "Seguro de viaje particular.",
-            "Entradas a las actividades no incluidas y comidas no incluidas.",
+            "Comidas no incluidas.",
             "Masajes, gastos extra, ocio y propinas",
             "Total gastos aproximados no incluídos 920€"
         ],
@@ -249,7 +249,7 @@
     },
     "cifras": [
         {
-            "valor": "750",
+            "valor": "650",
             "unidad": "km",
             "etiqueta": "de ruta en moto"
         },
@@ -259,9 +259,9 @@
             "etiqueta": "junto a la frontera birmana"
         },
         {
-            "valor": "17",
+            "valor": "14",
             "unidad": "días",
-            "etiqueta": "de Bangkok a Pai"
+            "etiqueta": "Chiang Mai"
         },
         {
             "valor": "8",
