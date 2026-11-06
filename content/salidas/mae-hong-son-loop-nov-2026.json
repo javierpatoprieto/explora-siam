@@ -19,28 +19,28 @@
     "itinerario": [
         {
             "dia": 1,
-            "titulo": "Chiang Mai",
-            "texto": ""
+            "titulo": "Chiang Mai, 3 noches",
+            "texto": "Llegamos justo en la celebración del año nuevo chino y el festival de las flores. Todo a la vez el mismo fin de semana. Nos sumergiremos en las festividades presenciando desfiles de dragones y leones, petardos y fuegos artificiales, comida callejera"
         },
         {
             "dia": 2,
-            "titulo": "Chiang Rai, 2 noches",
-            "texto": "Vuelo al norte para vivir Yi Peng (linternas en el cielo) y Loy Krathong (ofrendas en el agua). Wat Huay Pla Kang al atardecer, night market, bailes regionales y masaje tailandés. Templo Blanco, Wat Phra Kaew, Wat Phra Singh y el Templo Azul, todos engalanados por las fiestas. Mercado local y una clase de Muay Thai (opcional)."
+            "titulo": "Mae Hong Son Loop, 5 noches",
+            "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía rider habilitado TAT y furgoneta que traslada las mochilas. Paseo entre cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, girasoles de montaña, lagos en barca china, amaneceres sobre mares de nubes, puentes de bambú, parques naturales, cuevas y templos."
         },
         {
             "dia": 3,
-            "titulo": "Frontera con Laos, 1 noche",
-            "texto": "Trekking por varios picos: Subida suave en Doi Pha Thang hasta la Puerta de Siam, ruta lineal de dos horas en Phu Chi Dao para ver el atardecer y al día siguiente amanecer sobre un mar de nubes en Phu Chi Fa. Parque nacional de Phu Sang con su cascada y la villa de Mae Kampong antes de llegar a Chiang Mai."
+            "titulo": "Chiang Mai, 4 noches",
+            "texto": ""
         },
         {
             "dia": 4,
-            "titulo": "Chiang Mai, 2 noches",
-            "texto": "Cocinamos nosotros los platos típicos, visitamos templos, hay tiempo libre para un masaje o ver Muay Thai. A partir de aquí empieza el plato fuerte, dejamos todo preparado para el día siguiente."
+            "titulo": "",
+            "texto": ""
         },
         {
             "dia": 5,
-            "titulo": "Mae Hong Son Loop, 7 noches",
-            "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía rider habilitado TAT y furgoneta que traslada las mochilas. Paseo entre cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, girasoles de montaña, amaneceres sobre mares de nubes, puentes de bambú, cuevas, templos y lagos en barca china. El último día, elefantes en libertad en un campamento de Chiang Mai."
+            "titulo": "",
+            "texto": ""
         }
     ],
     "orden": 1,
