@@ -208,7 +208,7 @@
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
     "incluye": {
-        "titulo": "Precio de ésta aventura: 1980€ iva incluído.",
+        "titulo": "Precio de ésta aventura: 2190€ iva incluído.",
         "microcopy": "Antes de ponerte el casco, quiero conocerte. Tendremos una llamada para que nos cuentes qué buscas en este viaje, resolver cada una de tus dudas y, sobre todo, asegurarme de que la filosofía de Explora Siam y este grupo encajan con lo que necesitas.",
         "incluido": [
             "Creación, diseño y organización de toda la aventura.",
@@ -280,11 +280,11 @@
             "../src/assets/img/mapa-ilustrado-del-mae-hong-son-loop-261007175420.png"
         ],
         "pies": [
-            "Wat Pho, Bangkok",
-            "Yi Peng, Chiang Rai",
-            "Amanecer en Phu Chi Fa",
             "Chiang Mai",
-            "Carretera 1095, camino de Pai"
+            "Mae Hong Son loop",
+            "Chiang Mai",
+            "",
+            ""
         ],
         "focos": [
             "50% 25%",
