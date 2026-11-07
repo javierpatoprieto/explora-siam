@@ -12,7 +12,7 @@
     "highlights": [
         "Celebración del año nuevo chino y festival de las flores",
         "650 km y más de 1.860 curvas en Honda NX500",
-        "Elefantes, cocina Thai, escapada en canoa y templos"
+        "Campamento de elefantes, cocina Thai, escapada en canoa y templos."
     ],
     "imagen": "../../src/assets/img/moto-curva-45.jpg",
     "descripcion": "14 días para conocer el norte de Tailandia a fondo. Celebraremos en Chiang Mai el año nuevo chino y el festival de las flores en un mismo fin de semana. Haremos nuestra famosa ruta en moto por el Mae Hong Son loop durante 6 etapas y regresaremos otra vez a Chiang Mai, donde haremos actividades de todo tipo.",
@@ -30,7 +30,7 @@
         {
             "dia": 3,
             "titulo": "Chiang Mai, 4 noches",
-            "texto": ""
+            "texto": "Visitaremos mercados locales y cocinaremos los platos típicos del norte. Veremos un atardecer en Doi Shutep. Visitaremos el Parque Nacional Namtok Bua Thong y el árbol de la lluvia."
         },
         {
             "dia": 4,
