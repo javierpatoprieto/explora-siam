@@ -398,6 +398,11 @@
                 "icono": "guia",
                 "titulo": "Nuestros valores: SUPERACIÓN",
                 "texto": "Cada desafío es un aprendizaje y nos encantan los desafíos. Tú también puedes andar en moto por allí!"
+            },
+            {
+                "icono": "guia",
+                "titulo": "",
+                "texto": ""
             }
         ]
     }
