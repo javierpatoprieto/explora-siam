@@ -391,18 +391,18 @@
             },
             {
                 "icono": "guia",
-                "titulo": "",
-                "texto": ""
+                "titulo": "Nuestros valores: RESPETO",
+                "texto": "Disfrutamos del momento observando, sin intentar imponer nuestras costumbres. Tan sólo déjate llevar."
             },
             {
                 "icono": "guia",
-                "titulo": "",
-                "texto": ""
+                "titulo": "Nuestros valores: CURIOSIDAD",
+                "texto": "Nos interesamos por conocer, probamos sus platos, viajamos como ellos, hacemos por entender."
             },
             {
                 "icono": "guia",
-                "titulo": "Valores que promovemos.",
-                "texto": ""
+                "titulo": "Nuestros valores: SUPERACIÓN",
+                "texto": "Cada desafío es un aprendizaje y nos encantan los desafíos. Tú también puedes andar en moto por allí!"
             }
         ]
     }
