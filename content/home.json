@@ -41,7 +41,7 @@
         "bloques": [
             {
                 "titulo": "Así viajamos nosotros.",
-                "texto": "Nos vamos a Tailandia para volver con una nueva perspectiva, queremos aprender de cada experiencia y nos dejamos sorprender por todo lo que va llegando. Cada vivencia pasa a través de nosotros dejando una nueva sensación y un recuerdo de dónde hemos estado. Viajar es el instrumento para crecer y avanzar..."
+                "texto": "Nos vamos a Tailandia para volver con una nueva perspectiva, queremos aprender de cada experiencia y nos dejamos sorprender por todo lo que va llegando (Que no va a ser poco). Cada vivencia pasa a través de nosotros dejando una nueva sensación y un recuerdo de dónde hemos estado. Viajar es el instrumento para crecer y avanzar..."
             },
             {
                 "titulo": "¿Y si te digo que conocer un país en moto es totalmente distinto?",
@@ -375,7 +375,7 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "frase": "No solo es viajar y hacer check en una lista de destinos: Es volver a casa con una versión distinta de ti que ha roto esa barrera del miedo a lo desconocido. \r\nAhora has cumplido un sueño y te das cuenta de que podías con ello. \r\nHas comprendido otra cultura y eso te ha hecho crecer, puedes desarrollar mejor tu creatividad; en definitiva, has llegado a convertirte en tu propia versión 2.0. Imparable!",
+        "frase": "No solo es viajar y hacer check en una lista de destinos: Es volver a casa con una versión distinta de tí que ha roto esa barrera del miedo a lo desconocido. \r\nAhora has cumplido un sueño y te das cuenta de que podías con ello. \r\nHas comprendido otra cultura y eso te ha hecho crecer, puedes desarrollar mejor tu creatividad; en definitiva, has llegado a convertirte en tu propia versión 2.0. Imparable!",
         "texto": "Prepara tu mochila sin pensártelo demasiado. Hay mucho por descubrir!",
         "imagen1": "../src/assets/img/68757-261007114812.jpg",
         "imagen2": "../src/assets/img/phuchifa-169.jpg"
