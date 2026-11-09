@@ -271,7 +271,7 @@
     ],
     "ruta": {
         "etiqueta": "El viaje",
-        "titulo": "Del 21 de Noviembre al 7 de Diciembre.",
+        "titulo": "Del 3 al 17 de Febrero",
         "imagenes": [
             "../src/assets/img/634804656-1335972971896854-3450673687915-261106225121.jpg",
             "../src/assets/img/mapa-ilustrado-del-mae-hong-son-loop-261107104101.png",
@@ -376,7 +376,7 @@
     },
     "statement": {
         "frase": "No solo es viajar y hacer check en una lista de destinos: Es volver a casa con una versión distinta de ti que ha roto esa barrera del miedo a lo desconocido. \r\nAhora has cumplido un sueño y te das cuenta de que podías con ello. \r\nHas comprendido otra cultura y eso te ha hecho crecer, puedes desarrollar mejor tu creatividad; en definitiva, has llegado a convertirte en tu propia versión 2.0. Imparable!",
-        "texto": "Prepara tu mochila sin pensártelo demasiado y ¡al lío!",
+        "texto": "Prepara tu mochila sin pensártelo demasiado. Hay mucho por descubrir!",
         "imagen1": "../src/assets/img/68757-261007114812.jpg",
         "imagen2": "../src/assets/img/phuchifa-169.jpg"
     },
