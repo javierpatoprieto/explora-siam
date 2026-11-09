@@ -391,17 +391,17 @@
             },
             {
                 "icono": "guia",
-                "titulo": "Nuestros valores: CURIOSIDAD",
+                "titulo": "CURIOSIDAD",
                 "texto": "Nos interesamos por conocer, probamos sus platos, viajamos como ellos, hacemos por entender."
             },
             {
                 "icono": "guia",
-                "titulo": "Nuestros valores: SUPERACIÓN",
+                "titulo": "SUPERACIÓN",
                 "texto": "Cada desafío es un aprendizaje y nos encantan los desafíos. Tú también puedes andar en moto por allí!"
             },
             {
                 "icono": "guia",
-                "titulo": "Nuestros valores: RESPONSABILIDAD",
+                "titulo": "RESPONSABILIDAD",
                 "texto": "Apoyamos la economía local y damos un trato justo. El regateo excesivo no va con nosotros."
             }
         ]
