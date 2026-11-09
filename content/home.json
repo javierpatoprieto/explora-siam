@@ -142,7 +142,7 @@
             "Los que me conocen me tachan de divertido, simpático y aventurero. Hey! Y no soy bueno contando chistes, pero lo que sí me encanta es reír..."
         ],
         "retrato": "../src/assets/img/daniel-45.jpg",
-        "retratoPie": "",
+        "retratoPie": "Mirador en Samet NangShe",
         "archivo": "../src/assets/img/archivo-32.jpg",
         "archivoPie": "Chiang Rai",
         "datos": [
@@ -304,7 +304,7 @@
                 "etiqueta": "días en moto"
             },
             {
-                "valor": "750",
+                "valor": "650",
                 "etiqueta": "kilómetros"
             },
             {
@@ -319,7 +319,7 @@
         "dias": [
             {
                 "titulo": "Chiang Mai → Mae Chaem",
-                "texto": "Subida al parque nacional de Doi Inthanon por la 1009, el pico más alto de Tailandia, después trekking suave entre cascadas y arrozales hasta llegar al poblado de la etnia Karen. \r\nVisita a las pagodas reales en el pico Inthanon.\r\nDescendemos entre arrozales hasta Mae Chaem.",
+                "texto": "Subida al parque nacional de Doi Inthanon por la 1009, el pico más alto de Tailandia, después trekking suave entre cascadas y arrozales hasta llegar al poblado de la etnia Karen. \r\nVisita a las pagodas reales en el pico Inthanon.\r\nDescendemos hasta Mae Chaem entre montañas.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-22-16-32-260921171802.jpg"
             },
             {
@@ -382,7 +382,7 @@
     },
     "ventajas": {
         "titulo": "La improvisación es una parte fundamental del viaje.",
-        "texto": "Aunque todo el recorrido esté diseñado con un propósito, hay ocasiones en las que pueden cambiar las cosas: Un retraso, un cambio inesperado, la climatología, necesidades del grupo...\r\nPor eso estamos preparados para encontrar alternativas y adaptarnos a cada situación.\r\nHemos venido hasta Tailandia para vivirla y eso no quiere decir que el programa se tenga que cumplir a rajatabla.",
+        "texto": "Aunque todo el recorrido esté diseñado con un propósito, hay ocasiones en las que pueden cambiar las cosas: Un retraso, un cambio inesperado, la climatología, necesidades del grupo...\r\nPor eso estamos preparados para encontrar alternativas y adaptarnos a cada situación. Llevo dos años conociendo este país y tengo los recursos necesarios. \r\nHemos venido hasta Tailandia para vivirla y eso no quiere decir que el programa se tenga que cumplir a rajatabla.",
         "items": [
             {
                 "icono": "guia",
