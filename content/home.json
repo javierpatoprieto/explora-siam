@@ -208,7 +208,7 @@
         "fondo": "../src/assets/img/phuchifa-169.jpg"
     },
     "incluye": {
-        "titulo": "Precio de ésta aventura: 2190€ iva incluído.",
+        "titulo": "Precio de ésta aventura: 1980€ iva incluído.",
         "microcopy": "Antes de ponerte el casco, quiero conocerte. Tendremos una llamada para que nos cuentes qué buscas en este viaje, resolver cada una de tus dudas y, sobre todo, asegurarme de que la filosofía de Explora Siam y este grupo encajan con lo que necesitas.",
         "incluido": [
             "Creación, diseño y organización de toda la aventura.",
@@ -375,7 +375,7 @@
         "texto": "Bangkok como se vive, las linternas de Chiang Rai, un amanecer sobre un mar de nubes y seis días de curvas por el norte. En un grupo pequeño y a un ritmo que deja sitio a lo que pase."
     },
     "statement": {
-        "frase": "No solo es viajar y hacer check en una lista de destinos: Es volver a casa con una versión distinta de tí que ha roto esa barrera del miedo a lo desconocido. \r\nAhora has cumplido un sueño y te das cuenta de que podías con ello. \r\nHas comprendido otra cultura y eso te ha hecho crecer, puedes desarrollar mejor tu creatividad; en definitiva, has llegado a convertirte en tu propia versión 2.0. Imparable!",
+        "frase": "No solo es viajar y hacer check en una lista de destinos: Es volver a casa con una versión distinta de tí que ha roto esa barrera del miedo a lo desconocido. \r\nAhora has cumplido un sueño y te das cuenta de que podías con ello. \r\nHas comprendido otra cultura y eso te ha hecho crecer, puedes desarrollar mejor tu creatividad; en definitiva, has llegado a convertirte en tu yo 2.0. Imparable!",
         "texto": "Prepara tu mochila sin pensártelo demasiado. Hay mucho por descubrir!",
         "imagen1": "../src/assets/img/68757-261007114812.jpg",
         "imagen2": "../src/assets/img/phuchifa-169.jpg"
