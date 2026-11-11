@@ -138,7 +138,7 @@
         "titulo": "Hola, soy Dani.",
         "parrafos": [
             "Tengo 44 años y quiero compartir con vosotros mi pasión por Tailandia, un país que llevo visitando dos años y que ha cambiado mi vida por completo. Tanto que dejé un trabajo vocacional de casi 18 años para dedicarme a acompañar a otras personas para poder vivir esta experiencia.",
-            "Mi objetivo con este proyecto es crear un espacio en el que las personas puedan descubrir la esencia de\r\nTailandia desde una perspectiva diferente, fuera de los tours típicos. Conectando con la cultura local lo máximo posible. \r\n\r\nViajando de una manera natural y sostenible, disfrutando en un grupo homogéneo... y luego cada uno decidirá si es una experiencia transformadora como lo ha sido para mi.",
+            "Mi objetivo con este proyecto es crear un espacio en el que las personas puedan descubrir Tailandia desde una perspectiva diferente, fuera de los tours típicos. Conectando con la cultura local lo máximo posible. \r\nViajando de una manera natural y sostenible, disfrutando en un grupo homogéneo... y luego cada uno decidirá si es una experiencia transformadora como lo ha sido para mi.",
             "Los que me conocen me tachan de divertido, simpático y aventurero. Hey! Y no soy bueno contando chistes, pero lo que sí me encanta es reír..."
         ],
         "retrato": "../src/assets/img/daniel-45.jpg",
@@ -319,27 +319,27 @@
         "dias": [
             {
                 "titulo": "Chiang Mai → Mae Chaem",
-                "texto": "Subida al parque nacional de Doi Inthanon por la 1009, el pico más alto de Tailandia, después trekking suave entre cascadas y arrozales hasta llegar al poblado de la etnia Karen. \r\nVisita a las pagodas reales en el pico Inthanon.\r\nDescendemos hasta Mae Chaem entre montañas.",
+                "texto": "Primera parada en el parque nacional Mae Wang. Subida a Doi Inthanon por la 1009, el pico más alto de Tailandia, una caminata suave entre cascadas y arrozales hasta llegar a una aldea de la etnia Karen. \r\nVisita a las pagodas reales en la cima.\r\nDescendemos hasta Mae Chaem entre montañas.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-22-16-32-260921171802.jpg"
             },
             {
                 "titulo": "Mae Chaem → Khun Yuam",
-                "texto": "Seguimos por la 1088. Carreteras de montaña casi vacías, miradores y templos. \r\nParada en una cascada para después disfrutar en noviembre las laderas amarillas con girasoles en flor.",
+                "texto": "Seguimos por la 1088. Carreteras de montaña casi vacías, miradores, cascadas y templos. \r\nEn noviembre las laderas amarillas con girasoles en flor.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-22-08-36-260921171022.jpg"
             },
             {
                 "titulo": "Khun Yuam → Ban Rak Thai",
-                "texto": "Continuamos por la 108 hasta el mirador de Pha Bong y seguimos hasta un poblado Karen de las long neck.\r\nLLegamos a Mae Hong Son parando en un templo con vistas sobre la ciudad.\r\nCaminaremos por un puente de bambú entre arrozales,y continuamos ruta hasta el pueblo de té junto a la frontera birmana. Carretera muy divertida, sacacorchos que no acaban nunca.",
+                "texto": "Continuamos por la 108 hasta el Pha Bong y seguimos hasta un poblado Karen de las long neck.\r\nLLegamos a Mae Hong Son parando en un templo con vistas sobre la ciudad.\r\nCaminaremos por un puente de bambú entre arrozales,y acabamos ruta en el pueblo del té junto a la frontera birmana. Carretera muy divertida, sacacorchos que no acaban nunca.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-21-57-43-1-260921170247.jpg"
             },
             {
                 "titulo": "Ban Rak Thai → Ban Ja Bo",
-                "texto": "Empezamos con un paseo temprano por el lago en barca china, descenderemos por la 4001 hasta una cascada y más adelante un parque natural. \r\nSeguimos ruta por la 1095 con parada en Wat Pa Tam Wua y en el mirador de Ban Luk Khao Lam.\r\nTerminamos en Ban Ja Bo, el pueblo colgado sobre el valle.",
+                "texto": "Empezamos con un paseo temprano por el lago en barca china, descenderemos por la 4001 hasta una cascada y más adelante un parque natural. \r\nSeguimos ruta por la 1095 con parada en un templo y en Ban Luk Khao Lam.\r\nTerminamos en Ban Ja Bo, el pueblo colgado sobre el valle.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-21-at-21-57-43-260921170431.jpg"
             },
             {
                 "titulo": "Ban Ja Bo → Pai",
-                "texto": "Amanecer sobre un mar de nubes y arrancamos por la 1095 visitando unas cuevas.\r\nContinuamos hasta el mirador de Kiew Lom para tomar un café tranquilamente y curvas de montaña hasta Pai, el pueblo más bohemio del norte. Atardecer con vistas sobre el valle de Pai y night market.",
+                "texto": "Amanecer sobre un mar de nubes y arrancamos por la 1095 visitando unas cuevas.\r\nContinuamos hasta Kiew Lom para tomar un café tranquilamente y curvas de montaña hasta Pai, el pueblo más bohemio del norte. Atardecer con vistas sobre el valle de Pai y night market con mucho ambiente.",
                 "imagen": "../src/assets/img/whatsapp-image-2026-09-25-at-18-43-18-260925134520.jpg"
             },
             {
