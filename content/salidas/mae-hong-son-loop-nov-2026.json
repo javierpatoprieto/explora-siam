@@ -19,16 +19,11 @@
     "itinerario": [
         {
             "dia": 1,
-            "titulo": "Mae Hong Son Loop, 5 noches",
-            "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía rider habilitado TAT y furgoneta que traslada las mochilas. Trekking entre cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, lagos en barca china, amaneceres sobre mares de nubes, puentes de bambú, parques naturales, cuevas y templos."
-        },
-        {
-            "dia": 2,
             "titulo": "",
             "texto": ""
         },
         {
-            "dia": 3,
+            "dia": 2,
             "titulo": "",
             "texto": ""
         }
