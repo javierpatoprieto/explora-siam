@@ -1,0 +1,22 @@
+---
+// Botón de contacto. Según lo que Dani elija en el panel, lleva al formulario
+// de Google o a WhatsApp. Así se cambia en toda la web de una vez.
+import { waUrl, WA_ICON } from '../lib/wa';
+const { site, origen, vars = {}, class: cls = 'btn', icon = true, salida, label } = Astro.props;
+const formulario = (site.contactoPrincipal ?? 'whatsapp') === 'formulario' && !!site.formulario;
+const url = formulario ? site.formulario : waUrl(site, origen, vars);
+const textoPorDefecto = formulario ? (site.textoFormulario || 'Reservar plaza') : 'Hablemos por WhatsApp';
+---
+<a
+  href={url}
+  class={cls}
+  target="_blank"
+  rel="noopener"
+  data-wa={formulario ? undefined : origen}
+  data-form={formulario ? origen : undefined}
+  data-salida={salida}
+  aria-label={label}
+>
+  {icon && !formulario && <Fragment set:html={WA_ICON} />}
+  <slot>{textoPorDefecto}</slot>
+</a>

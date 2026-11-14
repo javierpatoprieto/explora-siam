@@ -1,0 +1,54 @@
+{
+    "nombre": "Chiang Mai y 6 días en moto rodando el Mae Hong Son loop.",
+    "slug": "mae-hong-son-loop-nov-2026",
+    "fechas": "3 al 17 de Febrero 2027",
+    "inicio": "2027-2-3",
+    "duracion": "14 días",
+    "plazas": 8,
+    "disponibles": 8,
+    "estado": "proximamente",
+    "precio": 2000,
+    "notaPrecio": "1980€ IVA incluido · vuelos y gastos de viaje aparte (unos 920€)",
+    "highlights": [
+        "Celebración del año nuevo chino y festival de las flores",
+        "650 km y más de 1.860 curvas en Honda NX500",
+        "Campamento de elefantes, cocina Thai y templos."
+    ],
+    "imagen": "../../src/assets/img/moto-curva-45.jpg",
+    "descripcion": "14 días para conocer el norte de Tailandia a fondo. Celebraremos en Chiang Mai el año nuevo chino y el festival de las flores en un mismo fin de semana. Haremos nuestra famosa ruta en moto por el Mae Hong Son loop durante 6 etapas y regresaremos otra vez a Chiang Mai, donde haremos varias actividades.",
+    "itinerario": [
+        {
+            "dia": 1,
+            "titulo": "Chiang Mai, 4 noches",
+            "texto": "Visitar este fin de semana Chiang Mai nos brindará la oportunidad de sumergirnos en dos de las fiestas culturales más bellas del país de forma simultánea. Las calles del barrio chino estarán peatonalizadas y decoradas con farolillos rojos por todas partes, desfilarán carrozas decoradas, acróbatas y dragones luminosos bailando al ritmo de los tambores y platillos a todo meter, esquivando los petardos que se lanzan para asustar y ahuyentar a los demonios y a la mala suerte. Danzas del león que van de tienda en tienda para dar fortuna y prosperidad a sus comerciantes en el año que entra, purificando un lugar y bendiciendo los nuevos comienzos.\r\nFuegos artificiales y espectáculos pirotécnicos, murallas iluminadas, cientos de puestos de comida que van a convertir Chiang Mai en el paraíso del street food, deleitando nuestros paladares desde con dumplings o empanadillas, pato laqueado, panceta crujiente y noodles  hasta el auténtico Khao Soi del norte, entre muchas otras delicias! \r\nY además, el Festival de las Flores se celebra justo en el momento en que las flores del norte de Tailandia están en su máximo esplendor. Un desfile de carrozas gigantescas que miden metros de largo, pero con un detalle increíble: están completamente cubiertas por millones de flores frescas, como orquídeas exóticas, crisantemos y las famosas rosas de Chiang Mai, formando figuras de templos, budas y animales mitológicos. Al lado desfilan músicos, bailarines con trajes tradicionales Lanna y los locales lanzan pétalos al público. \r\nEl contraste del rojo intenso y los fuegos artificiales del año nuevo chino con el colorido y la majestuosidad de las carrozas de flores va a hacer que Chiang Mai sea un lugar espectacular durante ese fin de semana….."
+        },
+        {
+            "dia": 2,
+            "titulo": "Mae Hong Son Loop, 5 noches",
+            "texto": "Seis días en moto: Mae Chaem, Khun Yuam, Ban Rak Thai, Ban Ja Bo y Pai, con guía rider habilitado TAT y furgoneta que traslada las mochilas. Trekking entre cascadas, el pico más alto de Tailandia (Doi Inthanon), arrozales, lagos en barca china, amaneceres sobre mares de nubes, puentes de bambú, parques naturales, cuevas y templos."
+        },
+        {
+            "dia": 3,
+            "titulo": "Chiang Mai, 3 noches",
+            "texto": "Visitaremos mercados locales y cocinaremos los platos típicos del norte. Veremos un atardecer en Doi Shutep. Pasaremos un día en el campamento de elefantes en libertad interactuando con ellos."
+        },
+        {
+            "dia": 4,
+            "titulo": "",
+            "texto": ""
+        },
+        {
+            "dia": 5,
+            "titulo": "",
+            "texto": ""
+        }
+    ],
+    "orden": 1,
+    "destacada": true,
+    "landing": [
+        {
+            "titulo": "",
+            "texto": ""
+        }
+    ]
+}

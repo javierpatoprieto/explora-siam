@@ -1,0 +1,99 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Cifras from '../components/Cifras.astro';
+import Statement from '../components/Statement.astro';
+import Destinos from '../components/Destinos.astro';
+import Moto from '../components/Moto.astro';
+import Ventajas from '../components/Ventajas.astro';
+import Incluye from '../components/Incluye.astro';
+import Sabai from '../components/Sabai.astro';
+import Manifiesto from '../components/Manifiesto.astro';
+import Fundador from '../components/Fundador.astro';
+import Testimonios from '../components/Testimonios.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import Footer from '../components/Footer.astro';
+import Flotante from '../components/Flotante.astro';
+
+const site = (await getEntry('site', 'site'))!.data;
+const home = (await getEntry('home', 'home'))!.data;
+const salidas = (await getCollection('salidas', (s) => s.data.destacada)).sort((a, b) => a.data.orden - b.data.orden);
+const abiertas = salidas.filter((s) => s.data.estado !== 'completa').sort((a, b) => a.data.inicio.localeCompare(b.data.inicio));
+const proxima = abiertas[0]?.data;
+const testimonios = (await getCollection('testimonios')).sort((a, b) => a.data.orden - b.data.orden);
+const faqs = (await getCollection('faqs', (f) => f.data.enHome)).sort((a, b) => a.data.orden - b.data.orden);
+
+// Qué secciones se ven y en qué orden: lo decide Dani desde el panel.
+const porDefecto = ['manifiesto', 'sabai', 'cifras', 'viaje', 'moto', 'statement', 'ventajas', 'fundador', 'incluye', 'testimonios', 'faq', 'cta'];
+const guardadas = (await getEntry('secciones', 'secciones'))?.data.orden ?? [];
+const bloques = [
+  ...guardadas.filter((s) => porDefecto.includes(s.id)),
+  ...porDefecto.filter((id) => !guardadas.some((s) => s.id === id)).map((id) => ({ id, mostrar: true })),
+].filter((s) => s.mostrar);
+
+// Vídeos para Google: solo si hay archivo y fecha de subida (la pone el panel al subirlo).
+const videosLd = [
+  { url: home.hero.videoMp4, titulo: home.hero.videoTitulo, desc: home.hero.videoDescripcion, fecha: home.hero.videoFecha, poster: home.hero.poster },
+  { url: home.video.mp4, titulo: home.video.videoTitulo || home.video.titulo, desc: home.video.videoDescripcion, fecha: home.video.videoFecha, poster: home.video.poster },
+]
+  .filter((v) => v.url && v.fecha && v.titulo)
+  .map((v) => ({
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: v.titulo,
+    description: v.desc || v.titulo,
+    thumbnailUrl: new URL(v.poster.src, Astro.site).toString(),
+    contentUrl: v.url,
+    uploadDate: v.fecha,
+  }));
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: site.marca,
+    url: Astro.site?.toString(),
+    telephone: `+${site.whatsapp}`,
+    email: site.email,
+    founder: { '@type': 'Person', name: site.fundador },
+    areaServed: 'Tailandia',
+    sameAs: [site.instagram],
+    address: { '@type': 'PostalAddress', addressLocality: 'Santander', addressCountry: 'ES' },
+  },
+  ...abiertas.map((s) => ({
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: s.data.nombre,
+    description: s.data.descripcion,
+    url: new URL(`/viajes/${s.data.slug}`, Astro.site).toString(),
+    touristType: 'Grupo reducido',
+  })),
+  ...videosLd,
+];
+---
+<Base jsonLd={jsonLd}>
+  <Nav site={site} />
+  <main>
+    <Hero site={site} hero={home.hero} proxima={proxima} />
+    {bloques.map((b) => (
+      <Fragment>
+        {b.id === 'manifiesto' && <Manifiesto m={home.manifiesto} />}
+        {b.id === 'sabai' && <Sabai site={site} s={home.sabai} />}
+        {b.id === 'cifras' && <Cifras cifras={home.cifras} titulo={home.cifrasTexto.titulo} texto={home.cifrasTexto.texto} />}
+        {b.id === 'viaje' && <Destinos ruta={home.ruta} salida={abiertas[0] ?? salidas[0]} video={home.video} moto={home.moto} />}
+        {b.id === 'moto' && home.moto && <Moto site={site} moto={home.moto} />}
+        {b.id === 'statement' && <Statement st={home.statement} />}
+        {b.id === 'ventajas' && <Ventajas v={home.ventajas} />}
+        {b.id === 'fundador' && <Fundador site={site} f={home.fundador} />}
+        {b.id === 'incluye' && <Incluye site={site} inc={home.incluye} />}
+        {b.id === 'testimonios' && testimonios.length > 0 && <Testimonios t={home.testimonios} items={testimonios} />}
+        {b.id === 'faq' && <Faq site={site} faq={home.faq} items={faqs} />}
+        {b.id === 'cta' && <Cta site={site} cta={home.cta} />}
+      </Fragment>
+    ))}
+  </main>
+  <Footer site={site} frase={home.footer.frase} />
+  <Flotante site={site} proxima={proxima} />
+</Base>

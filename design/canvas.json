@@ -1,0 +1,56 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Home · Desktop 1440",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 12500,
+      "expand": "fit"
+    },
+    {
+      "file": "Mobile.dc.html",
+      "title": "Home · Mobile 390",
+      "x": 1560,
+      "y": 0,
+      "w": 390,
+      "h": 10450,
+      "expand": "fit"
+    },
+    {
+      "file": "Viewport.dc.html",
+      "title": "Mobile · barra fija de WhatsApp",
+      "x": 2070,
+      "y": 0,
+      "w": 390,
+      "h": 844
+    }
+  ],
+  "annotations": [
+    {
+      "id": "leyenda",
+      "x": 0,
+      "y": -260,
+      "w": 620,
+      "text": "Explora Siam · propuesta de home\n\n• Todo parte del logo del cliente: paleta de su degradado de atardecer (ámbar #F5C36A → coral #F07060 → vino #7A2545) y tinta del torii (#2A0E14). El logo aparece en la navegación, en las respuestas del bloque de preguntas, en el CTA final y en el pie.\n• Fotos: las tres del cliente más diez imágenes de muestra generadas con Magnific para ocupar los huecos (niebla de Doi Inthanon, khao soi, mercado, tren nocturno, retrato del anfitrión, foto de archivo, viajeros). Las generadas son provisionales y se sustituyen por material real. Los valores con subrayado punteado son de muestra.\n• Tipografía: Anton en titulares (el equivalente libre de Impact, en mayúsculas) y Archivo para texto, etiquetas y botones (grotesca neutra tipo Helvética). Sacramento solo en la firma, como el rótulo del logo."
+    },
+    {
+      "id": "nota-horizontal",
+      "x": 0,
+      "y": 12620,
+      "w": 480,
+      "text": "\"Un martes cualquiera\": en desktop la sección se fija y avanza en horizontal con el scroll (6 paradas). Aquí se muestran 4 recortadas por el ancho del artboard."
+    },
+    {
+      "id": "nota-logo",
+      "x": 2070,
+      "y": 920,
+      "w": 390,
+      "text": "Logo: se usa el actual del cliente tal cual. Cuando se rehaga el logotipo (el torii es iconografía japonesa), bastará con sustituir el archivo: el sistema de color ya está construido sobre su atardecer."
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}
