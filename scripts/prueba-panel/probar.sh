@@ -211,6 +211,25 @@ no_contiene "no enseña el token de GitHub" "token-de-prueba" "$(pagina "?s=text
 fuera=$(curl -s "$BASE/config.php")
 no_contiene "config.php no se sirve tal cual" "PANEL_PASSWORD" "$fuera"
 
+echo "== Texto de la landing en la página del viaje =="
+bloques=$(dato "$CONTENIDO/salidas/$VIAJE" landing.cuantos)
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_add=landing" > /dev/null
+comprobar "se añade un bloque" "$(dato "$CONTENIDO/salidas/$VIAJE" landing.cuantos)" "$((bloques + 1))"
+contiene "el bloque nuevo se puede escribir" "v[landing.$bloques.texto]" "$(pagina "?s=viaje")"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" \
+  -d "v[landing.$bloques.titulo]=Por qué este viaje" -d "v[landing.$bloques.texto]=Texto de la landing de prueba." > /dev/null
+comprobar "se guarda el titular del bloque" "$(dato "$CONTENIDO/salidas/$VIAJE" "landing.$bloques.titulo")" "Por qué este viaje"
+comprobar "se guarda el texto del bloque" "$(dato "$CONTENIDO/salidas/$VIAJE" "landing.$bloques.texto")" "Texto de la landing de prueba."
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_del=landing" -d "lista_idx[landing]=$bloques" > /dev/null
+comprobar "se quita el bloque" "$(dato "$CONTENIDO/salidas/$VIAJE" landing.cuantos)" "$bloques"
+
+echo "== Interruptor de WhatsApp / formulario =="
+guardar textos -d "c[sitio|contactoPrincipal]=whatsapp"
+comprobar "se puede volver a WhatsApp" "$(dato "$CONTENIDO/site.json" contactoPrincipal)" "whatsapp"
+guardar textos -d "c[sitio|contactoPrincipal]=formulario" -d "c[sitio|textoFormulario]=Reservar plaza"
+comprobar "y dejarlo en formulario" "$(dato "$CONTENIDO/site.json" contactoPrincipal)" "formulario"
+comprobar "con su texto de botón" "$(dato "$CONTENIDO/site.json" textoFormulario)" "Reservar plaza"
+
 echo "== El panel se actualiza solo =="
 secciones=$(pagina "?s=secciones")
 contiene "avisa de que hay una versión más nueva" "versión más nueva" "$secciones"

@@ -75,6 +75,12 @@ jobs:
           npm run build:static > prueba/compilacion.log 2>&1
           echo $? > prueba/compilacion.estado
           tail -n 25 prueba/compilacion.log
+          # Con el interruptor en «formulario» no debe quedar ningún enlace a WhatsApp
+          if [ -f dist/index.html ]; then
+            WA=$(grep -o 'wa.me' dist/index.html | wc -l)
+            FORM=$(grep -o 'docs.google.com' dist/index.html | wc -l)
+            echo "portada → enlaces a WhatsApp: $WA · al formulario: $FORM" > prueba/contacto.txt
+          fi
         env:
           SITE_URL: https://explorasiam.com
 
@@ -94,6 +100,9 @@ jobs:
               echo "FALLA la compilación:"
               tail -n 25 prueba/compilacion.log 2>/dev/null
             fi
+            echo
+            echo "## Botones de contacto en la web compilada"
+            cat prueba/contacto.txt 2>/dev/null || echo "(no se pudo comprobar)"
             echo
             echo "## Registro del servidor"
             grep -E "PHP (Warning|Notice|Deprecated|Fatal)" prueba/servidor.log || echo "sin avisos"
