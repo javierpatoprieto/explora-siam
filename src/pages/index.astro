@@ -29,10 +29,13 @@ const faqs = (await getCollection('faqs', (f) => f.data.enHome)).sort((a, b) => 
 // Qué secciones se ven y en qué orden: lo decide Dani desde el panel.
 const porDefecto = ['manifiesto', 'sabai', 'cifras', 'viaje', 'moto', 'statement', 'ventajas', 'fundador', 'incluye', 'testimonios', 'faq', 'cta'];
 const guardadas = (await getEntry('secciones', 'secciones'))?.data.orden ?? [];
+// «El viaje» necesita un viaje con etapas escritas; si no, mejor no enseñar la
+// sección a medias mientras Dani la prepara.
+const viajeEnPortada = salidas[0]?.data.itinerario.some((e: any) => (e?.titulo ?? '').trim() !== '') ?? false;
 const bloques = [
   ...guardadas.filter((s) => porDefecto.includes(s.id)),
   ...porDefecto.filter((id) => !guardadas.some((s) => s.id === id)).map((id) => ({ id, mostrar: true })),
-].filter((s) => s.mostrar);
+].filter((s) => s.mostrar && (s.id !== 'viaje' || viajeEnPortada));
 
 // Vídeos para Google: solo si hay archivo y fecha de subida (la pone el panel al subirlo).
 const videosLd = [
