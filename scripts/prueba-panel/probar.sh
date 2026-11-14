@@ -123,6 +123,12 @@ comprobar "y se renumeran todas" "$(dato "$CONTENIDO/salidas/$VIAJE" "itinerario
 enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_del=itinerario" -d "lista_idx[itinerario]=$((etapas - 1))" > /dev/null
 comprobar "se quita la etapa" "$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cuantos)" "$etapas"
 
+echo "== Las fotos de etapa siguen a las etapas =="
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "v[itinerario.0.titulo]=Etapa con titulo" > /dev/null
+contiene "con una etapa escrita hay hueco de foto" "f-home-ruta-imagenes-0" "$(pagina "?s=fotos")"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "v[itinerario.0.titulo]=" > /dev/null
+no_contiene "sin etapas escritas no hay huecos de foto" "f-home-ruta-imagenes-0" "$(pagina "?s=fotos")"
+
 echo "== Crear y borrar viajes =="
 antes=$(ls "$CONTENIDO/salidas" | wc -l)
 enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje-nuevo" -d "nombre=Laos en moto, marzo 2027" > /dev/null
