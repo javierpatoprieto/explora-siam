@@ -10,7 +10,7 @@
         },
         {
             "id": "viaje",
-            "mostrar": false
+            "mostrar": true
         },
         {
             "id": "moto",
@@ -34,7 +34,7 @@
         },
         {
             "id": "incluye",
-            "mostrar": false
+            "mostrar": true
         },
         {
             "id": "testimonios",
