@@ -109,6 +109,38 @@ comprobar "las plazas siguen siendo número" "$(dato "$CONTENIDO/salidas/$VIAJE"
 comprobar "cambia una etapa del itinerario" "$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.0.titulo)" "Bangkok, 4 noches"
 comprobar "cambia un punto fuerte" "$(dato "$CONTENIDO/salidas/$VIAJE" highlights.0)" "750 km de curvas"
 
+echo "== Etapas del viaje: añadir, mover y quitar =="
+etapas=$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cuantos)
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_add=itinerario" > /dev/null
+comprobar "se añade una etapa" "$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cuantos)" "$((etapas + 1))"
+comprobar "la etapa nueva queda numerada" "$(dato "$CONTENIDO/salidas/$VIAJE" "itinerario.$etapas.dia")" "$((etapas + 1))"
+contiene "la etapa nueva se puede escribir" "v[itinerario.$etapas.titulo]" "$(pagina "?s=viaje")"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "v[itinerario.$etapas.titulo]=Etapa de prueba" > /dev/null
+comprobar "se escribe en la etapa nueva" "$(dato "$CONTENIDO/salidas/$VIAJE" "itinerario.$etapas.titulo")" "Etapa de prueba"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_sube=itinerario" -d "lista_idx[itinerario]=$etapas" > /dev/null
+comprobar "subir mueve la etapa" "$(dato "$CONTENIDO/salidas/$VIAJE" "itinerario.$((etapas - 1)).titulo")" "Etapa de prueba"
+comprobar "y se renumeran todas" "$(dato "$CONTENIDO/salidas/$VIAJE" "itinerario.$((etapas - 1)).dia")" "$etapas"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "lista_del=itinerario" -d "lista_idx[itinerario]=$((etapas - 1))" > /dev/null
+comprobar "se quita la etapa" "$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cuantos)" "$etapas"
+
+echo "== Crear y borrar viajes =="
+antes=$(ls "$CONTENIDO/salidas" | wc -l)
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje-nuevo" -d "nombre=Laos en moto, marzo 2027" > /dev/null
+comprobar "se crea el viaje" "$(ls "$CONTENIDO/salidas" | wc -l)" "$((antes + 1))"
+NUEVO="laos-en-moto-marzo-2027.json"
+if [ -f "$CONTENIDO/salidas/$NUEVO" ]; then ok "el archivo toma el nombre del viaje"; else falla "no se llama como el viaje"; fi
+comprobar "nace sin salir en la portada" "$(dato "$CONTENIDO/salidas/$NUEVO" destacada)" "no"
+comprobar "nace como próximamente" "$(dato "$CONTENIDO/salidas/$NUEVO" estado)" "proximamente"
+comprobar "hereda la foto (es obligatoria)" "$(dato "$CONTENIDO/salidas/$NUEVO" imagen)" "$(dato "$CONTENIDO/salidas/$VIAJE" imagen)"
+comprobar "empieza con una etapa en blanco" "$(dato "$CONTENIDO/salidas/$NUEVO" itinerario.cuantos)" "1"
+contiene "aparece en la lista de viajes" "Laos en moto" "$(pagina "?s=viaje")"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$NUEVO" -d "v[nombre]=Laos en moto 2027" -d "v_destacada=1" > /dev/null
+comprobar "se puede marcar para la portada" "$(dato "$CONTENIDO/salidas/$NUEVO" destacada)" "si"
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje-borrar" -d "archivo=$NUEVO" > /dev/null
+if [ -f "$CONTENIDO/salidas/$NUEVO" ]; then falla "no borra el viaje"; else ok "borra el viaje"; fi
+borrado=$(enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje-borrar" -d "archivo=$VIAJE")
+contiene "no deja borrar el único viaje" "único viaje" "$borrado"
+
 echo "== Textos de la página del viaje =="
 guardar textos -d "c[sitio|paginaViaje.diaADia]=Etapa a etapa"
 comprobar "cambia el titular del itinerario" "$(dato "$CONTENIDO/site.json" paginaViaje.diaADia)" "Etapa a etapa"

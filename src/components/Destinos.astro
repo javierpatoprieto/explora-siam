@@ -2,7 +2,8 @@
 import Foto from './Foto.astro';
 const { ruta, salida, video, moto } = Astro.props;
 const d = salida?.data;
-const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '', foco: ruta.focos?.[i] || '50% 50%' }));
+// Una etapa a medio escribir (sin título) no se enseña: en el panel se puede quitar.
+const etapas = (d?.itinerario ?? []).filter((e: any) => (e?.titulo ?? '').trim() !== '').map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[0], pie: ruta.pies[i] ?? '', foco: ruta.focos?.[i] || '50% 50%' }));
 const sizes = ['a', 'b', 'c', 'd', 'e'];
 ---
 <section class="dest section" id="viaje" data-editar="textos#c-ruta-titulo" data-editar-fotos="fotos#f-home-ruta-imagenes-0" data-editar-videos="videos#v-banda">

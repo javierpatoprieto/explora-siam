@@ -476,6 +476,29 @@ function listas_editables(): array
     ];
 }
 
+/** Listas del viaje que se pueden alargar o acortar desde el panel. */
+function listas_viaje(): array
+{
+    return [
+        ['itinerario', 'Etapas del viaje', ['dia' => 0, 'titulo' => '', 'texto' => '']],
+        ['highlights', 'Puntos fuertes', 'texto'],
+    ];
+}
+
+/** Las etapas van numeradas: tras añadir, quitar o mover hay que renumerarlas. */
+function renumerar_etapas(array &$datos): void
+{
+    if (!isset($datos['itinerario']) || !is_array($datos['itinerario'])) {
+        return;
+    }
+    $n = 1;
+    foreach ($datos['itinerario'] as $i => $etapa) {
+        if (is_array($etapa)) {
+            $datos['itinerario'][$i]['dia'] = $n++;
+        }
+    }
+}
+
 /** La lista tal y como está guardada. */
 function lista_actual(array $datos, string $camino): array
 {
@@ -492,11 +515,11 @@ function lista_actual(array $datos, string $camino): array
  * Añade, quita o mueve un elemento de una lista de la home.
  * Devuelve [cambió, mensaje de error].
  */
-function tocar_lista(array &$home, string $orden, string $camino, int $indice): array
+function tocar_lista(array &$home, string $orden, string $camino, int $indice, ?array $catalogo = null): array
 {
     $molde = null;
     $nombre = $camino;
-    foreach (listas_editables() as [$ruta, $etiqueta, $tipo]) {
+    foreach ($catalogo ?? listas_editables() as [$ruta, $etiqueta, $tipo]) {
         if ($ruta === $camino) {
             $molde = $tipo;
             $nombre = $etiqueta;
@@ -900,12 +923,99 @@ function campos_viaje(array $datos, array $VIAJE): array
     return $extra;
 }
 
+/* ------------------------------------------------------- viajes nuevos */
+// Dani puede crear y borrar viajes sin tocar código. Un viaje nuevo nace como
+// copia en blanco del que ya existe: así nunca le falta nada (la foto, por
+// ejemplo, que es obligatoria) y solo tiene que escribir encima.
+
+/** Nombre de archivo a partir del nombre del viaje: «Laos 2027» → laos-2027.json */
+function nombre_archivo_viaje(string $nombre, array $ocupados): string
+{
+    $base = strtolower(strtr($nombre, [
+        'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ü' => 'u', 'ñ' => 'n',
+        'Á' => 'a', 'É' => 'e', 'Í' => 'i', 'Ó' => 'o', 'Ú' => 'u', 'Ñ' => 'n',
+    ]));
+    $base = trim((string) preg_replace('/[^a-z0-9]+/', '-', $base), '-');
+    $base = $base === '' ? 'viaje' : substr($base, 0, 40);
+    $nombreArchivo = $base . '.json';
+    $n = 2;
+    while (in_array($nombreArchivo, $ocupados, true)) {
+        $nombreArchivo = $base . '-' . $n++ . '.json';
+    }
+    return $nombreArchivo;
+}
+
+/** Crea un viaje nuevo copiando la estructura del primero y vaciando los textos. */
+function crear_viaje(string $nombre): array
+{
+    $nombre = trim($nombre);
+    if ($nombre === '') {
+        return ['mal', 'Ponle un nombre al viaje.'];
+    }
+    $archivos = nombres_viajes();
+    $modelo = $archivos ? leer_json('content/salidas/' . $archivos[0]) : null;
+    if (!$modelo) {
+        return ['mal', 'No se ha podido leer el viaje que sirve de modelo.'];
+    }
+    $nuevo = $modelo['datos'];
+    $archivo = nombre_archivo_viaje($nombre, $archivos);
+    $nuevo['nombre'] = $nombre;
+    $nuevo['slug'] = substr($archivo, 0, -5);
+    $nuevo['fechas'] = '';
+    $nuevo['duracion'] = '';
+    $nuevo['descripcion'] = '';
+    $nuevo['notaPrecio'] = '';
+    $nuevo['estado'] = 'proximamente';
+    $nuevo['destacada'] = false;
+    $nuevo['highlights'] = [''];
+    $nuevo['itinerario'] = [['dia' => 1, 'titulo' => '', 'texto' => '']];
+    $nuevo['orden'] = 1 + max([0] + array_map(
+        fn ($a) => (int) ((leer_json('content/salidas/' . $a)['datos']['orden'] ?? 0)),
+        $archivos
+    ));
+    // La foto se hereda del modelo: es obligatoria y así la web no se rompe.
+    [$ok, $err] = guardar_json('content/salidas/' . $archivo, $nuevo, null, 'Panel: viaje nuevo ' . $nombre);
+    return $ok
+        ? ['ok', 'Viaje creado. Rellénalo aquí abajo y, cuando esté listo, márcalo para que salga en la portada.']
+        : ['mal', 'No se pudo crear: ' . $err];
+}
+
+/** Borra un viaje. Nunca deja la web sin ninguno. */
+function borrar_viaje(string $archivo): array
+{
+    $archivo = basename($archivo);
+    $archivos = nombres_viajes();
+    if (count($archivos) <= 1) {
+        return ['mal', 'Es el único viaje que hay: no se puede borrar.'];
+    }
+    $doc = leer_json('content/salidas/' . $archivo);
+    if (!$doc) {
+        return ['mal', 'Ese viaje ya no está.'];
+    }
+    [$codigo, $datos] = gh('DELETE', repo() . '/contents/' . rawurlencode_ruta('content/salidas/' . $archivo), [
+        'message' => 'Panel: quitar el viaje ' . $archivo,
+        'sha' => $doc['sha'],
+        'branch' => GITHUB_BRANCH,
+    ]);
+    return $codigo === 200
+        ? ['ok', 'Viaje borrado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
+        : ['mal', 'No se pudo borrar: ' . mensaje_github($codigo, $datos)];
+}
+
 $VIAJE = [
     ['fechas', 'Fechas (de momento no se muestran en la web)', 'linea'],
     ['duracion', 'Duración', 'linea'],
     ['plazas', 'Plazas totales', 'numero'],
     ['disponibles', 'Plazas libres', 'numero'],
     ['descripcion', 'Descripción', 'parrafo'],
+];
+
+/** Estados con nombre claro, para el desplegable. */
+const ESTADOS_VIAJE = [
+    'proximamente' => 'Próximamente',
+    'abierta' => 'Abierta',
+    'ultimas' => 'Últimas plazas',
+    'completa' => 'Grupo completo',
 ];
 
 $seccion = $_GET['s'] ?? 'textos';
@@ -995,11 +1105,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && dentro()) {
             if (isset($_POST['v']['estado'])) {
                 $salida['datos']['estado'] = (string) $_POST['v']['estado'];
             }
-            [$ok, $err] = guardar_json($ruta, $salida['datos'], $salida['sha'], 'Panel: datos del viaje');
+            $salida['datos']['destacada'] = isset($_POST['v_destacada']);
+            // Añadir, quitar o mover etapas y puntos fuertes.
+            $errorLista = '';
+            foreach (['add', 'del', 'sube', 'baja'] as $op) {
+                if (!isset($_POST['lista_' . $op]) || $_POST['lista_' . $op] === '') {
+                    continue;
+                }
+                $caminoLista = (string) $_POST['lista_' . $op];
+                $indice = (int) ($_POST['lista_idx'][$caminoLista] ?? 0);
+                [, $errorLista] = tocar_lista($salida['datos'], $op, $caminoLista, $indice, listas_viaje());
+                renumerar_etapas($salida['datos']);
+            }
+            [$ok, $err] = $errorLista !== ''
+                ? [false, $errorLista]
+                : guardar_json($ruta, $salida['datos'], $salida['sha'], 'Panel: datos del viaje');
             $aviso = $ok
                 ? ['ok', 'Guardado. La web se actualiza en unos ' . MINUTOS_PUBLICACION . ' minutos.']
                 : ['mal', 'No se pudo guardar: ' . $err];
         }
+    } elseif (($_POST['accion'] ?? '') === 'viaje-nuevo') {
+        $aviso = crear_viaje((string) ($_POST['nombre'] ?? ''));
+    } elseif (($_POST['accion'] ?? '') === 'viaje-borrar') {
+        $aviso = borrar_viaje((string) ($_POST['archivo'] ?? ''));
     } elseif (($_POST['accion'] ?? '') === 'actualizar') {
         $aviso = actualizar_panel();
     } elseif (($_POST['accion'] ?? '') === 'secciones') {

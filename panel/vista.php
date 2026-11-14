@@ -245,11 +245,21 @@
   $salida = $archivo ? leer_json('content/salidas/' . $archivo) : null; ?>
   <h1>Datos del viaje</h1>
   <p class="guia">Todos los datos del viaje: duración, plazas, descripción, puntos fuertes e itinerario etapa por etapa. El precio y las fechas no se muestran en la web: se dan por WhatsApp con el dossier.</p>
-  <?php if (count($salidas) > 1): ?>
-    <p><?php foreach ($salidas as $s): ?>
-      <a class="btn claro" href="?s=viaje&a=<?= e(rawurlencode($s['name'])) ?>"><?= e(str_replace('.json', '', $s['name'])) ?></a>
-    <?php endforeach; ?></p>
-  <?php endif; ?>
+  <div class="lista">
+    <strong>Viajes</strong>
+    <?php foreach ($salidas as $s):
+        $doc = leer_json('content/salidas/' . $s['name']);
+        $titulo = trim((string) ($doc['datos']['nombre'] ?? '')) ?: str_replace('.json', '', $s['name']); ?>
+      <a class="btn claro<?= $s['name'] === $archivo ? ' on' : '' ?>" href="?s=viaje&a=<?= e(rawurlencode($s['name'])) ?>"><?= e(mb_strimwidth($titulo, 0, 38, '…')) ?></a>
+    <?php endforeach; ?>
+  </div>
+  <form method="post" class="lista">
+    <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+    <input type="hidden" name="accion" value="viaje-nuevo">
+    <strong>Crear un viaje nuevo</strong>
+    <input type="text" name="nombre" placeholder="Por ejemplo: Laos en moto, marzo 2027" style="flex:1 1 260px">
+    <button class="btn claro" type="submit">Crear</button>
+  </form>
   <?php if ($salida): ?>
     <form method="post">
       <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
@@ -272,9 +282,13 @@
             <?php endif; ?>
           </label>
         <?php endforeach; ?>
+        <label class="fila">
+          <input type="checkbox" name="v_destacada" value="1" <?= !empty($salida['datos']['destacada']) ? 'checked' : '' ?>>
+          <span>Mostrarlo en la portada</span>
+        </label>
         <label><span>Estado</span>
           <select name="v[estado]">
-            <?php foreach (['abierta' => 'Abierta', 'ultimas' => 'Últimas plazas', 'completa' => 'Grupo completo', 'proximamente' => 'Próximamente'] as $k => $t): ?>
+            <?php foreach (ESTADOS_VIAJE as $k => $t): ?>
               <?php $estadoActual = ($aviso[0] ?? '') === 'mal' && isset($_POST['v']['estado'])
                   ? (string) $_POST['v']['estado']
                   : (string) ($salida['datos']['estado'] ?? ''); ?>
@@ -283,7 +297,34 @@
           </select>
         </label>
       </fieldset>
+      <fieldset>
+        <legend>Añadir o quitar</legend>
+        <p class="guia">Las etapas se renumeran solas. Al añadir una, aparece vacía arriba para escribirla.</p>
+        <?php foreach (listas_viaje() as [$ruta, $nombreLista, ]):
+            $elementos = lista_actual($salida['datos'], $ruta); ?>
+          <div class="lista">
+            <strong><?= e($nombreLista) ?></strong>
+            <select name="lista_idx[<?= e($ruta) ?>]">
+              <?php foreach ($elementos as $i => $el): ?>
+                <option value="<?= (int) $i ?>"><?= e(resumen_elemento($el, (int) $i)) ?></option>
+              <?php endforeach; ?>
+            </select>
+            <button class="btn claro" type="submit" name="lista_sube" value="<?= e($ruta) ?>">Subir</button>
+            <button class="btn claro" type="submit" name="lista_baja" value="<?= e($ruta) ?>">Bajar</button>
+            <button class="btn claro" type="submit" name="lista_del" value="<?= e($ruta) ?>" onclick="return confirm('¿Quitar el elemento elegido?')">Quitar</button>
+            <button class="btn claro" type="submit" name="lista_add" value="<?= e($ruta) ?>">Añadir otro</button>
+          </div>
+        <?php endforeach; ?>
+      </fieldset>
       <div class="guardar"><button class="btn" type="submit">Guardar cambios</button></div>
+    </form>
+    <form method="post" class="lista" style="margin-top:24px">
+      <input type="hidden" name="csrf" value="<?= e(csrf()) ?>">
+      <input type="hidden" name="accion" value="viaje-borrar">
+      <input type="hidden" name="archivo" value="<?= e($archivo) ?>">
+      <strong>Borrar este viaje</strong>
+      <span class="guia" style="flex:1 1 200px">Desaparece de la web, con su página. No se puede deshacer.</span>
+      <button class="btn claro" type="submit" onclick="return confirm('¿Seguro que quieres borrar este viaje entero?')">Borrar</button>
     </form>
   <?php endif; ?>
 <?php endif; ?>
