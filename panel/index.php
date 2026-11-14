@@ -1154,7 +1154,9 @@ function huecos_fotos(array $viajes = [], array $etapas = [], array $home = []):
 {
     // Cuántas etapas y cuántos días hay ahora mismo: si Dani añade o quita en
     // las listas, aquí aparecen o desaparecen sus fotos.
-    $nEtapas = $home ? count($home['ruta']['imagenes'] ?? []) : 5;
+    // Las fotos de etapa son las que haya etapas escritas: si Dani las quita,
+    // sus huecos desaparecen en vez de quedarse ahí sin poder borrarlos.
+    $nEtapas = count(array_filter($etapas, fn ($t) => trim((string) $t) !== ''));
     $nDias = $home ? count($home['moto']['dias'] ?? []) : 6;
     $lista = [
         ['Portada', 'Foto de fondo en ordenador', 'home', 'hero.poster'],
