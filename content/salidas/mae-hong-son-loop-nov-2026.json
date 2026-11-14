@@ -6,7 +6,7 @@
     "duracion": "14 días",
     "plazas": 8,
     "disponibles": 8,
-    "estado": "proximamente",
+    "estado": "abierta",
     "precio": 2000,
     "notaPrecio": "1980€ IVA incluido · vuelos y gastos de viaje aparte (unos 920€)",
     "highlights": [
@@ -44,11 +44,11 @@
         }
     ],
     "orden": 1,
-    "destacada": true,
+    "destacada": false,
     "landing": [
         {
-            "titulo": "",
-            "texto": ""
+            "titulo": "MUCHOS AMIGOS TE HAN HABLADO DE TAILANDIA Y LLEVAS TIEMPO DESEANDO SABER CÓMO ES REALMENTE.",
+            "texto": "Te bajas del avión después de 16 horas y estás ahí, en Chiang Mai, deseando llegar al hotel para darte una buena ducha. Ya empiezas a notar los nervios por el ambiente festivo que se respira. Coinciden el año nuevo chino y el festival de las flores.  Nos reunimos todos en el vestíbulo en una hora, nada más salir a la calle hay  montones de gente, muchos bailan, familias enteras con una sonrisa de oreja a oreja.   Todo está decorado con farolillos rojos, luces y mucho colorido. La ciudad se ha vuelto vibrante, cada paso que das te sientes el protagonista de una película."
         }
     ]
 }
