@@ -1,6 +1,7 @@
 ---
+import Accion from './Accion.astro';
 import Foto from './Foto.astro';
-import Wa from './Wa.astro';
+
 const { site, hero, proxima } = Astro.props;
 const hasVideo = Boolean(hero.videoMp4);
 const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
@@ -29,7 +30,7 @@ const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
       <span class="hero__badge">{hero.badge}</span>
       <h1>{hero.titulo} <span>{hero.destacado}</span></h1>
       <p class="hero__sub">{hero.subtitulo}</p>
-      <div class="hero__cta"><Wa site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Wa>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
+      <div class="hero__cta"><Accion site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Accion>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
       {hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}
     </div>
     {conFicha && (
@@ -42,10 +43,10 @@ const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
           <div><dt>Moto</dt><dd>Carnet A2</dd></div>
         </dl>
         <div class="widget__acts">
-          <Wa site={site} origen="salida" vars={{ nombre: proxima.nombre }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Wa>
+          <Accion site={site} origen="salida" vars={{ nombre: proxima.nombre }} salida={proxima.slug} class="btn widget__btn" icon={false}>Quiero este viaje</Accion>
           {site.formulario && <a href={site.formulario} class="btn btn--ghost widget__btn" target="_blank" rel="noopener">Rellenar el formulario</a>}
         </div>
-        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a><span>·</span><Wa site={site} origen="precio" class="" icon={false}>Pídeme el dossier</Wa></div>
+        <div class="widget__links"><a href={`/viajes/${proxima.slug}`}>Ver el itinerario</a><span>·</span><Accion site={site} origen="precio" class="" icon={false}>Pídeme el dossier</Accion></div>
       </aside>
     )}
   </div>

@@ -44,5 +44,11 @@
         }
     ],
     "orden": 1,
-    "destacada": true
+    "destacada": true,
+    "landing": [
+        {
+            "titulo": "",
+            "texto": ""
+        }
+    ]
 }

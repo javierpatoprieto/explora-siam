@@ -1,5 +1,6 @@
 ---
-import Wa from './Wa.astro';
+import Accion from './Accion.astro';
+
 import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, dark = true } = Astro.props;
 ---
@@ -7,13 +8,13 @@ const { site, dark = true } = Astro.props;
   <div class="wrap nav__in">
     <a href="/" class="nav__brand" aria-label={site.marca}><img src="/logo.png" alt="" width="40" height="40" /><span>{site.marca}</span></a>
     <nav class="nav__links" aria-label="Secciones"><a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a></nav>
-    <div class="nav__cta"><a href={site.instagram} class="nav__ig" target="_blank" rel="noopener" aria-label={`Instagram ${igUsuario(site.instagram)}`} data-ig="nav"><Fragment set:html={IG_ICON} /></a><Wa site={site} origen="nav" class="btn btn--sm nav__btn" icon={true}>Hablemos</Wa></div>
+    <div class="nav__cta"><a href={site.instagram} class="nav__ig" target="_blank" rel="noopener" aria-label={`Instagram ${igUsuario(site.instagram)}`} data-ig="nav"><Fragment set:html={IG_ICON} /></a><Accion site={site} origen="nav" class="btn btn--sm nav__btn" icon={true} /></div>
     <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
   <div class="menu" id="menu" hidden>
     <a href="/#viaje">El viaje</a><a href="/#ruta">La ruta en moto</a><a href="/#incluye">Qué incluye</a><a href="/#dani">Dani</a><a href="/preguntas">Preguntas</a>
     <a href={site.instagram} class="menu__ig" target="_blank" rel="noopener" data-ig="menu"><Fragment set:html={IG_ICON} />{igUsuario(site.instagram)}</a>
-    <Wa site={site} origen="nav">Hablemos por WhatsApp</Wa>
+    <Accion site={site} origen="nav" />
   </div>
 </header>
 <style>

@@ -1,6 +1,7 @@
 ---
+import Accion from './Accion.astro';
 import Foto from './Foto.astro';
-import Wa from './Wa.astro';
+
 const { site, s } = Astro.props;
 ---
 <section class="sab wrap section" id="sabai" data-editar="textos#c-sabai-titulo" data-editar-fotos="fotos#f-home-sabai-imagen">
@@ -9,7 +10,7 @@ const { site, s } = Astro.props;
     <h2>{s.titulo}</h2>
     <div class="sab__p">{s.parrafos.map((p: string) => <p>{p}</p>)}</div>
     {s.pregunta && <p class="sab__q">{s.pregunta}</p>}
-    {s.boton && <div class="sab__cta"><Wa site={site} origen="sabai">{s.boton}</Wa></div>}
+    {s.boton && <div class="sab__cta"><Accion site={site} origen="sabai">{s.boton}</Accion></div>}
   </div>
   <div class="sab__media" data-reveal>
     <figure class="sab__a">

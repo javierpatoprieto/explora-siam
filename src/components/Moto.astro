@@ -1,8 +1,9 @@
 ---
+import Accion from './Accion.astro';
 // La ruta en moto: los seis días del Mae Hong Son Loop, día a día.
 // Va aparte de "El viaje" (las etapas por zonas) para que no se confundan.
 import Foto from './Foto.astro';
-import Wa from './Wa.astro';
+
 const { site, moto } = Astro.props;
 ---
 <section class="moto section" id="ruta" data-editar="textos#c-moto-titulo" data-editar-fotos="fotos#f-home-moto-dias-0-imagen">
@@ -34,7 +35,7 @@ const { site, moto } = Astro.props;
     {moto.cierre && (
       <div class="dia dia--fin">
         <p class="dia__cierre">{moto.cierre}</p>
-        <Wa site={site} origen="moto" class="btn btn--light">{moto.cierreBoton || 'Hablemos'}</Wa>
+        <Accion site={site} origen="moto" class="btn btn--light">{moto.cierreBoton || 'Hablemos'}</Accion>
       </div>
     )}
   </div>

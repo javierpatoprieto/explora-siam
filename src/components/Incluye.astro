@@ -1,5 +1,6 @@
 ---
-import Wa from './Wa.astro';
+import Accion from './Accion.astro';
+
 const { site, inc } = Astro.props;
 const CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d8be95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>';
 ---
@@ -7,7 +8,7 @@ const CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" strok
   <div class="inc__intro">
     <h2 class="inc__h">{inc.titulo}</h2>
     {inc.microcopy && <p class="inc__micro">{inc.microcopy}</p>}
-    {inc.enlace && <Wa site={site} origen="precio" class="link" icon={false}>{inc.enlace} →</Wa>}
+    {inc.enlace && <Accion site={site} origen="precio" class="link" icon={false}>{inc.enlace} →</Accion>}
   </div>
   <div class="inc__col inc__col--si">
     <span class="label vino">Incluido</span>

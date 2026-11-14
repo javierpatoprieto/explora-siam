@@ -1,9 +1,10 @@
 ---
+import Accion from '../../components/Accion.astro';
 import { getCollection, getEntry } from 'astro:content';
 import Foto from '../../components/Foto.astro';
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
-import Wa from '../../components/Wa.astro';
+
 import Incluye from '../../components/Incluye.astro';
 import Cta from '../../components/Cta.astro';
 import Footer from '../../components/Footer.astro';
@@ -21,6 +22,8 @@ const completa = d.estado === 'completa';
 // Textos de esta página: los cambia Dani desde el panel.
 const t = site.paginaViaje;
 const etapas = d.itinerario.filter((i: any) => (i?.titulo ?? '').trim() !== '');
+// Texto libre de la landing: lo escribe Dani en el panel, bloque a bloque.
+const landing = (d.landing ?? []).filter((b: any) => (b?.texto ?? '').trim() !== '' || (b?.titulo ?? '').trim() !== '');
 const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name: d.nombre, description: d.descripcion }];
 ---
 <Base title={`${d.nombre} · ${site.marca}`} description={d.descripcion} jsonLd={jsonLd}>
@@ -48,16 +51,26 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
         ) : (
           <p class="vb__note">{t.sinItinerario}</p>
         )}
+        {landing.length > 0 && (
+          <div class="landing">
+            {landing.map((b: any) => (
+              <div class="landing__bloque">
+                {b.titulo && <h2 class="vb__h">{b.titulo}</h2>}
+                {String(b.texto || '').split(/\n{2,}/).map((p: string) => p.trim() && <p class="landing__p">{p.trim()}</p>)}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <aside class="vb__side">
         {completa ? (
-          <Wa site={site} origen="avisame" vars={{ nombre: d.nombre }} salida={d.slug} class="btn btn--line" icon={false}>{t.botonAvisame}</Wa>
+          <Accion site={site} origen="avisame" vars={{ nombre: d.nombre }} salida={d.slug} class="btn btn--line" icon={false}>{t.botonAvisame}</Accion>
         ) : (
-          <Wa site={site} origen="salida" vars={{ nombre: d.nombre }} salida={d.slug}>{t.botonQuiero}</Wa>
+          <Accion site={site} origen="salida" vars={{ nombre: d.nombre }} salida={d.slug}>{t.botonQuiero}</Accion>
         )}
         <p class="vb__micro" data-editar="textos#c-sitio-paginaViaje-microcopy">{t.microcopy}</p>
         {site.formulario && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">{t.botonFormulario}</a>}
-        <Wa site={site} origen="precio" class="link" icon={false}>{t.enlaceDossier}</Wa>
+        <Accion site={site} origen="precio" class="link" icon={false}>{t.enlaceDossier}</Accion>
       </aside>
     </section>
     <Incluye site={site} inc={home.incluye} />
@@ -83,6 +96,9 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
   .itin__n { font-weight: 700; color: var(--ink); }
   .itin__t { font-family: var(--texto); text-transform: none; font-size: 18px; font-weight: 700; letter-spacing: 0; margin-bottom: 6px; }
   .vb__note { margin-top: 32px; color: var(--muted); }
+  .landing { margin-top: 48px; display: flex; flex-direction: column; gap: 32px; }
+  .landing__bloque .vb__h { margin: 0 0 16px; }
+  .landing__p { font-size: 17px; line-height: 1.65; color: var(--ink-2); margin-bottom: 14px; max-width: 65ch; }
   .vb__side { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 16px; background: var(--bg-2); border-radius: var(--r); padding: 28px; }
   .vb__precio .display { font-family: var(--display); font-size: 30px; }
   .nota { color: var(--muted); font-size: 14px; }

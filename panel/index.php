@@ -359,6 +359,8 @@ $CAMPOS = [
         ['sitio', 'instagram', 'Instagram', 'linea'],
         ['sitio', 'barraTexto', 'Texto junto al botón de WhatsApp en móvil (déjalo vacío para quitarlo)', 'linea'],
         ['sitio', 'formulario', 'Enlace del formulario de inscripción', 'linea'],
+        ['sitio', 'contactoPrincipal', 'Botón principal de la web: escribe formulario o whatsapp', 'linea'],
+        ['sitio', 'textoFormulario', 'Texto del botón cuando lleva al formulario', 'linea'],
         ['sitio', 'analytics', 'Google Analytics (G-...)', 'linea'],
         ['sitio', 'verificacionGoogle', 'Verificación de Google Search Console', 'linea'],
     ],
@@ -481,6 +483,7 @@ function listas_viaje(): array
 {
     return [
         ['itinerario', 'Etapas del viaje', ['dia' => 0, 'titulo' => '', 'texto' => '']],
+        ['landing', 'Bloques de texto de la página del viaje', ['titulo' => '', 'texto' => '']],
         ['highlights', 'Puntos fuertes', 'texto'],
     ];
 }

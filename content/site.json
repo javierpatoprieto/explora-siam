@@ -49,6 +49,8 @@
         "tinta": "#17181a"
     },
     "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform",
+    "contactoPrincipal": "formulario",
+    "textoFormulario": "Reservar plaza",
     "dossier": "/dossier-mae-hong-son-loop.pdf",
     "analytics": "G-0NDM8BR5NF",
     "verificacionGoogle": ""

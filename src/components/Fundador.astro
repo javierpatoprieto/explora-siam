@@ -1,6 +1,7 @@
 ---
+import Accion from './Accion.astro';
 import Foto from './Foto.astro';
-import Wa from './Wa.astro';
+
 import { IG_ICON, igUsuario } from '../lib/ig';
 const { site, f } = Astro.props;
 ---
@@ -13,7 +14,7 @@ const { site, f } = Astro.props;
     <span class="eyebrow">{f.etiqueta}</span>
     <h2>{f.titulo}</h2>
     <div class="fund__p">{f.parrafos.map((p: string) => <p>{p}</p>)}</div>
-    <div class="fund__cta"><Wa site={site} origen="daniel" icon={false}>{f.boton}</Wa>{f.microcopy && <span class="fund__micro">{f.microcopy}</span>}</div>
+    <div class="fund__cta"><Accion site={site} origen="daniel" icon={false}>{f.boton}</Accion>{f.microcopy && <span class="fund__micro">{f.microcopy}</span>}</div>
     {site.instagram && <a href={site.instagram} class="fund__ig" target="_blank" rel="noopener" data-ig="daniel"><Fragment set:html={IG_ICON} /><span>Sígueme en Instagram <b>{igUsuario(site.instagram)}</b></span></a>}
   </div>
 </section>
