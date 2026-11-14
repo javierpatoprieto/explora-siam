@@ -5,7 +5,7 @@
     "email": "info@explorasiam.com",
     "instagram": "https://www.instagram.com/explora_siam/",
     "barraTexto": "",
-    "ubicacion": "",
+    "ubicacion": "Rellena el formulario",
     "licencia": "Seguro de responsabilidad civil · Guías con certificado TAT",
     "horario": "Lunes a viernes, de 9:00 a 20:00",
     "indexar": true,
@@ -50,7 +50,7 @@
     },
     "formulario": "https://docs.google.com/forms/d/e/1FAIpQLSeRc7EOag1HiRwbBHo3sY2GHM9T2q7ObBLrgPNWxAeuaxRBvg/viewform",
     "contactoPrincipal": "formulario",
-    "textoFormulario": "Reservar plaza",
+    "textoFormulario": "Rellenar el formulario.",
     "dossier": "/dossier-mae-hong-son-loop.pdf",
     "analytics": "G-0NDM8BR5NF",
     "verificacionGoogle": ""
