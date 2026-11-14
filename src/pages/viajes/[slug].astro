@@ -21,6 +21,7 @@ const home = (await getEntry('home', 'home'))!.data;
 const completa = d.estado === 'completa';
 // Textos de esta página: los cambia Dani desde el panel.
 const t = site.paginaViaje;
+const duplicado = (site.contactoPrincipal ?? 'whatsapp') === 'formulario';
 const etapas = d.itinerario.filter((i: any) => (i?.titulo ?? '').trim() !== '');
 // Texto libre de la landing: lo escribe Dani en el panel, bloque a bloque.
 const landing = (d.landing ?? []).filter((b: any) => (b?.texto ?? '').trim() !== '' || (b?.titulo ?? '').trim() !== '');
@@ -69,7 +70,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
           <Accion site={site} origen="salida" vars={{ nombre: d.nombre }} salida={d.slug}>{t.botonQuiero}</Accion>
         )}
         <p class="vb__micro" data-editar="textos#c-sitio-paginaViaje-microcopy">{t.microcopy}</p>
-        {site.formulario && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">{t.botonFormulario}</a>}
+        {site.formulario && !duplicado && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">{t.botonFormulario}</a>}
         <Accion site={site} origen="precio" class="link" icon={false}>{t.enlaceDossier}</Accion>
       </aside>
     </section>
