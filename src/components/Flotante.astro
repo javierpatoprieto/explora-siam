@@ -8,10 +8,11 @@ const barra = site.barraTexto !== undefined
   ? site.barraTexto
   : (proxima ? `${proxima.nombre.split(':')[0]} · grupo de 6 a ${proxima.plazas}` : '');
 ---
-<div class="flot" id="flot" hidden={true} data-solo-barra={soloBarra ? '1' : undefined}><Accion site={site} origen="flotante" class="flot__btn" label={site.contactoPrincipal === 'formulario' ? (site.textoFormulario || 'Reservar plaza') : 'Hablemos por WhatsApp'}><span class="flot__txt">{site.contactoPrincipal === 'formulario' ? (site.textoFormulario || 'Reservar plaza') : '¿Hablamos?'}</span></Accion></div>
+<!-- El botón que va siempre flotando es para hablar: WhatsApp, con su icono. -->
+<div class="flot" id="flot" hidden={true} data-solo-barra={soloBarra ? '1' : undefined}><Accion site={site} origen="flotante" class="flot__btn" label="Hablemos por WhatsApp" whatsapp={true}><span class="flot__txt">¿Hablamos?</span></Accion></div>
 <div class="bar" id="mbar" hidden>
   {barra && <p class="bar__ctx label">{barra}</p>}
-  <Accion site={site} origen="flotante" />
+  <Accion site={site} origen="flotante" whatsapp={true} />
 </div>
 <style>
   .flot[hidden] { display: none; }
