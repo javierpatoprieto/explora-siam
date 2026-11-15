@@ -35,7 +35,7 @@ const { site, moto } = Astro.props;
     {moto.cierre && (
       <div class="dia dia--fin">
         <p class="dia__cierre">{moto.cierre}</p>
-        <Accion site={site} origen="moto" class="btn btn--light">{moto.cierreBoton || 'Hablemos'}</Accion>
+        <Accion site={site} origen="moto" class="btn btn--light" whatsapp={true}>{moto.cierreBoton || 'Hablemos'}</Accion>
       </div>
     )}
   </div>

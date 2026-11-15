@@ -17,7 +17,7 @@ const Titulo = todas ? 'h1' : 'h2';
   </div>
   <div class="faq__foot center">
     {!todas && <a href="/preguntas" class="btn btn--ghost">{faq.verTodas}</a>}
-    <Accion site={site} origen="faq" icon={false}>{faq.enlace}</Accion>
+    <Accion site={site} origen="faq" icon={false} whatsapp={true}>{faq.enlace}</Accion>
   </div>
 </section>
 <style>

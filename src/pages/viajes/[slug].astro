@@ -57,7 +57,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
             {landing.map((b: any) => (
               <div class="landing__bloque">
                 {b.titulo && <h2 class="vb__h">{b.titulo}</h2>}
-                {String(b.texto || '').split(/\n{2,}/).map((p: string) => p.trim() && <p class="landing__p">{p.trim()}</p>)}
+                {String(b.texto || '').split(/\r?\n+/).map((p: string) => p.trim() && <p class="landing__p">{p.trim()}</p>)}
               </div>
             ))}
           </div>
@@ -71,7 +71,7 @@ const jsonLd = [{ '@context': 'https://schema.org', '@type': 'TouristTrip', name
         )}
         <p class="vb__micro" data-editar="textos#c-sitio-paginaViaje-microcopy">{t.microcopy}</p>
         {site.formulario && !duplicado && <a href={site.formulario} class="btn btn--ghost" target="_blank" rel="noopener">{t.botonFormulario}</a>}
-        <Accion site={site} origen="precio" class="link" icon={false}>{t.enlaceDossier}</Accion>
+        <Accion site={site} origen="precio" class="link" icon={false} whatsapp={true}>{t.enlaceDossier}</Accion>
       </aside>
     </section>
     <Incluye site={site} inc={home.incluye} />
