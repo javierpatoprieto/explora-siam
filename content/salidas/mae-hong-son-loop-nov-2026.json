@@ -10,12 +10,12 @@
     "precio": 2000,
     "notaPrecio": "1980€ IVA incluido · vuelos y gastos de viaje aparte (unos 920€)",
     "highlights": [
-        "Celebración del año nuevo chino y festival de las flores",
+        "Celebración del Año Nuevo chino y Festival de las flores",
         "650 km y más de 1.860 curvas en Honda NX500",
         "Campamento de elefantes, cocina Thai y templos."
     ],
     "imagen": "../../src/assets/img/moto-curva-45.jpg",
-    "descripcion": "14 días para conocer el norte de Tailandia a fondo. Celebraremos en Chiang Mai el Año Nuevo Chino y el festival de las flores en un mismo fin de semana. Haremos nuestra famosa ruta ONROAD en moto por el Mae Hong Son loop durante 6 etapas y regresaremos otra vez a Chiang Mai, donde acabaremos nuestra aventura.",
+    "descripcion": "14 días para conocer el norte de Tailandia a fondo. Celebraremos dos de sus grandes festividades en un mismo fin de semana. Haremos nuestra famosa ruta ONROAD en moto por el Mae Hong Son loop durante 6 etapas y regresaremos otra vez a Chiang Mai, donde acabaremos nuestra aventura.",
     "itinerario": [
         {
             "dia": 1,
