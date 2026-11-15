@@ -252,3 +252,5 @@ tail -n 8 "$DIR/repo/.commits.log" 2>/dev/null || echo "  (ninguno)"
 echo
 if [ "$FALLOS" -eq 0 ]; then echo "RESULTADO: todo correcto"; else echo "RESULTADO: $FALLOS fallo(s)"; fi
 exit "$FALLOS"
+
+# repaso completo del 15/11
