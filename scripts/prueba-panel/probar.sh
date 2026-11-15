@@ -126,7 +126,11 @@ comprobar "se quita la etapa" "$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cua
 echo "== Las fotos de etapa siguen a las etapas =="
 enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "v[itinerario.0.titulo]=Etapa con titulo" > /dev/null
 contiene "con una etapa escrita hay hueco de foto" "f-home-ruta-imagenes-0" "$(pagina "?s=fotos")"
-enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" -d "v[itinerario.0.titulo]=" > /dev/null
+# Se vacían TODAS las etapas: los huecos de foto tienen que desaparecer del todo.
+cuantas=$(dato "$CONTENIDO/salidas/$VIAJE" itinerario.cuantos)
+vaciar=""
+for i in $(seq 0 $((cuantas - 1))); do vaciar="$vaciar -d v[itinerario.$i.titulo]="; done
+enviar "?s=viaje" -d "csrf=$(csrf "?s=viaje")" -d "accion=viaje" -d "archivo=$VIAJE" $vaciar > /dev/null
 no_contiene "sin etapas escritas no hay huecos de foto" "f-home-ruta-imagenes-0" "$(pagina "?s=fotos")"
 
 echo "== Crear y borrar viajes =="
