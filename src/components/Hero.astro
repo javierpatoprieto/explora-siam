@@ -32,7 +32,7 @@ const conFicha = Boolean(proxima && hero.mostrarProximaSalida);
       <span class="hero__badge">{hero.badge}</span>
       <h1>{hero.titulo} <span>{hero.destacado}</span></h1>
       <p class="hero__sub">{hero.subtitulo}</p>
-      <div class="hero__cta"><Accion site={site} origen="hero" class="btn btn--light btn--lg">{hero.botonPrimario}</Accion>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
+      <div class="hero__cta"><Accion site={site} origen="hero" class="btn btn--light btn--lg" whatsapp={true}>{hero.botonPrimario}</Accion>{!conFicha && hero.botonSecundario && <a href="#ruta" class="btn btn--ghost-light btn--lg">{hero.botonSecundario}</a>}</div>
       {hero.microcopy && <span class="hero__micro">{hero.microcopy}</span>}
     </div>
     {conFicha && (
