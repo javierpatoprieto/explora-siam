@@ -34,6 +34,9 @@
   .aviso { padding:12px 16px; border-radius:12px; margin:0 0 20px; font-size:15px; }
   .aviso.ok { background:#eaf5ef; color:var(--ok); }
   .aviso.mal { background:#fbeeec; color:var(--mal); }
+  /* El atributo hidden no puede con un display de la hoja de estilos: sin esto,
+     el aviso se queda clavado en «Comprobando la web…» cuando no hay nada que decir. */
+  .pub[hidden] { display:none; }
   .pub { display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:12px; margin:0 0 20px; font-size:15px; background:#f4f2ee; color:#3a3b3f; }
   .pub__luz { width:9px; height:9px; border-radius:50%; background:#b9b5ad; flex:none; }
   .pub.yendo { background:#fdf5e8; color:#7a5a1e; }
