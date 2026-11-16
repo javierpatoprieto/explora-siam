@@ -218,7 +218,7 @@
             "Ayuda previa al viaje con trámites de documentos o dudas que puedan surgir.",
             "Ayuda y consejo para la contratación del seguro de viaje (obligatorio).",
             "Alojamiento en habitación doble y desayuno todos los días.",
-            "Moto y logística del Mae Hong Son Loop, guía rider local con certificado TAT y furgoneta de apoyo.\r\nSeguro de daños a terceros durante la ruta (En Tailandia no incluyen este seguro con el alquiler de las motos).",
+            "Moto y logística del Mae Hong Son Loop, guía rider local con certificado TAT y furgoneta de apoyo.Seguro de daños a terceros durante la ruta (En Tailandia no incluyen este seguro con el alquiler de las motos).",
             "Campamento de elefantes en libertad y curso de cocina tailandesa, ambos con desplazamiento y almuerzo incluído.",
             "Todos los desplazamiento a las actividades previstas y traslado al aeropuerto."
         ],
@@ -238,8 +238,8 @@
         "verTodas": "Ver todas las preguntas"
     },
     "cta": {
-        "titulo": "¿Quieres formar parte de esta aventura?",
-        "subtitulo": "Cuéntame por WhatsApp y nos conocemos o rellena el formulario para agendar una llamada",
+        "titulo": "¿Quieres formar parte de esta experiencia?",
+        "subtitulo": "Cuéntame por WhatsApp o rellena el formulario para agendar una llamada y nos conocemos",
         "boton": "Formulario",
         "microcopy": "",
         "imagen": "../src/assets/img/75144-261101134419.jpg"
