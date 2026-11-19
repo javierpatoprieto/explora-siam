@@ -362,6 +362,7 @@ $CAMPOS = [
         ['sitio', 'contactoPrincipal', 'Botón principal de la web: escribe formulario o whatsapp', 'linea'],
         ['sitio', 'textoFormulario', 'Texto del botón cuando lleva al formulario', 'linea'],
         ['sitio', 'analytics', 'Google Analytics (G-...)', 'linea'],
+        ['sitio', 'pixelFacebook', 'Pixel de Facebook (solo el número; vacío = sin pixel)', 'linea'],
         ['sitio', 'verificacionGoogle', 'Verificación de Google Search Console', 'linea'],
     ],
 ];
@@ -778,7 +779,7 @@ const SECCIONES_MUERTAS = ['galeria', 'dia', 'precio', 'salidas', 'instagram'];
 function camino_tecnico(string $camino): bool
 {
     return (bool) preg_match(
-        '#(^|\.)(imagen|imagenes|imagen1|imagen2|poster|posterMovil|retrato|archivo|fondo|mp4|slug|foco|focos|icono|analytics|verificacionGoogle|videoFecha|videoMp4|videoWebm|indexar|autor|licencia)(\.|$)#',
+        '#(^|\.)(imagen|imagenes|imagen1|imagen2|poster|posterMovil|retrato|archivo|fondo|mp4|slug|foco|focos|icono|analytics|pixelFacebook|verificacionGoogle|videoFecha|videoMp4|videoWebm|indexar|autor|licencia)(\.|$)#',
         $camino
     );
 }

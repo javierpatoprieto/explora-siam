@@ -2,15 +2,21 @@
 // Aviso de cookies con consentimiento previo (RGPD/LSSI) y Consent Mode v2.
 //
 // Tres reglas que cumple este componente:
-//  1. Nada de Google se descarga hasta que la persona acepta.
+//  1. Nada de Google ni de Meta se descarga hasta que la persona acepta.
 //  2. Aceptar y rechazar cuestan lo mismo: un clic y el mismo botón.
 //  3. La decisión se puede cambiar siempre, desde el pie de página.
-const { ga } = Astro.props;
+const { ga, pixel } = Astro.props;
+// El aviso dice exactamente lo que hay puesto: si Dani quita uno de los dos
+// desde el panel, deja de nombrarse.
+const quienes = [ga && 'Google Analytics', pixel && 'el pixel de Facebook'].filter(Boolean).join(' y ');
+const paraQue = pixel
+  ? 'para saber qué partes de la web interesan más y para medir los anuncios'
+  : 'para saber qué partes de la web interesan más';
 ---
-{ga && (
+{(ga || pixel) && (
   <>
     <div class="ck" id="ck" hidden role="dialog" aria-live="polite" aria-label="Aviso de cookies">
-      <p>Usamos cookies de Google Analytics para saber qué partes de la web interesan más. Solo se activan si las aceptas. Puedes leer más en la <a href="/cookies">política de cookies</a>.</p>
+      <p>Usamos cookies de {quienes} {paraQue}. Solo se activan si las aceptas. Puedes leer más en la <a href="/cookies">política de cookies</a>.</p>
       <div class="ck__btns">
         <button class="btn btn--ghost btn--sm" id="ckNo" type="button">Rechazar</button>
         <button class="btn btn--ghost btn--sm" id="ckSi" type="button">Aceptar</button>
@@ -25,7 +31,7 @@ const { ga } = Astro.props;
       .ck__btns .btn { flex: 0 0 auto; min-width: 110px; justify-content: center; }
       @media (max-width: 760px) { .ck { bottom: 84px; } .ck__btns .btn { flex: 1 1 0; } }
     </style>
-    <script is:inline define:vars={{ ga }}>
+    <script is:inline define:vars={{ ga, pixel }}>
       (function () {
         var CLAVE = 'es-cookies';
         var caja = document.getElementById('ck');
@@ -46,7 +52,7 @@ const { ga } = Astro.props;
         });
 
         function cargar() {
-          if (window.__ga) return;
+          if (window.__ga || !ga) return;
           window.__ga = true;
           var s = document.createElement('script');
           s.async = true;
@@ -56,11 +62,29 @@ const { ga } = Astro.props;
           window.gtag('config', ga, { anonymize_ip: true });
         }
 
-        // No hacemos publicidad: los permisos de anuncios siguen denegados
-        // incluso al aceptar. Solo se concede la medición.
+        // Pixel de Facebook. El código de Meta se monta aquí, y no en el <head>,
+        // para que no se descargue nada suyo mientras no haya un «Aceptar».
+        function cargarPixel() {
+          if (window.__px || !pixel) return;
+          window.__px = true;
+          /* eslint-disable */
+          !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+          }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+          /* eslint-enable */
+          window.fbq('init', pixel);
+          window.fbq('track', 'PageView');
+        }
+
+        // La web no usa los anuncios de Google, así que sus permisos de
+        // publicidad siguen denegados. Lo que se concede al aceptar es la
+        // medición de Analytics y el pixel de Facebook.
         function aplicar(v) {
           window.gtag('consent', 'update', { analytics_storage: v === 'si' ? 'granted' : 'denied' });
-          if (v === 'si') cargar();
+          if (v === 'si') { cargar(); cargarPixel(); }
         }
 
         function guardar(v) {

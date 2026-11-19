@@ -48,7 +48,17 @@ Cookies que instala una vez aceptadas:
 - `_ga`: distingue usuarios. Duración: 2 años.
 - `_ga_<ID>`: mantiene el estado de la sesión. Duración: 2 años. 
 
-La dirección IP se transmite anonimizada y no se han habilitado usos publicitarios. Política de privacidad de Google: https://policies.google.com/privacy
+La dirección IP se transmite anonimizada y no se han habilitado usos publicitarios en Google Analytics. Política de privacidad de Google: https://policies.google.com/privacy
+
+**Pixel de Meta (Facebook e Instagram)**, de Meta Platforms Ireland Limited. Finalidad: medir los resultados de los anuncios de Explora Siam en Facebook e Instagram y mostrar publicidad en función de las páginas visitadas. Es una cookie publicitaria: solo se activa si el Usuario acepta las cookies; si las rechaza, no se descarga ningún archivo de Meta ni se envía ningún dato.
+
+Cookies que instala una vez aceptadas:
+
+- `_fbp`: identifica el navegador para medir anuncios. Duración: 3 meses.
+- `_fbc`: guarda el anuncio desde el que llegó el Usuario, si llegó desde uno. Duración: 3 meses.
+- `fr`: cookie de Meta, en el dominio facebook.com, para publicidad. Duración: 3 meses.
+
+Además del PageView de cada página, se envía a Meta un aviso de contacto (*Lead*) cuando el Usuario pulsa un botón de WhatsApp o del formulario de inscripción. Ese aviso no incluye el teléfono, el correo ni ningún otro dato personal del Usuario. Política de privacidad de Meta: https://www.facebook.com/privacy/policy
   
 Uso de las Cookies en el Sitio Web
 

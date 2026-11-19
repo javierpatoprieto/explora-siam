@@ -12,6 +12,7 @@ const { title = site.seoTitulo, description = site.seoDescripcion, ogImage = '/o
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const robots = site.indexar && !noindex ? 'index, follow' : 'noindex, nofollow';
 const ga = site.analytics || import.meta.env.PUBLIC_GA_ID || '';
+const pixel = site.pixelFacebook || '';
 // Colores que Dani puede cambiar desde el panel. Si no toca nada, quedan los de siempre.
 const estilo = site.estilo ?? {};
 const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': estilo.acentoSuave, '--ink': estilo.tinta })
@@ -46,7 +47,7 @@ const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': est
   </head>
   <body>
     <slot />
-    <Cookies ga={ga} />
+    <Cookies ga={ga} pixel={pixel} />
     <Editar />
     <script>
       // Revelado suave al hacer scroll
@@ -55,12 +56,18 @@ const colores = Object.entries({ '--accent': estilo.acento, '--accent-soft': est
         { rootMargin: '0px 0px -10% 0px' },
       );
       document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
-      // Medición de clics a WhatsApp
+      // Medición de clics de contacto: WhatsApp y formulario.
+      // `fbq` solo existe si la persona aceptó las cookies, así que sin
+      // consentimiento no se envía nada a Meta.
       document.addEventListener('click', (ev) => {
-        const a = (ev.target as HTMLElement).closest('a[data-wa]') as HTMLAnchorElement | null;
+        const a = (ev.target as HTMLElement).closest('a[data-wa], a[data-form]') as HTMLAnchorElement | null;
         if (!a) return;
+        const via = a.dataset.wa ? 'whatsapp' : 'formulario';
+        const origen = a.dataset.wa || a.dataset.form || '';
         const g = (window as any).gtag;
-        if (typeof g === 'function') g('event', 'whatsapp_click', { origen: a.dataset.wa, salida: a.dataset.salida || '' });
+        if (typeof g === 'function') g('event', via + '_click', { origen, salida: a.dataset.salida || '' });
+        const f = (window as any).fbq;
+        if (typeof f === 'function') f('track', 'Lead', { content_name: via, content_category: origen });
       });
       // Y a Instagram
       document.addEventListener('click', (ev) => {

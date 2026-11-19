@@ -19,6 +19,7 @@ const site = defineCollection({
     formulario: z.string().optional().default(''),
     dossier: z.string().optional().default(''),
     analytics: z.string().optional().default(''),
+    pixelFacebook: z.string().optional().default(''),
     verificacionGoogle: z.string().optional().default(''),
     seoTitulo: z.string(),
     seoDescripcion: z.string(),
