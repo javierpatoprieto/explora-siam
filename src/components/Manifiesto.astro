@@ -1,0 +1,26 @@
+---
+import Foto from './Foto.astro';
+const { m } = Astro.props;
+---
+<section class="mani section" id="manifiesto" data-editar="textos#c-manifiesto-titulo" data-editar-fotos="fotos#f-home-manifiesto-imagen">
+  <div class="wrap mani__grid">
+    <h2 class="mani__h" data-reveal>{m.titulo} <em>{m.destacado}</em> {m.cierre}</h2>
+    <div class="mani__blocks">
+      {m.bloques.map((b: any) => (<div class="mani__b" data-reveal><h3 class="mani__t">{b.titulo}</h3><p>{b.texto}</p></div>))}
+    </div>
+  </div>
+  <figure class="mani__img" data-reveal>
+    <Foto src={m.imagen} alt="" class="cover" widths={[800, 1200, 1600, 2200]} sizes="100vw" />
+    {m.pie && <figcaption class="cap">{m.pie}</figcaption>}
+  </figure>
+</section>
+<style>
+  .mani__grid { display: grid; grid-template-columns: 7fr 5fr; gap: 64px; align-items: end; padding-bottom: clamp(56px, 6vw, 96px); }
+  .mani__h { font-size: clamp(44px, 5.6vw, 88px); line-height: .95; max-width: 14ch; text-wrap: balance; }
+  .mani__h em { font-style: normal; color: var(--accent); }
+  .mani__blocks { display: grid; grid-template-columns: 1fr; gap: 24px; border-top: 1px solid var(--ink); padding-top: 24px; }
+  .mani__t { font-family: var(--texto); text-transform: none; letter-spacing: 0; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .mani__b p { color: var(--ink-2); font-size: 16px; }
+  .mani__img { position: relative; margin: 0; height: clamp(360px, 62vh, 760px); overflow: hidden; }
+  @media (max-width: 900px) { .mani__grid { grid-template-columns: 1fr; gap: 32px; } .mani__h { max-width: none; } }
+</style>

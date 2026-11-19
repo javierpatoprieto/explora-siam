@@ -1,0 +1,27 @@
+---
+import Foto from './Foto.astro';
+const { t, items } = Astro.props;
+const rot = [-6, 3, -2, 5, -4];
+---
+<section class="tst section" id="testimonios" data-editar="textos#c-testimonios-titulo">
+  <div class="wrap center tst__head" data-reveal><span class="eyebrow">Historias reales</span><h2>{t.titulo}</h2></div>
+  <div class="wrap tst__row" data-reveal>
+    {items.map((r: any, i: number) => (
+      <figure class="pol" style={`--r:${rot[i % rot.length]}deg`}>
+        <div class="pol__img">{r.data.foto && <Foto src={r.data.foto} alt="" class="cover" widths={[400, 600]} sizes="240px" />}</div>
+        <figcaption><strong>{r.data.nombre}{r.data.ciudad && `, ${r.data.ciudad}`}</strong><p>“{r.data.cita}”</p></figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+<style>
+  .tst__head { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .tst__row { display: flex; justify-content: center; align-items: flex-start; gap: 0; flex-wrap: wrap; }
+  .pol { margin: 0 -8px; width: 250px; background: #fff; padding: 12px 12px 16px; border-radius: 10px; box-shadow: 0 16px 40px rgba(23,24,26,.14); transform: rotate(var(--r)); transition: transform .4s var(--ease), z-index 0s; }
+  .pol:hover { transform: rotate(0) translateY(-6px) scale(1.03); z-index: 2; position: relative; }
+  .pol__img { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: var(--bg-3); }
+  .pol figcaption { padding: 12px 4px 0; display: flex; flex-direction: column; gap: 6px; }
+  .pol strong { font-size: 14px; font-weight: 600; }
+  .pol p { font-size: 13px; color: var(--muted); line-height: 1.45; }
+  @media (max-width: 760px) { .tst__row { flex-direction: column; align-items: center; gap: 12px; } .pol { margin: 0; width: min(100%, 300px); } }
+</style>

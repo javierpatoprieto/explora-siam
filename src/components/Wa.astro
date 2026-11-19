@@ -1,0 +1,9 @@
+---
+import { waUrl, WA_ICON } from '../lib/wa';
+interface Props { site: any; origen: string; vars?: Record<string, string>; class?: string; icon?: boolean; salida?: string; label?: string }
+const { site, origen, vars = {}, class: cls = 'btn', icon = true, salida, label } = Astro.props;
+---
+<a href={waUrl(site, origen, vars)} class={cls} data-wa={origen} data-salida={salida} target="_blank" rel="noopener" aria-label={label}>
+  {icon && <Fragment set:html={WA_ICON} />}
+  <slot />
+</a>

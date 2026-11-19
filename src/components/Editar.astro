@@ -1,0 +1,56 @@
+---
+// Modo edición: con /?editar, cada bloque de la web muestra un lápiz que abre
+// el panel en ese campo. No expone nada: los lápices son enlaces al panel, que
+// sigue pidiendo contraseña. Se apaga solo al salir de la página.
+const { panel = 'https://panel.explorasiam.com' } = Astro.props;
+---
+<div id="editar-raiz" data-panel={panel} hidden></div>
+<style is:global>
+  body.editando { padding-top: 46px; }
+  .ed-barra { position: fixed; top: 0; left: 0; right: 0; z-index: 90; display: flex; align-items: center; justify-content: center; gap: 14px; height: 46px; padding: 0 16px; background: #17181a; color: #fff; font-size: 14px; }
+  .ed-barra a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .ed-barra strong { font-weight: 600; }
+  .ed-zona { position: relative; outline: 1px dashed rgba(221, 138, 114, .55); outline-offset: -1px; }
+  .ed-acciones { position: absolute; top: 10px; right: 10px; z-index: 30; display: flex; gap: 6px; }
+  .ed-acciones a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: #17181a; color: #fff; font: 600 12px/1 var(--texto, system-ui), system-ui; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+  .ed-zona.hero .ed-acciones { top: 84px; }
+  .ed-acciones a:hover { background: var(--accent, #dd8a72); }
+  @media print { .ed-barra, .ed-acciones { display: none; } }
+</style>
+<script>
+  const raiz = document.getElementById('editar-raiz');
+  const panel = raiz?.dataset.panel || 'https://panel.explorasiam.com';
+  if (raiz && new URLSearchParams(location.search).has('editar')) {
+    const enlace = (destino: string, texto: string) => {
+      const [seccion, ancla] = destino.split('#');
+      const a = document.createElement('a');
+      a.href = `${panel}/index.php?s=${seccion}${ancla ? '#' + ancla : ''}`;
+      a.target = 'panel';
+      a.rel = 'noopener';
+      a.textContent = texto;
+      return a;
+    };
+
+    const barra = document.createElement('div');
+    barra.className = 'ed-barra';
+    barra.innerHTML = '<strong>Modo edición</strong><span>Pulsa un lápiz para cambiar ese bloque en el panel.</span>';
+    const salir = document.createElement('a');
+    salir.href = location.pathname;
+    salir.textContent = 'Salir del modo edición';
+    barra.append(salir);
+    document.body.append(barra);
+    document.body.classList.add('editando');
+
+    for (const zona of Array.from(document.querySelectorAll<HTMLElement>('[data-editar]'))) {
+      zona.classList.add('ed-zona');
+      const acciones = document.createElement('div');
+      acciones.className = 'ed-acciones';
+      acciones.append(enlace(zona.dataset.editar!, '✎ Textos'));
+      if (zona.dataset.editarFotos) acciones.append(enlace(zona.dataset.editarFotos, '❐ Fotos'));
+      if (zona.dataset.editarVideos) acciones.append(enlace(zona.dataset.editarVideos, '▶ Vídeo'));
+      // El hero y otras secciones ya tienen position: relative; las que no, la necesitan.
+      if (getComputedStyle(zona).position === 'static') zona.style.position = 'relative';
+      zona.prepend(acciones);
+    }
+  }
+</script>

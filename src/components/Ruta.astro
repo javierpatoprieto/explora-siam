@@ -1,0 +1,104 @@
+---
+import Foto from './Foto.astro';
+import Wa from './Wa.astro';
+import { precio } from '../lib/wa';
+const { site, ruta, salida } = Astro.props;
+const d = salida?.data;
+const etapas = (d?.itinerario ?? []).map((e: any, i: number) => ({ ...e, imagen: ruta.imagenes[i] ?? ruta.imagenes[ruta.imagenes.length - 1], pie: ruta.pies[i] ?? '' }));
+---
+<section class="ruta section" id="salidas">
+  <div class="wrap">
+    <div class="ruta__head" data-reveal>
+      <span class="label vino">{ruta.etiqueta}</span>
+      <h2>{ruta.titulo}</h2>
+    </div>
+    {d && (
+      <div class="ficha" data-reveal>
+        <div class="ficha__cell"><span class="ficha__k">Fechas</span><span class="ficha__v">{d.fechas}</span></div>
+        <div class="ficha__cell"><span class="ficha__k">Duración</span><span class="ficha__v">{d.duracion}</span></div>
+        <div class="ficha__cell"><span class="ficha__k">Grupo</span><span class="ficha__v">6 a {d.plazas} personas</span></div>
+        <div class="ficha__cell"><span class="ficha__k">Precio</span><span class="ficha__v">desde {precio(d.precio)}</span><span class="ficha__n">{d.notaPrecio}</span></div>
+        <div class="ficha__cell ficha__cell--cta">
+          <Wa site={site} origen="salida" vars={{ nombre: d.nombre, fechas: d.fechas }} salida={d.slug} icon={false}>Quiero este viaje</Wa>
+          <a href={`/viajes/${d.slug}`} class="link">Ficha completa →</a>
+        </div>
+      </div>
+    )}
+    <div class="etapas" id="etapas">
+      <div class="etapas__list">
+        {etapas.map((e: any, i: number) => (
+          <article class="etapa" data-etapa={i}>
+            <figure class="etapa__mimg"><Foto src={e.imagen} alt="" class="cover" widths={[600, 900]} sizes="100vw" />{e.pie && <figcaption class="cap">{e.pie}</figcaption>}</figure>
+            <span class="etapa__n">Etapa {String(i + 1).padStart(2, '0')}</span>
+            <h3 class="etapa__t">{e.titulo}</h3>
+            <p>{e.texto}</p>
+          </article>
+        ))}
+      </div>
+      <div class="etapas__sticky">
+        <div class="frame">
+          {etapas.map((e: any, i: number) => (
+            <figure class:list={['slide', { on: i === 0 }]} data-slide={i}>
+              <Foto src={e.imagen} alt="" class="cover" widths={[700, 1000, 1400]} sizes="45vw" />
+              {e.pie && <figcaption class="cap">{e.pie}</figcaption>}
+            </figure>
+          ))}
+          <span class="frame__count label"><b id="etapaNow">01</b> / {String(etapas.length).padStart(2, '0')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .ruta__head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+  .vino { color: var(--ink); }
+  .ficha { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); margin-bottom: clamp(56px, 6vw, 96px); }
+  .ficha__cell { display: flex; flex-direction: column; gap: 6px; padding: 22px 20px 22px 0; border-left: 1px solid var(--line); padding-left: 20px; }
+  .ficha__cell:first-child { border-left: 0; padding-left: 0; }
+  .ficha__k { font-size: 12px; font-weight: 600; letter-spacing: .04em;  color: var(--muted); }
+  .ficha__v { font-family: var(--display); font-size: 24px; line-height: 1.05; }
+  .ficha__n { font-size: 12px; color: var(--muted); }
+  .ficha__cell--cta { justify-content: center; gap: 12px; align-items: flex-start; }
+  .etapas { display: grid; grid-template-columns: 6fr 6fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .etapas__list { display: flex; flex-direction: column; }
+  .etapa { display: flex; flex-direction: column; gap: 12px; padding: 12vh 0; border-top: 1px solid var(--line); max-width: 520px; }
+  .etapa:first-child { border-top: 0; padding-top: 4vh; }
+  .etapa__n { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .04em;  }
+  .etapa__t { font-size: clamp(30px, 3vw, 44px); }
+  .etapa p { color: var(--ink-2); font-size: 17px; }
+  .etapa__mimg { display: none; }
+  .etapas__sticky { position: sticky; top: 96px; }
+  .frame { position: relative; aspect-ratio: 4 / 5; max-height: calc(100vh - 128px); overflow: hidden; background: var(--bg-3); }
+  .slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .7s var(--ease); }
+  .slide.on { opacity: 1; }
+  .frame__count { position: absolute; top: 16px; right: 16px; color: #fff; font-size: 13px; background: rgba(42,33,36,.45); padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
+  .frame__count b { font-weight: 700; }
+  @media (max-width: 900px) {
+    .ficha { grid-template-columns: 1fr 1fr; }
+    .ficha__cell { padding: 16px 12px 16px 0; }
+    .ficha__cell:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .ficha__cell:nth-child(even) { padding-left: 12px; }
+    .ficha__cell--cta { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
+    .ficha__cell--cta :global(.btn) { width: 100%; }
+    .etapas { grid-template-columns: 1fr; }
+    .etapas__sticky { display: none; }
+    .etapa { padding: 40px 0; max-width: none; }
+    .etapa__mimg { display: block; position: relative; margin: 0 0 8px; aspect-ratio: 4 / 3; overflow: hidden; }
+  }
+</style>
+<script>
+  const etapas = document.querySelectorAll<HTMLElement>('[data-etapa]');
+  const slides = document.querySelectorAll<HTMLElement>('[data-slide]');
+  const now = document.getElementById('etapaNow');
+  if (etapas.length && slides.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const i = Number((en.target as HTMLElement).dataset.etapa);
+        slides.forEach((s) => s.classList.toggle('on', Number(s.dataset.slide) === i));
+        if (now) now.textContent = String(i + 1).padStart(2, '0');
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    etapas.forEach((e) => io.observe(e));
+  }
+</script>
